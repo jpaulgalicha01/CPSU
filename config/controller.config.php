@@ -43,7 +43,7 @@ class controller extends db {
                 }
 
                 $insert_data = $this->PlsConnect()->prepare("INSERT INTO `tbluser`(UserID, FName, MName, LName, Age, Birthdate, CivilStatus, Brgy, City, CompleteAddress, UserName, Password, ProfImg, TypeUser, Status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                $insert_data->execute([rand(),$FName,$MName,$LName,$Age,$Birthdate,$CivilStatus,$Brgy,$City,$CompleteAddress,$UserName,md5($Password),$file1_name,$TypeUser,"Pending"]);
+                $insert_data->execute([rand(),$FName,$MName,$LName,$Age,$Birthdate,$CivilStatus,$Brgy,$City,$CompleteAddress,$UserName,md5($Password),$file1_name,$TypeUser,"Accept"]);
 
                 if($insert_data){
                     return 1;
@@ -73,6 +73,30 @@ class controller extends db {
     protected function fetch_artist(){
         $stmt = $this->PlsConnect()->prepare("SELECT UserID,FName,MName,LName,CompleteAddress,ProfImg FROM `tbluser` WHERE `TypeUser`='Artist' AND `Status`='Accept' ORDER BY FName ASC ");
         $stmt->execute();
+		return $stmt;
+    }
+
+    protected function fetch_artist_info($UserID){
+        $stmt = $this->PlsConnect()->prepare("SELECT FName,MName,LName,Age,Birthdate,CivilStatus,Brgy,City,CompleteAddress,ProfImg FROM `tbluser` WHERE `UserID`=? AND `TypeUser`='Artist' AND `Status`='Accept' ");
+        $stmt->execute([$UserID]);
+		return $stmt;
+    }
+
+    protected function fetch_artist_profile($UserID){
+        $stmt = $this->PlsConnect()->prepare("SELECT Images FROM `tblprofimages` WHERE `UserID`=? ");
+        $stmt->execute([$UserID]);
+		return $stmt;
+    }
+
+    protected function fetch_artist_desc($UserID){
+        $stmt = $this->PlsConnect()->prepare("SELECT Description FROM `tbldescription` WHERE `UserID`=? ");
+        $stmt->execute([$UserID]);
+		return $stmt;
+    }
+
+    protected function fetch_artist_services($UserID){
+        $stmt = $this->PlsConnect()->prepare("SELECT Images,ServicesName,Price FROM `tblservices` WHERE `UserID`=? ");
+        $stmt->execute([$UserID]);
 		return $stmt;
     }
 

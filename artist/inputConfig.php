@@ -3,18 +3,24 @@ include 'includes/autoload.inc.php';
 
 if($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET"){
 
-    if(isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")){
-        $ServicesName = secured($_POST['ServicesName']);
-        $ServicePrice = secured($_POST['ServicePrice']);
+  if(isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")){
+    $ServicesName = secured($_POST['ServicesName']);
+    $ServicePrice = secured($_POST['ServicePrice']);
 
-        $AddServices = new insert();
-        $AddServices->insertServices($ServicesName,$ServicePrice);
-    }
-    else if(isset($_REQUEST['ServicesId'])){
-		$ServicesId = secured($_REQUEST['ServicesId']);
+    $AddServices = new insert();
+    $AddServices->insertServices($ServicesName,$ServicePrice);
+  }
+  else if(isset($_REQUEST['ServicesId'])){
+    $ServicesId = secured($_REQUEST['ServicesId']);
 
-		$Services_Fetch = new fetch();
-		$Services_Fetch->ServicesFetchId($ServicesId);
+    $Services_Fetch = new fetch();
+    $Services_Fetch->ServicesFetchId($ServicesId);
+	}
+  else if(isset($_REQUEST['DescriptionID'])){
+    $DescriptionID = secured($_REQUEST['DescriptionID']);
+
+    $Description_Fetch = new fetch();
+    $Description_Fetch->DescriptionFetchID($DescriptionID);
 	}
     
 
@@ -27,21 +33,26 @@ if($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET"){
 
 		$add_profile_images = new insert();
 		$add_profile_images->addProfileImages();
-    }else if(isset($_POST['update_info']) && secured($_POST['function'] == "update_info")){
-		$acc_fname = secured($_POST['acc_fname']);
-        $acc_mname = secured($_POST['acc_mname']);
-        $acc_lname = secured($_POST['acc_lname']);
-        $acc_lname = secured($_POST['acc_lname']);
-        $acc_address = secured($_POST['acc_address']);
-        $acc_birth = secured($_POST['acc_birth']);  
-        $acc_phone = secured($_POST['acc_phone']);
-        $acc_email = secured($_POST['acc_email']);
-        $acc_uname = secured($_POST['acc_uname']);
-        $curr_pass = secured($_POST['curr_pass']);
-        $new_pass = secured($_POST['new_pass']);
+  }else if(isset($_POST['addDescription']) && secured($_POST['function'] == "addDescription")){
+		$description = secured($_REQUEST['description']);
 
-        $update_info = new update();
-        $update_info->updateInfo($acc_fname,$acc_mname,$acc_lname,$acc_address,$acc_birth,$acc_phone,$acc_email,$acc_uname,$curr_pass,$new_pass);
+		$add_description = new insert();
+		$add_description->addDescription($description);
+	}else if(isset($_POST['update_info']) && secured($_POST['function'] == "update_info")){
+  $acc_fname = secured($_POST['acc_fname']);
+      $acc_mname = secured($_POST['acc_mname']);
+      $acc_lname = secured($_POST['acc_lname']);
+      $acc_lname = secured($_POST['acc_lname']);
+      $acc_address = secured($_POST['acc_address']);
+      $acc_birth = secured($_POST['acc_birth']);  
+      $acc_phone = secured($_POST['acc_phone']);
+      $acc_email = secured($_POST['acc_email']);
+      $acc_uname = secured($_POST['acc_uname']);
+      $curr_pass = secured($_POST['curr_pass']);
+      $new_pass = secured($_POST['new_pass']);
+
+      $update_info = new update();
+      $update_info->updateInfo($acc_fname,$acc_mname,$acc_lname,$acc_address,$acc_birth,$acc_phone,$acc_email,$acc_uname,$curr_pass,$new_pass);
 	}else{
 		ob_end_flush(header("Location: index.php"));
 	}

@@ -45,6 +45,18 @@ class controller extends db {
 		return $stmt;
     }
 
+    protected function fetch_description(){
+        $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tbldescription` WHERE `UserID`=?  ");
+		$stmt->execute([$_COOKIE['UserID']]);
+		return $stmt;
+    }
+
+    protected function description_fetch_id($DescriptionID){
+        $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tbldescription` WHERE `RowNum`=? AND `UserID`=?  ");
+		$stmt->execute([$DescriptionID,$_COOKIE['UserID']]);
+		return $stmt;
+    }
+
     // ------------------------- Fetching ------------------------- //
 
 
@@ -108,6 +120,26 @@ class controller extends db {
             
 		}
         return 1;
+    }
+
+    protected function add_description($description){
+        //Checking if exist data
+        $checking = $this->PlsConnect()->prepare("SELECT `UserID` FROM `tbldescription` WHERE `UserID`= ?");
+        $checking->execute([$_COOKIE['UserID']]);
+
+        if($checking->rowCount() >= 1){
+            return "Already Exist Data";
+        }
+        else{
+            $insertData = $this->PlsConnect()->prepare("INSERT INTO `tbldescription` (`UserID`,`Description`) VALUES (?,?) ");
+            $insertData->execute([$_COOKIE['UserID'],$description]);
+
+            if($insertData){
+                return 1;
+            }else{
+                return "There's something wrong to add data. Please try again";
+            }
+        }
     }
     // ------------------------- Inserting ------------------------- //
 }
