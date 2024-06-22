@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2024 at 11:46 AM
+-- Generation Time: Jun 22, 2024 at 08:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Database: `cpsumukha_be`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbldescription`
+--
+
+CREATE TABLE `tbldescription` (
+  `RowNum` int(11) NOT NULL,
+  `UserID` varchar(250) NOT NULL,
+  `Description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -84,6 +96,12 @@ INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Bi
 --
 
 --
+-- Indexes for table `tbldescription`
+--
+ALTER TABLE `tbldescription`
+  ADD PRIMARY KEY (`RowNum`,`UserID`);
+
+--
 -- Indexes for table `tblprofimages`
 --
 ALTER TABLE `tblprofimages`
@@ -106,22 +124,28 @@ ALTER TABLE `tbluser`
 --
 
 --
+-- AUTO_INCREMENT for table `tbldescription`
+--
+ALTER TABLE `tbldescription`
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tblprofimages`
 --
 ALTER TABLE `tblprofimages`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblservices`
 --
 ALTER TABLE `tblservices`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbluser`
 --
 ALTER TABLE `tbluser`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -40,6 +40,28 @@ class insert extends controller {
             $_SESSION['title_alert'] = "There's something error. Please try again";
             ob_end_flush(header("Location: ".$_SERVER['HTTP_REFERER'].""));
         }
+    }
 
+    public function addDescription($description){
+        $stmt = $this->add_description($description);
+
+        if($stmt){
+			if($stmt !== 1){
+                $_SESSION['alert'] = "Show";
+                $_SESSION['icon'] = "error";
+                $_SESSION['title_alert'] = $stmt;
+                ob_end_flush(header("Location: ".$_SERVER['HTTP_REFERER'].""));
+			}else{
+                $_SESSION['alert'] = "Show";
+                $_SESSION['icon'] = "success";
+                $_SESSION['title_alert'] = "Successfully";
+                ob_end_flush(header("Location: ".$_SERVER['HTTP_REFERER'].""));
+			}
+		}else{
+            $_SESSION['alert'] = "Show";
+            $_SESSION['icon'] = "error";
+            $_SESSION['title_alert'] = "There's something error. Please try again";
+            ob_end_flush(header("Location: ".$_SERVER['HTTP_REFERER'].""));
+        }
     }
 }
