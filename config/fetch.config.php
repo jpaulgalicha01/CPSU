@@ -76,9 +76,9 @@ class fetch extends controller
         return $stmt;
     }
 
-    public function fetchingArtistiInfo($UserID)
+    public function fetchingArtistiInfo($UserID, $TypeUser)
     {
-        $stmt = $this->fetch_artist_info($UserID);
+        $stmt = $this->fetch_artist_info($UserID, $TypeUser);
         return $stmt;
     }
 

@@ -1,63 +1,66 @@
 <?php
 include 'includes/autoload.inc.php';
 
-if($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET"){
+if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET") {
 
-  if(isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")){
+  if (isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")) {
     $ServicesName = secured($_POST['ServicesName']);
     $ServicePrice = secured($_POST['ServicePrice']);
 
     $AddServices = new insert();
-    $AddServices->insertServices($ServicesName,$ServicePrice);
-  }
-  else if(isset($_REQUEST['ServicesId'])){
+    $AddServices->insertServices($ServicesName, $ServicePrice);
+  } else if (isset($_REQUEST['ServicesId'])) {
     $ServicesId = secured($_REQUEST['ServicesId']);
 
     $Services_Fetch = new fetch();
     $Services_Fetch->ServicesFetchId($ServicesId);
-	}
-  else if(isset($_REQUEST['DescriptionID'])){
+  } else if (isset($_REQUEST['DescriptionID'])) {
     $DescriptionID = secured($_REQUEST['DescriptionID']);
 
     $Description_Fetch = new fetch();
     $Description_Fetch->DescriptionFetchID($DescriptionID);
-	}
-    
+  } else if (isset($_REQUEST['viewBookingInfo'])) {
+    $BookingID = secured($_REQUEST['viewBookingInfo']);
+    $Status = secured($_REQUEST['Status']);
 
-	else if(isset($_POST['change_profile']) && secured($_POST['function'] == "change_profile")){
-		$change_img = $_FILES['change_img']['name'];
+    $fetchingBooking = new fetch();
 
-		$change_prof_img = new update();
-		$change_prof_img->changeProfImg($change_img);
-	}else if(isset($_POST['add_profile_images']) && secured($_POST['function'] == "add_profile_images")){
+    $resfetchingBooking = $fetchingBooking->fetchingBooking($BookingID, $Status);
 
-		$add_profile_images = new insert();
-		$add_profile_images->addProfileImages();
-  }else if(isset($_POST['addDescription']) && secured($_POST['function'] == "addDescription")){
-		$description = secured($_REQUEST['description']);
+  } else if (isset($_POST['change_profile']) && secured($_POST['function'] == "change_profile")) {
+    $change_img = $_FILES['change_img']['name'];
 
-		$add_description = new insert();
-		$add_description->addDescription($description);
-	}else if(isset($_POST['update_info']) && secured($_POST['function'] == "update_info")){
-  $acc_fname = secured($_POST['acc_fname']);
-      $acc_mname = secured($_POST['acc_mname']);
-      $acc_lname = secured($_POST['acc_lname']);
-      $acc_lname = secured($_POST['acc_lname']);
-      $acc_address = secured($_POST['acc_address']);
-      $acc_birth = secured($_POST['acc_birth']);  
-      $acc_phone = secured($_POST['acc_phone']);
-      $acc_email = secured($_POST['acc_email']);
-      $acc_uname = secured($_POST['acc_uname']);
-      $curr_pass = secured($_POST['curr_pass']);
-      $new_pass = secured($_POST['new_pass']);
+    $change_prof_img = new update();
+    $change_prof_img->changeProfImg($change_img);
+  } else if (isset($_POST['add_profile_images']) && secured($_POST['function'] == "add_profile_images")) {
 
-      $update_info = new update();
-      $update_info->updateInfo($acc_fname,$acc_mname,$acc_lname,$acc_address,$acc_birth,$acc_phone,$acc_email,$acc_uname,$curr_pass,$new_pass);
-	}else{
-		ob_end_flush(header("Location: index.php"));
-	}
-}else{
-	return false;
+    $add_profile_images = new insert();
+    $add_profile_images->addProfileImages();
+  } else if (isset($_POST['addDescription']) && secured($_POST['function'] == "addDescription")) {
+    $description = secured($_REQUEST['description']);
+
+    $add_description = new insert();
+    $add_description->addDescription($description);
+  } else if (isset($_POST['update_info']) && secured($_POST['function'] == "update_info")) {
+    $acc_fname = secured($_POST['acc_fname']);
+    $acc_mname = secured($_POST['acc_mname']);
+    $acc_lname = secured($_POST['acc_lname']);
+    $acc_lname = secured($_POST['acc_lname']);
+    $acc_address = secured($_POST['acc_address']);
+    $acc_birth = secured($_POST['acc_birth']);
+    $acc_phone = secured($_POST['acc_phone']);
+    $acc_email = secured($_POST['acc_email']);
+    $acc_uname = secured($_POST['acc_uname']);
+    $curr_pass = secured($_POST['curr_pass']);
+    $new_pass = secured($_POST['new_pass']);
+
+    $update_info = new update();
+    $update_info->updateInfo($acc_fname, $acc_mname, $acc_lname, $acc_address, $acc_birth, $acc_phone, $acc_email, $acc_uname, $curr_pass, $new_pass);
+  } else {
+    ob_end_flush(header("Location: index.php"));
+  }
+} else {
+  return false;
 }
 
 ?>

@@ -1,6 +1,3 @@
-
-
-
 $(document).on("submit","#create_acc",function(e){
   e.preventDefault(e);
   var formData = new FormData(this);
@@ -53,7 +50,6 @@ $(document).on("submit","#create_acc",function(e){
 });   
 
 
-
 function showpass(){
   if(this.checked){
       // alert("check");
@@ -65,7 +61,6 @@ function showpass(){
       }
 }
 document.getElementById('showPass').addEventListener('click' , showpass);
-
 $(document).on('submit','#login',function(e){
   e.preventDefault(e);
    var formData = new FormData(this);
@@ -128,3 +123,5 @@ $(document).on('submit','#login',function(e){
       }
   })
 });
+
+

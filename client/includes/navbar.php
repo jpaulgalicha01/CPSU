@@ -12,7 +12,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li
-        class="nav-item  <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "active" : "" ?>">
+        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "active" : "" ?>">
         <a class="nav-link" href="index.php">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -20,39 +20,24 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+
     <!-- Heading -->
     <div class="sidebar-heading">
-        Setup Services
+        List of Accounts
     </div>
 
     <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Services") ? "active" : "" ?>">
-        <a class="nav-link" href="services.php">
-            <i class="fa fa-cogs"></i>
-            <span>Services</span></a>
+        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Artist") ? "active" : "" ?>">
+        <a class="nav-link" href="artist-list.php">
+            <i class="fa fa-user"></i>
+            <span>Artist</span></a>
     </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    <div class="sidebar-heading">
-        Booking
-    </div>
 
     <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending List Booking") ? "active" : "" ?>">
-        <a class="nav-link " href="pending-list-booking.php">
-            <i class="fa fa-bookmark"></i>
-            <span>List of Booking</span></a>
-    </li>
-    <li class="nav-item">
+        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Clients") ? "active" : "" ?>">
         <a class="nav-link" href="client-list.php">
-            <i class="fa fa-check-circle"></i>
-            <span>Accept Booking</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="client-list.php">
-            <i class="fa fa-minus-circle"></i>
-            <span>Declined Booking</span></a>
+            <i class="fa fa-user"></i>
+            <span>Client</span></a>
     </li>
 
     <!-- Divider -->
@@ -89,16 +74,15 @@
                 <div class="topbar-divider d-none d-sm-block"></div>
 
                 <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow d-flex">
+                <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small text-center">
                             <div><?= $UserName ?></div>
-                            <small style="font-size:11">Artist</small>
+                            <small style="font-size:11">Client</small>
                         </span>
                         <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
                     </a>
-
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">

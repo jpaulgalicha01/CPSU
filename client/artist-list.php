@@ -2,7 +2,9 @@
 include 'includes/autoload.inc.php';
 
 unset($_SESSION['title']);
-$_SESSION['title'] = "Pending Accounts";
+unset($_SESSION['Active_Navigate']);
+$_SESSION['title'] = "Pending Accounts - Artist";
+$_SESSION['Active_Navigate'] = "Pending Accounts - Artist";
 
 include 'includes/header.php';
 include 'includes/navbar.php';
@@ -15,7 +17,7 @@ include 'includes/navbar.php';
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List Of Accounts - Clients</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List Of Accounts - Artist</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -34,8 +36,8 @@ include 'includes/navbar.php';
                     <tbody>
                         <?php
                             $fetch_user_acc = new fetch();
-                            $res = $fetch_user_acc->fetchClientArtist("Client");
-                            if($res->rowCount()){
+                            $res = $fetch_user_acc->fetchClientArtist("Artist");
+                            if($res->rowCount() != 0){
                                 while ($row = $res->fetch()) {
                                     ?>
                                         <tr>
