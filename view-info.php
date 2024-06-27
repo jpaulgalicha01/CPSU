@@ -2,18 +2,29 @@
 include 'includes/autoload.inc.php';
 include 'includes/header.php';
 
+//Checking if client is not logging in
 $UserID = secured($_GET['UserID']);
+
+if (!isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] != "Client") {
+    ob_end_flush(header("Location: login.php"));
+    return;
+}
+
 $FName;
+$MName;
+$LName;
 $Age;
 $Birthdate;
 $civilStatus;
 $CompleteAddress;
 
 $fetchingArtistiInfo = new fetch();
-$resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo($UserID);
+$resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_GET['UserID']),"Artist");
 if ($resfetchingArtistiInfo->rowCount() != 0) {
     while ($rowfetchingArtistiInfo = $resfetchingArtistiInfo->fetch()) {
-        $FName = $rowfetchingArtistiInfo['FName'] . " " . $rowfetchingArtistiInfo['MName'] . " " . $rowfetchingArtistiInfo['LName'];
+        $FName = $rowfetchingArtistiInfo['FName'];
+        $MName = $rowfetchingArtistiInfo['MName'];
+        $LName = $rowfetchingArtistiInfo['LName'];
         $Age = $rowfetchingArtistiInfo['Age'];
         $Birthdate = date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate']));
         $CivilStatus = $rowfetchingArtistiInfo['CivilStatus'];
@@ -22,7 +33,6 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 } else {
     ob_end_flush(header("Location: index.php"));
 }
-
 
 ?>
 </div>
@@ -46,17 +56,17 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                             $x = 1;
                             while ($rowfetchArtistProfile = $resfetchArtistProfile->fetch()) {
                                 if ($x == 1) {
-                        ?>
+                                    ?>
                                     <div class="carousel-item  active">
                                         <img class="w-100 h-100" src="uploads/<?= $rowfetchArtistProfile['Images'] ?>" alt="Image">
                                     </div>
-                                <?php
+                                    <?php
                                 } else {
-                                ?>
+                                    ?>
                                     <div class="carousel-item ">
                                         <img class="w-100 h-100" src="uploads/<?= $rowfetchArtistProfile['Images'] ?>" alt="Image">
                                     </div>
-                            <?php
+                                    <?php
                                 }
 
 
@@ -64,10 +74,10 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                             }
                         } else {
                             ?>
-                            <div class="carousel-item">
+                            <div class="carousel-item active">
                                 <img class="w-100 h-100" src="uploads/default.png" alt="Image">
                             </div>
-                        <?php
+                            <?php
                         }
                         ?>
 
@@ -98,7 +108,7 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 
             <div class="mb-2">
                 <h5 class="font-weight-semi-bold">Name</h5>
-                <p><?= $FName ?></p>
+                <p><?= $FName . " " . $MName . " " . $LName ?></p>
             </div>
 
             <div class="mb-2">
@@ -124,8 +134,8 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 
 
             <div class="d-flex align-items-center mb-4 pt-2">
-                <button class="btn btn-primary px-3"><i class="fa fa-bookmark" aria-hidden="true"></i> Reserve to
-                    Book</button>
+                <button class="btn btn-primary px-3" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i> Reserve to Book</button>
             </div>
         </div>
     </div>
@@ -144,14 +154,14 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                     $resfetchArtistDesc = $fetchArtistDesc->fetchArtistDesc(secured($_GET['UserID']));
                     if ($resfetchArtistDesc->rowCount() != 0) {
                         while ($rowfetchArtistDesc = $resfetchArtistDesc->fetch()) {
-                    ?>
+                            ?>
                             <p style="white-space: pre-wrap; text-align:justify;"><?= $rowfetchArtistDesc['Description'] ?></p>
-                        <?php
+                            <?php
                         }
                     } else {
                         ?>
                         <p>No Post Found..</p>
-                    <?php
+                        <?php
                     }
                     ?>
 
@@ -182,7 +192,8 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                             <div class="d-flex my-3">
                                 <p class="mb-0 mr-2">Your Rating * :</p>
                             </div>
-                            <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false" data-show-caption="true" style="font-size: 0px !important">
+                            <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
+                                data-show-caption="true" style="font-size: 0px !important">
                             <form>
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
@@ -216,7 +227,7 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 
                 if ($resfetchArtistServices->rowCount() != 0) {
                     while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
-                ?>
+                        ?>
                         <div class="card product-item border-0">
                             <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                                 <img class="img-fluid w-100" src="uploads/<?= $rowfetchArtistServices['Images'] ?>" alt="">
@@ -224,12 +235,12 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                 <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
                                 <div class="d-flex justify-content-center">
-                                    <h6>$123.00</h6>
-                                    <h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                    <h6>₱123.00</h6>
+                                    <h6 class="text-muted ml-2"><del>₱123.00</del></h6>
                                 </div>
                             </div>
                         </div>
-                <?php
+                        <?php
                     }
                 } else {
                     echo "<p>No Services Found</p>";
@@ -241,7 +252,174 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 </div>
 <!-- Products End -->
 
+<!-- Booking Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Request For Booking</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="BookRequest">
+                <input type="hidden" name="ArtistUserID" value="<?=$UserID?>">
+                <input type="hidden" name="function" value="book_request">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-md-flex d-sm-grid justify-content-between form-group">
+                                    <div>
+                                        <label for="FName">First Name</label>
+                                        <input type="text" name="FName" id="FName" class="form-control" value="<?= $Client_FName ?>"
+                                            disabled>
+                                    </div>
+                                    <div>
+                                        <label for="FName">Middle Name</label>
+                                        <input type="text" name="FName" id="FName" class="form-control" value="<?= $Client_MName ?>"
+                                            disabled>
+                                    </div>
+                                    <div>
+                                        <label for="FName">Last Name</label>
+                                        <input type="text" name="FName" id="FName" class="form-control" value="<?=$Client_LName?>" disabled>
+                                    </div>
+                                </div>
 
+                                <div class="form-group">
+                                    <label for="Address">Pin Location</label>
+                                    <input type="text" name="Address" id="Address" class="form-control" value="<?=$Client_CompleteAddress?>" >
+                                </div>
+
+                                <div class="d-md-flex d-sm-grid form-group" style="gap:20px">
+                                    <div class="w-50">
+                                        <label for="Services">Services</label>
+                                        <select name="Services" id="Services" class=" form-control" required>
+                                            <?php
+                                            $fetchArtistServices = new fetch();
+                                            $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']));
+
+                                            if ($resfetchArtistServices->rowCount() != 0) {
+                                                echo "<option value='' selected disabled>-- Please Select --</option>";
+                                                while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
+                                                    ?>
+                                                    <option><?= $rowfetchArtistServices['ServicesName'] ?></option>
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "<option selected disbaled> -- No Data Found--</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="SampleOutcome">Sample Outcome <small><i>(optional)</i></small></label>
+                                        <select name="SampleOutcome" id="SampleOutcome" class="form-control">
+                                            <option>No</option>
+                                            <option>Yes</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group d-none" id="uploadSampleOutcome">
+                                    <label for="">uploads file here.</label>
+                                    <input type="file" class="form-control" name="uploadSampleOutcome">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnRequest">Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const SampleOutcome = document.getElementById("SampleOutcome");
+    SampleOutcome.addEventListener('input', function () {
+        let value = SampleOutcome.value;
+
+        if (value == "Yes") {
+            $("#uploadSampleOutcome").addClass("d-block");
+            $("#uploadSampleOutcome").removeClass("d-none");
+        } else {
+            $("#uploadSampleOutcome").removeClass("d-block");
+            $("#uploadSampleOutcome").addClass("d-none");
+        }
+    })
+    // alert(SampleOutcome)
+
+//Add Booking
+$(document).on('submit','#BookRequest',function (e) {
+  e.preventDefault(e);
+  var formData = new FormData(this);
+ formData.append("book_request", true);
+
+ $("#btnRequest").html("<div class='text-center'><div class='spinner-border' role='status'><span class='visually-hidden'></span></div></div>");
+  document.getElementById("btnRequest").disabled = true;
+  $.ajax({
+      method: "POST",
+      url: "inputConfig.php",
+      data: formData,
+      processData: false,
+      contentType:false,
+      success:function(response){
+          var res = jQuery.parseJSON(response);
+
+          if(res.status == 200){
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            Toast.fire({
+              icon: res.icon,
+              title: "Successfully Added",
+            }).then(()=>{
+                // window.location.href=res.redirect;
+            });
+          }
+          else if(res.status == 302){
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              Toast.fire({
+                icon: res.icon,
+                title: res.message,
+              })
+              $("#btnRequest").text("Request");
+              document.getElementById("btnRequest").disabled = false;
+          }
+          else{
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              Toast.fire({
+                icon: res.icon,
+                title: res.message,
+              })
+              $("#btnRequest").text("Request");
+              document.getElementById("btnRequest").disabled = false;
+          }
+          
+      }
+    })
+});
+</script>
 
 <?php
 include 'includes/footer.php';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2024 at 08:01 AM
+-- Generation Time: Jun 27, 2024 at 01:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Database: `cpsumukha_be`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblbooking`
+--
+
+CREATE TABLE `tblbooking` (
+  `RowNum` int(11) NOT NULL,
+  `ArtistUserID` varchar(250) NOT NULL,
+  `UserID` char(50) NOT NULL,
+  `TDate` datetime NOT NULL,
+  `PinLocationAddress` varchar(250) NOT NULL,
+  `Services` varchar(250) NOT NULL,
+  `SampleOutcome` bit(1) NOT NULL,
+  `SampleOutcomeImg` varchar(250) NOT NULL,
+  `Status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -77,6 +95,7 @@ CREATE TABLE `tbluser` (
   `Brgy` varchar(50) NOT NULL,
   `City` varchar(50) NOT NULL,
   `CompleteAddress` varchar(250) NOT NULL,
+  `ContactNumber` char(10) NOT NULL,
   `UserName` varchar(50) NOT NULL,
   `Password` varchar(250) NOT NULL,
   `TypeUser` varchar(50) NOT NULL,
@@ -88,12 +107,52 @@ CREATE TABLE `tbluser` (
 -- Dumping data for table `tbluser`
 --
 
-INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Birthdate`, `CivilStatus`, `Brgy`, `City`, `CompleteAddress`, `UserName`, `Password`, `TypeUser`, `ProfImg`, `Status`) VALUES
-(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL);
+INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Birthdate`, `CivilStatus`, `Brgy`, `City`, `CompleteAddress`, `ContactNumber`, `UserName`, `Password`, `TypeUser`, `ProfImg`, `Status`) VALUES
+(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `viewbooking`
+-- (See below for the actual view)
+--
+CREATE TABLE `viewbooking` (
+`RowNum` int(11)
+,`UserID` varchar(250)
+,`FName` varchar(50)
+,`MName` varchar(50)
+,`LName` varchar(50)
+,`Age` int(11)
+,`Birthdate` datetime
+,`CivilStatus` varchar(50)
+,`CompleteAddress` varchar(250)
+,`ContactNumber` char(10)
+,`ProfImg` varchar(50)
+,`TDate` datetime
+,`PinLocationAddress` varchar(250)
+,`SampleOutcome` bit(1)
+,`SampleOutcomeImg` varchar(250)
+,`Status` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `viewbooking`
+--
+DROP TABLE IF EXISTS `viewbooking`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `UserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tblbooking`
+--
+ALTER TABLE `tblbooking`
+  ADD PRIMARY KEY (`RowNum`,`ArtistUserID`);
 
 --
 -- Indexes for table `tbldescription`
@@ -108,12 +167,6 @@ ALTER TABLE `tblprofimages`
   ADD PRIMARY KEY (`RowNum`,`UserID`);
 
 --
--- Indexes for table `tblservices`
---
-ALTER TABLE `tblservices`
-  ADD PRIMARY KEY (`RowNum`,`UserID`);
-
---
 -- Indexes for table `tbluser`
 --
 ALTER TABLE `tbluser`
@@ -122,6 +175,12 @@ ALTER TABLE `tbluser`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tblbooking`
+--
+ALTER TABLE `tblbooking`
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbldescription`
@@ -136,16 +195,10 @@ ALTER TABLE `tblprofimages`
   MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tblservices`
---
-ALTER TABLE `tblservices`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbluser`
 --
 ALTER TABLE `tbluser`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
