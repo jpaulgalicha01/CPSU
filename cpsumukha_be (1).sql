@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2024 at 01:29 PM
+-- Generation Time: Jun 28, 2024 at 04:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,6 +51,13 @@ CREATE TABLE `tbldescription` (
   `Description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbldescription`
+--
+
+INSERT INTO `tbldescription` (`RowNum`, `UserID`, `Description`) VALUES
+(1, '2108113524', 'askdjhakjsdkjawd\r\nasdlkhaslkdjkasjdjasd.\r\nlkjhasjdkajshdljkahsddd');
+
 -- --------------------------------------------------------
 
 --
@@ -76,6 +83,13 @@ CREATE TABLE `tblservices` (
   `ServicesName` varchar(50) NOT NULL,
   `Price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblservices`
+--
+
+INSERT INTO `tblservices` (`RowNum`, `UserID`, `Images`, `ServicesName`, `Price`) VALUES
+(0, '2108113524', 'default.png', 'Hair Cut', 500.00);
 
 -- --------------------------------------------------------
 
@@ -108,7 +122,9 @@ CREATE TABLE `tbluser` (
 --
 
 INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Birthdate`, `CivilStatus`, `Brgy`, `City`, `CompleteAddress`, `ContactNumber`, `UserName`, `Password`, `TypeUser`, `ProfImg`, `Status`) VALUES
-(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL);
+(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL),
+(13, '716601945', 'client1', 'client1', 'client1', 24, '2000-08-07 00:00:00', 'Single', 'client1', 'client1', 'client1', '0994848791', 'client1', 'a165dd3c2e98d5d607181d0b87a4c66b', 'Client', 'default.png', 'Accept'),
+(14, '2108113524', 'artist1', 'artist1', 'artist1', 25, '2000-08-07 00:00:00', 'Single', 'artist1', 'artist1', 'artist1', '9948487917', 'artist1', '8507c08cd2743274878fb97302e42cf8', 'Artist', 'default.png', 'Accept');
 
 -- --------------------------------------------------------
 
@@ -118,7 +134,7 @@ INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Bi
 --
 CREATE TABLE `viewbooking` (
 `RowNum` int(11)
-,`UserID` varchar(250)
+,`ArtistUserID` varchar(250)
 ,`FName` varchar(50)
 ,`MName` varchar(50)
 ,`LName` varchar(50)
@@ -128,6 +144,7 @@ CREATE TABLE `viewbooking` (
 ,`CompleteAddress` varchar(250)
 ,`ContactNumber` char(10)
 ,`ProfImg` varchar(50)
+,`ClientUserID` char(50)
 ,`TDate` datetime
 ,`PinLocationAddress` varchar(250)
 ,`SampleOutcome` bit(1)
@@ -142,7 +159,7 @@ CREATE TABLE `viewbooking` (
 --
 DROP TABLE IF EXISTS `viewbooking`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `UserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `ArtistUserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`UserID` AS `ClientUserID`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
 
 --
 -- Indexes for dumped tables
@@ -180,13 +197,13 @@ ALTER TABLE `tbluser`
 -- AUTO_INCREMENT for table `tblbooking`
 --
 ALTER TABLE `tblbooking`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbldescription`
 --
 ALTER TABLE `tbldescription`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblprofimages`
@@ -198,7 +215,7 @@ ALTER TABLE `tblprofimages`
 -- AUTO_INCREMENT for table `tbluser`
 --
 ALTER TABLE `tbluser`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
