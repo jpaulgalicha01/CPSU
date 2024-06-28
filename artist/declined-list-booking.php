@@ -3,8 +3,8 @@ include 'includes/autoload.inc.php';
 
 unset($_SESSION['title']);
 unset($_SESSION['Active_Navigate']);
-$_SESSION['title'] = "Pending List Booking";
-$_SESSION['Active_Navigate'] = "Pending List Booking";
+$_SESSION['title'] = "Declined List Booking";
+$_SESSION['Active_Navigate'] = "Declined List Booking";
 
 include 'includes/header.php';
 include 'includes/navbar.php';
@@ -12,12 +12,12 @@ include 'includes/navbar.php';
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Pending List Booking</h1>
+    <h1 class="h3 mb-2 text-gray-800">Declined List Booking</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pending List Of Booking</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Declined List Of Booking</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -38,7 +38,7 @@ include 'includes/navbar.php';
 
                         <?php
                         $fetchinngPendingBooking = new fetch();
-                        $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Pending");
+                        $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Declined");
 
                         if ($resfetchinngPendingBooking->rowCount() != 0) {
                             while ($rowfetchinngPendingBooking = $resfetchinngPendingBooking->fetch()) {
@@ -102,47 +102,41 @@ include 'includes/navbar.php';
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="inputConfig.php" method="POST">
-                <input type="hidden" name="function" value="booking_action">
-                <input type="hidden" name="ClientUserID" id="ClientUserID">
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-lg-flex d-md-grid justify-content-around">
-                                    <div id="user_profile" class="col-md-auto">
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-lg-flex d-md-grid justify-content-around">
+                                <div id="user_profile" class="col-md-auto">
 
-                                    </div>
-                                    <div class="col py-lg-0 py-3">
-                                        <h5>Client Information</h5>
-                                        <label for="FullName">Name: </label>
-                                        <p class="mb-1 view-user-modal font-weight-bold" id="FullName"></p>
-                                        <label for="Age">Age: </label>
-                                        <p class="mb-1 view-user-modal font-weight-bold" id="Age"></p>
-                                        <label for="Birthdate">Birth of Date: </label>
-                                        <p class="mb-1 view-user-modal font-weight-bold" id="Birthdate"></p>
-                                        <label for="CivilStatus">Civil Status: </label>
-                                        <p class="mb-1 view-user-modal font-weight-bold" id="CivilStatus"></p>
-                                        <label for="CompleteAddress">Complete Address: </label>
-                                        <p class="mb-1 view-user-modal font-weight-bold" id="CompleteAddress"></p>
-                                        <label for="CompleteAddress">Pin Location: </label>
-                                        <a href="#" class="mb-1 view-user-modal">Click Here!</a>
-                                        <select name="status" id="status" class="form-control">
-                                            <option>Pending</option>
-                                            <option>Accept</option>
-                                            <option>Declined</option>
-                                        </select>
-                                    </div>
+                                </div>
+                                <div class="col py-lg-0 py-3">
+                                    <h5>Client Information</h5>
+                                    <label for="FullName">Name: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="FullName"></p>
+                                    <label for="Age">Age: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="Age"></p>
+                                    <label for="Birthdate">Birth of Date: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="Birthdate"></p>
+                                    <label for="CivilStatus">Civil Status: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="CivilStatus"></p>
+                                    <label for="CompleteAddress">Complete Address: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="CompleteAddress"></p>
+                                    <label for="CompleteAddress">Pin Location: </label>
+                                    <a href="#" class="mb-1 view-user-modal">Click Here!</a>
+                                    <p class="mb-1 view-user-modal font-weight-bold">
+                                        <span class="bg-danger p-1 rounded text-white" id="status"></span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" name="booking_action">Submit</button>
-                </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                <!-- <button class="btn btn-success" name="booking_action">Submit</button> -->
+            </div>
         </div>
     </div>
 </div>
@@ -151,7 +145,7 @@ include 'includes/navbar.php';
     $(document).on("click", "#showBookingInfo", function () {
         var value = $(this).val();
 
-        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Pending`, function (data) {
+        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Declined`, function (data) {
             var res = jQuery.parseJSON(data);
 
             if (res.status == 200) {
@@ -174,7 +168,7 @@ include 'includes/navbar.php';
                 $("#Birthdate").text(formattedDate);
                 $("#CivilStatus").text(res.data['CivilStatus']);
                 $("#CompleteAddress").text(res.data['CompleteAddress']);
-                $("#status").val(res.data['Status']);
+                $("#status").text(res.data['Status']);
             } else {
                 alert(res.message)
             }

@@ -34,6 +34,14 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
     ob_end_flush(header("Location: index.php"));
 }
 
+
+$count;
+$checkingBookmark = new fetch();
+$rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID)->fetch(PDO::FETCH_ASSOC);
+
+foreach($rescheckingBookmark as $row) {
+$count =  $row;
+}
 ?>
 </div>
 </div>
@@ -134,8 +142,8 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 
 
             <div class="d-flex align-items-center mb-4 pt-2">
-                <button class="btn btn-primary px-3" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fa fa-bookmark" aria-hidden="true"></i> Reserve to Book</button>
+                <button class="btn btn-primary px-3" data-toggle="modal" data-target="#bookingModal" id="bookingbtn" <?= $count == 1 ? "disabled" : "" ?>>
+                    <i class="fa fa-<?= $count == 1? "check":"bookmark"?>" aria-hidden="true"></i> <?= $count == 1? "Booked":"Request Bookmark"?></button>
             </div>
         </div>
     </div>
@@ -233,10 +241,9 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
                                 <img class="img-fluid w-100" src="uploads/<?= $rowfetchArtistServices['Images'] ?>" alt="">
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                                <h6 class="text-truncate mb-3"><?=$rowfetchArtistServices['ServicesName']?></h6>
                                 <div class="d-flex justify-content-center">
-                                    <h6>₱123.00</h6>
-                                    <h6 class="text-muted ml-2"><del>₱123.00</del></h6>
+                                    <h6>₱<?=$rowfetchArtistServices['Price']?></h6>
                                 </div>
                             </div>
                         </div>
@@ -253,7 +260,7 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 <!-- Products End -->
 
 <!-- Booking Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -384,7 +391,9 @@ $(document).on('submit','#BookRequest',function (e) {
               icon: res.icon,
               title: "Successfully Added",
             }).then(()=>{
-                // window.location.href=res.redirect;
+                $("#bookingModal").modal('hide');
+                document.getElementById("bookingbtn").disabled = true;
+                $("#bookingbtn").html("<i class='fa fa-check' aria-hidden='true'></i> Reserved");
             });
           }
           else if(res.status == 302){
@@ -398,7 +407,7 @@ $(document).on('submit','#BookRequest',function (e) {
                 icon: res.icon,
                 title: res.message,
               })
-              $("#btnRequest").text("Request");
+              $("#btnRequest").text("Booked");
               document.getElementById("btnRequest").disabled = false;
           }
           else{

@@ -27,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
 
     $resfetchingBooking = $fetchingBooking->fetchingBooking($BookingID, $Status);
 
+  } else if (isset($_POST['booking_action']) && secured($_POST['function'] == "booking_action")) {
+    $ClientUserID = secured($_POST['ClientUserID']);
+    $status = secured($_POST['status']);
+
+    $update_booking = new update();
+    $res_update_booking = $update_booking->updateBooking($ClientUserID, $status);
+
   } else if (isset($_POST['change_profile']) && secured($_POST['function'] == "change_profile")) {
     $change_img = $_FILES['change_img']['name'];
 

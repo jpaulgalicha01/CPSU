@@ -99,4 +99,10 @@ class fetch extends controller
         $stmt = $this->fetch_artist_services($UserID);
         return $stmt;
     }
+
+    public function checkingBookmark($ArtistUserID)
+    {
+        $stmt = $this->checking_bookmark($ArtistUserID);
+        return $stmt;
+    }
 }

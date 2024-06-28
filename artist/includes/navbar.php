@@ -44,13 +44,15 @@
             <i class="fa fa-bookmark"></i>
             <span>List of Booking</span></a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="client-list.php">
+    <li
+        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Accept List Booking") ? "active" : "" ?>">
+        <a class="nav-link" href="accept-list-booking.php">
             <i class="fa fa-check-circle"></i>
             <span>Accept Booking</span></a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="client-list.php">
+    <li
+        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Declined List Booking") ? "active" : "" ?>">
+        <a class="nav-link" href="declined-list-booking.php">
             <i class="fa fa-minus-circle"></i>
             <span>Declined Booking</span></a>
     </li>

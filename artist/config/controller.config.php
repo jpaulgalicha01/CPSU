@@ -70,11 +70,11 @@ class controller extends db
     {
         if ($BookingID == "0") {
 
-            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `UserID`=? AND `Status`=? ");
+            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `ArtistUserID`=? AND `Status`=? ");
             $stmt->execute([$_COOKIE['UserID'], $Status]);
             return $stmt;
         } else {
-            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `UserID`=? AND `RowNum`=? AND `Status`=?  ");
+            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `ArtistUserID`=? AND `RowNum`=? AND `Status`=?  ");
             $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
             return $stmt;
         }
@@ -90,6 +90,14 @@ class controller extends db
 
 
     // ------------------------- Update ------------------------- //
+
+    protected function update_booking($ClientUserID, $status)
+    {
+        $stmt = $this->PlsConnect()->prepare('UPDATE `tblbooking` SET `Status`=? WHERE `ArtistUserID`=? AND `UserID`=? ');
+        $stmt->execute([$status, $_COOKIE['UserID'], $ClientUserID]);
+        return 1;
+    }
+
     // ------------------------- Update ------------------------- //
 
 
@@ -168,5 +176,3 @@ class controller extends db
     }
     // ------------------------- Inserting ------------------------- //
 }
-
-?>

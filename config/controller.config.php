@@ -158,6 +158,13 @@ class controller extends db
         return $stmt;
     }
 
+    protected function checking_bookmark($ArtistUserID)
+    {
+        $stmt = $this->PlsConnect()->prepare("SELECT COUNT(*) FROM tblbooking WHERE `ArtistUserID`=? AND `UserID`=? AND `Status`='Accept'  ");
+        $stmt->execute([$ArtistUserID, $_COOKIE['UserID']]);
+        return $stmt;
+    }
+
     // ------------------------- Fetch Data -------------------------//
 
 
