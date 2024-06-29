@@ -61,7 +61,7 @@ class controller extends db
         }
     }
 
-    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $SampleOutcome)
+    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome)
     {
         try {
 
@@ -94,8 +94,8 @@ class controller extends db
                     }
                 }
 
-                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?) ");
-                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
+                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,Date,Time,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?,?,?) ");
+                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, $Date, $Time, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
 
                 if ($insert) {
                     return 1;

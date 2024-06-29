@@ -31,11 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $UserID = secured($_COOKIE['UserID']);
         $Address = secured($_POST['Address']);
         $Services = secured($_POST['Services']);
+        $Date = secured($_POST['date']);
+        $Time = secured($_POST['time']);
         $SampleOutcome = secured($_POST['SampleOutcome']);
 
 
         $client_booking = new insert();
-        $client_booking->clientBooking($ArtistUserID, $UserID, $Address, $Services, $SampleOutcome);
+        $client_booking->clientBooking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome);
     } else {
         ob_end_flush(header("Location: login.php"));
     }

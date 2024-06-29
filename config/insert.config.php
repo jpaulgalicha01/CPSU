@@ -35,9 +35,9 @@ class insert extends controller
 		}
 	}
 
-	public function clientBooking($ArtistUserID, $UserID, $Address, $Services, $SampleOutcome)
+	public function clientBooking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome)
 	{
-		$stmt = $this->client_booking($ArtistUserID, $UserID, $Address, $Services, $SampleOutcome);
+		$stmt = $this->client_booking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome);
 
 		if ($stmt) {
 			if ($stmt !== 1) {
