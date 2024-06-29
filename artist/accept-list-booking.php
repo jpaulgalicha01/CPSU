@@ -112,6 +112,10 @@ include 'includes/navbar.php';
                                 </div>
                                 <div class="col py-lg-0 py-3">
                                     <h5>Client Information</h5>
+                                    <label for="Services">Services: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="Services"></p>
+                                    <label for="DateTime">Date & Time: </label>
+                                    <p class="mb-1 view-user-modal font-weight-bold" id="DateTime"></p>
                                     <label for="FullName">Name: </label>
                                     <p class="mb-1 view-user-modal font-weight-bold" id="FullName"></p>
                                     <label for="Age">Age: </label>
@@ -142,6 +146,7 @@ include 'includes/navbar.php';
 </div>
 
 <script>
+
     $(document).on("click", "#showBookingInfo", function () {
         var value = $(this).val();
 
@@ -151,21 +156,13 @@ include 'includes/navbar.php';
             if (res.status == 200) {
                 $("#viewBooking").modal("show");
                 $("#user_profile").html("<img src='../uploads/" + res.data['ProfImg'] + "' class='img-fluid' width='250px' height='250px' />");
+                $("#Services").text(res.data['Services']);
+                $("#DateTime").text(convertDate(res.data['Date']) + " - " + convertTime(res.data['Time']));
                 $("#FullName").text(res.data['FName'] + " " + res.data['MName'] + " " + res.data['LName']);
                 $("#Age").text(res.data['Age']);
                 $("#ClientUserID").val(res.data['ClientUserID']);
+                $("#Birthdate").text(convertDate(res.data['Birthdate']));
 
-                const dateString = res.data['Birthdate'];
-
-                const date = new Date(dateString);
-
-                const formattedDate = new Intl.DateTimeFormat('en-US', {
-                    month: 'long',
-                    day: '2-digit',
-                    year: 'numeric'
-                }).format(date);
-
-                $("#Birthdate").text(formattedDate);
                 $("#CivilStatus").text(res.data['CivilStatus']);
                 $("#CompleteAddress").text(res.data['CompleteAddress']);
                 $("#status").text(res.data['Status']);
@@ -173,9 +170,13 @@ include 'includes/navbar.php';
                 alert(res.message)
             }
         })
+
             .fail(function (xhr, status, error) {
                 console.log('Ajax request failed:', status, error);
             })
+
+
+
     })
 </script>
 

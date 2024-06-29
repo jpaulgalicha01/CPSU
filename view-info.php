@@ -280,8 +280,7 @@ $count =  $row;
                                 <div class="d-md-flex d-sm-grid justify-content-between form-group">
                                     <div>
                                         <label for="FName">First Name</label>
-                                        <input type="text" name="FName" id="FName" class="form-control" value="<?= $Client_FName ?>"
-                                            disabled>
+                                        <input type="text" name="FName" id="FName" class="form-control" value="<?= $Client_FName ?>" disabled>
                                     </div>
                                     <div>
                                         <label for="FName">Middle Name</label>
@@ -300,9 +299,9 @@ $count =  $row;
                                 </div>
 
                                 <div class="d-md-flex d-sm-grid form-group" style="gap:20px">
-                                    <div class="w-50">
+                                    <div>
                                         <label for="Services">Services</label>
-                                        <select name="Services" id="Services" class=" form-control" required>
+                                        <select name="Services" id="Services" class=" form-control " required>
                                             <?php
                                             $fetchArtistServices = new fetch();
                                             $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']));
@@ -321,18 +320,28 @@ $count =  $row;
                                         </select>
                                     </div>
                                     <div>
+                                        <label for="">Date:</label>
+                                        <input type="date" name="date" id="date" class="form-control" required>
+                                    </div>
+                                    <div>
+                                        <label for="">Time:</label>
+                                        <input type="time" name="time" id="time" class="form-control" required>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group" >
+                                <div>
                                         <label for="SampleOutcome">Sample Outcome <small><i>(optional)</i></small></label>
                                         <select name="SampleOutcome" id="SampleOutcome" class="form-control">
                                             <option>No</option>
                                             <option>Yes</option>
                                         </select>
                                     </div>
-
-                                </div>
-
-                                <div class="form-group d-none" id="uploadSampleOutcome">
+                                    <div class="d-none" id="uploadSampleOutcome">
                                     <label for="">uploads file here.</label>
                                     <input type="file" class="form-control" name="uploadSampleOutcome">
+                                    </div>
                                 </div>
                             </div>
                         </div>

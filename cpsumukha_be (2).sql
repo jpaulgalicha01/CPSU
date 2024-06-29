@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2024 at 04:46 PM
+-- Generation Time: Jun 29, 2024 at 04:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,8 @@ CREATE TABLE `tblbooking` (
   `TDate` datetime NOT NULL,
   `PinLocationAddress` varchar(250) NOT NULL,
   `Services` varchar(250) NOT NULL,
+  `Date` date NOT NULL,
+  `Time` time NOT NULL,
   `SampleOutcome` bit(1) NOT NULL,
   `SampleOutcomeImg` varchar(250) NOT NULL,
   `Status` varchar(50) NOT NULL
@@ -146,6 +148,9 @@ CREATE TABLE `viewbooking` (
 ,`ProfImg` varchar(50)
 ,`ClientUserID` char(50)
 ,`TDate` datetime
+,`Services` varchar(250)
+,`Date` date
+,`Time` time
 ,`PinLocationAddress` varchar(250)
 ,`SampleOutcome` bit(1)
 ,`SampleOutcomeImg` varchar(250)
@@ -159,7 +164,7 @@ CREATE TABLE `viewbooking` (
 --
 DROP TABLE IF EXISTS `viewbooking`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `ArtistUserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`UserID` AS `ClientUserID`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `ArtistUserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`UserID` AS `ClientUserID`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`Services` AS `Services`, `tblbooking`.`Date` AS `Date`, `tblbooking`.`Time` AS `Time`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
 
 --
 -- Indexes for dumped tables
@@ -197,7 +202,7 @@ ALTER TABLE `tbluser`
 -- AUTO_INCREMENT for table `tblbooking`
 --
 ALTER TABLE `tblbooking`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbldescription`
