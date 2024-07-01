@@ -160,7 +160,7 @@ class controller extends db
 
     protected function checking_bookmark($ArtistUserID)
     {
-        $stmt = $this->PlsConnect()->prepare("SELECT COUNT(*) FROM tblbooking WHERE `ArtistUserID`=? AND `UserID`=? AND `Status`='Accept'  ");
+        $stmt = $this->PlsConnect()->prepare("SELECT * FROM tblbooking WHERE `ArtistUserID`=? AND `UserID`=? AND `Status`!='Declined'  ");
         $stmt->execute([$ArtistUserID, $_COOKIE['UserID']]);
         return $stmt;
     }

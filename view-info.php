@@ -5,10 +5,10 @@ include 'includes/header.php';
 //Checking if client is not logging in
 $UserID = secured($_GET['UserID']);
 
-if (!isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] != "Client") {
-    ob_end_flush(header("Location: login.php"));
-    return;
-}
+// if (!isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] != "Client") {
+//     ob_end_flush(header("Location: login.php"));
+//     return;
+// }
 
 $FName;
 $MName;
@@ -35,13 +35,14 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 }
 
 
-$count;
-$checkingBookmark = new fetch();
-$rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID)->fetch(PDO::FETCH_ASSOC);
+$count = 0;
+if(isset($_COOKIE['UserID'])){
+    $checkingBookmark = new fetch();
+$rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID);
 
-foreach($rescheckingBookmark as $row) {
-$count =  $row;
+$count =  $rescheckingBookmark->rowCount();
 }
+
 ?>
 </div>
 </div>
@@ -142,7 +143,7 @@ $count =  $row;
 
 
             <div class="d-flex align-items-center mb-4 pt-2">
-                <button class="btn btn-primary px-3" data-toggle="modal" data-target="#bookingModal" id="bookingbtn" <?= $count == 1 ? "disabled" : "" ?>>
+                <button class="btn btn-primary px-3"  id="bookingbtn" value="" onclick="checkingLogin()"  <?= $count == 1 ? "disabled" : "" ?>>
                     <i class="fa fa-<?= $count == 1? "check":"bookmark"?>" aria-hidden="true"></i> <?= $count == 1? "Booked":"Request Bookmark"?></button>
             </div>
         </div>
@@ -370,6 +371,39 @@ $count =  $row;
         }
     })
     // alert(SampleOutcome)
+
+
+    function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return null;
+}
+const checkingLogin = () => {
+
+    // checking if client is log in
+    let clientUserID = getCookie("UserID");
+    let clientTypeUser = getCookie("TypeUser");
+
+    if(clientUserID != null && clientTypeUser != null){
+        // alert(clientUserID + " "+ clientTypeUser);
+        $("#bookingModal").modal("show")
+
+
+    }else{
+        window.location.href="login.php";
+    }
+}
+
+
 
 //Add Booking
 $(document).on('submit','#BookRequest',function (e) {
