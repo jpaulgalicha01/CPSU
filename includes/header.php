@@ -56,12 +56,12 @@
 <body style="background-color: #F9F9F9">
     <!-- Topbar Start -->
     <div class="container-fluid">
-        <div class="row align-items-center py-3 px-xl-12">
+        <div class="row align-items-center py-3">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="index.php" class="text-decoration-none">
                     <h5 class="m-0 display-5 font-weight-semi-bold" style="font-size: calc(.5vw + 1.0vh + 1.5vmin);">
                         <span class="text-primary font-weight-bold  px-3 mr-1"><img src="img/logo1.png"
-                                style="max-width:60px;" /></span>Mukha Web App
+                                style="max-width:60px;" /></span>Mukha
                     </h5>
                 </a>
             </div>
@@ -78,7 +78,23 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+
+                        <div class="navbar-nav py-0">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">Categories</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="#" class="dropdown-item">Hair Parlor</a>
+                                    <a href="#" class="dropdown-item">Washing Nails</a>
+                                    <a href="#" class="dropdown-item">Cutting Nails</a>
+                                    <a href="#" class="dropdown-item">Washable Face</a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="navbar-nav ml-auto py-0">
+
+
                             <?php
                             if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
                                 ?>
@@ -95,6 +111,9 @@
                         </div>
                     </div>
                 </nav>
+
+
+
 
             </div>
         </div>

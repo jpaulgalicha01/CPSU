@@ -7,23 +7,25 @@ include 'includes/navbar.php';
 <div class="col-lg-12">
     <div id="header-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 410px;">
-                <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
+            <div class="carousel-item bg-dark active" style="height: 410px;">
+                <img class="img-fluid" style="opacity: .5" src="img/carousel-1.jpg" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                        <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
+                        <h4 class="text-light font-weight-lighter mb-3">An enchance online web
+                            application for cosmetic services</h4>
+                        <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
                     </div>
                 </div>
             </div>
-            <div class="carousel-item" style="height: 410px;">
-                <img class="img-fluid" src="img/carousel-2.jpg" alt="Image">
+            <div class="carousel-item bg-dark" style="height: 410px;">
+                <img class="img-fluid" style="opacity: .5" src="img/carousel-2.jpg" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                        <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
+                        <h4 class="text-light font-weight-lighter mb-3">An enchance online web
+                            application for cosmetic services</h4>
+                        <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
                     </div>
                 </div>
             </div>
