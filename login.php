@@ -1,57 +1,77 @@
 <?php
 include 'includes/autoload.inc.php';
-include 'includes/header.php';
-
-
 // Checking if client is already login
+
 if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
     ob_end_flush(header("Location: index.php"));
 }
 
-
+include 'includes/header.php';
 ?>
-<div class="container-fluid">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-6 col-10 border shadow-sm">
-            <div class="card-body login-card-body">
-                <h2 class="login-box-msg text-center pb-5">Login</h2>
-                <form id="login">
-                    <input type="hidden" name="function" value="acc_login">
-                    <div class="input-group mb-3">
-                        <input type="text" name="Uname" class="form-control" placeholder="Username">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
+
+<div id="loginWrapper" class="d-flex justify-content-center align-items-center py-lg-5"  
+    style="
+        margin: 0;
+        backgroundSize:cover;
+        display: 'flex';
+        justifyContent: 'center';
+        alignItems: 'center';
+        height: 100vh;
+        position: 'relative';
+    "
+>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center align-self-center">
+            <div class="col-lg-8 col-11 card shadow-lg">
+                <div class="row p-lg-5 p-4 d-flex align-items-center">
+                    <div class="col-md-6">
+                        <img src="./img/logo1.png" alt="logo" class="img-fluid">
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" name="Password" class="form-control" placeholder="Password"
-                            id="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+
+                    <div class="col-md-6 col-12">
+                         <p class="text-center fs-5 header-title">USER'S LOGIN</p>
+                        <form class="pt-3" id="login">
+                            <div class="vstack gap-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="Uname" class="form-control rounded" id="floatingInputUName" placeholder="Username" required>
+                                    <label for="floatingInputUName"><i class="fa-solid fa-user"></i> Username</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="password" name="Password" class="form-control rounded" id="floatingInputPass" placeholder="Password" required>
+                                    <label for="floatingInputPass"><i class="fas fa-lock"></i> Password</label>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check pb-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="showCheckBoxPass"
+                                            onclick="showPass()"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="showCheckBoxPass"
+                                        >
+                                            Show Password
+                                        </label>
+                                    </div>
+                                    <div class=" pb-3">
+                                        <a href="#">Forget Password?</a>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="form-control btn btn-primary" id="login_btn">Login</button>
+                                <a href="register.php"class="text-center">Create Account</a>
                             </div>
-                        </div>
+                            </form>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="showPass">
-                                <label for="remember">
-                                    Show Password
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <button type="submit" id="login_btn" class="btn btn-block"
-                                style="background-color: #b310f5; color: #fff; !important">Sign In</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
 
 
