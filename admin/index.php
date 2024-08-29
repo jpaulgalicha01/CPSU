@@ -26,7 +26,7 @@ include 'includes/navbar.php';
         <div class="row">
         
              <!-- Earnings (Monthly) Card Example -->
-             <div class="col-xl-3 col-md-6 mb-4">
+             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -47,9 +47,9 @@ include 'includes/navbar.php';
                     </div>
                 </div>
             </div>
-
+    
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -69,10 +69,10 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-secondary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -92,10 +92,10 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -115,16 +115,19 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
+
+            
         </div>
 
 
         <p class="h4 mb-0 text-gray-800 mb-2">Client</p>
         <!-- Content Row -->
         <div class="row">
+
              <!-- Earnings (Monthly) Card Example -->
-             <div class="col-xl-3 col-md-6 mb-4">
+             <div class="col-xl-6 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -147,7 +150,7 @@ include 'includes/navbar.php';
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -167,10 +170,10 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-secondary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -190,10 +193,10 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -213,7 +216,7 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 include 'includes/autoload.inc.php';
-include 'includes/header.php';
+include 'includes/headerClient.php';
 
 //Checking if client is not logging in
 $UserID = secured($_GET['UserID']);

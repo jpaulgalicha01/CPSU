@@ -1,6 +1,6 @@
 <?php
 include 'includes/autoload.inc.php';
-include 'includes/header.php';
+include 'includes/headerClient.php';
 include 'includes/navbar.php';
 ?>
 
