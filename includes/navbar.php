@@ -1,21 +1,47 @@
-<!-- Navbar Start -->
-<div class="container-fluid mb-5">
-    <div class="row border-top px-xl-5">
-        <!-- Navigation Bar -->
+<header class="p-3 mb-3 border-bottom sticky">
+    <div class="container ">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none me-3">
+            <img src="img/logo1.png" style="max-width:60px;" /></span>Mukha Web App</h5>
+        </a>
 
-        <!-- <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">Services</h6>
-                    <i class="fa fa-angle-down text-dark"></i>
-                </a>
-                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <div class="nav-item dropdown">
-                            <a href="" class="dropdown-item">Men's Dresses</a>
-                            <a href="" class="dropdown-item">Women's Dresses</a>
-                            <a href="" class="dropdown-item">Baby's Dresses</a>
-                        </div>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
+          <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
+          <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
+          <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+        </ul>
 
+        <?php
+            if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
+                ?>
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="./uploads/<?=$Client_ProfImg?>" alt="mdo" width="32" height="32" class="rounded-circle">
+                            <span class="position-absolute top-0  translate-middle badge rounded-pill bg-danger">
+                                4
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu text-small">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Messages <span class="badge text-danger">4</span></a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                        </ul>
                     </div>
-                </nav>
-            </div> -->
+                <?php
+            } else {
+                ?>
+                    <div class="gap-2">
+                        <a href="login.php" class="btn btn-primary btn-md rounded p-1">Login</a>
+                        <a href="register.php" class="btn  btn-md rounded p-1 btn-outline-secondary">Sign Up</a>
+                    </div>
+                <?php
+            }
+
+        ?>
+
+      </div>
+    </div>
+</header>

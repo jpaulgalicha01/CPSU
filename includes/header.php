@@ -15,17 +15,23 @@
 
 
     <style>
-      #loginWrapper {
-      overflow-x: hidden;
-        background-image: linear-gradient(
-          to right,
-          #D1D1E9,
-          #c2f5de,
-          #cbf7e4,
-          #d4f8ea,
-          #ddfaef
-        );
-      }
+        #loginWrapper {
+        overflow-x: hidden;
+          background-image: linear-gradient(
+            to right,
+            #D1D1E9,
+            #c2f5de,
+            #cbf7e4,
+            #d4f8ea,
+            #ddfaef
+          );
+        }
+        header.sticky {
+          position: sticky;
+          top: 0;
+          background-color: white;
+          z-index: 2;
+        }
         .header-title {
             font-family: "Noto Sans TC", sans-serif;
             font-optical-sizing: auto;
@@ -33,7 +39,43 @@
             font-style: normal;
             color: #2B2C34;
         }
-  
+
+        .img-prof {
+          height: 300px;
+          overflow:hidden;
+          z-index: -99999;
+        }
+
+          .hover-box {
+            box-shadow: inset 0 0 0 0 gray;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
+            z-index: 1;
+          }
+
+          .hover-text {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0;
+            transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
+          }
+          .hover-box:hover {
+              box-shadow: inset 100vw 0 0 0 gray;
+          }
+          .hover-box:hover .hover-text {
+            display: block;
+            opacity: 1; 
+          }
+
+        
     </style>
 
     <!-- Sweet Alet -->

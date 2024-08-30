@@ -125,7 +125,7 @@ class controller extends db
 
     protected function fetch_artist()
     {
-        $stmt = $this->PlsConnect()->prepare("SELECT UserID,FName,MName,LName,CompleteAddress,ProfImg FROM `tbluser` WHERE `TypeUser`='Artist' AND `Status`='Accept' ORDER BY FName ASC ");
+        $stmt = $this->PlsConnect()->prepare("SELECT  UserID,FName,MName,LName,CompleteAddress,ProfImg  FROM `tbluser` WHERE `TypeUser`='Artist' AND `Status`='Accept' ORDER BY FName ASC ");
         $stmt->execute();
         return $stmt;
     }

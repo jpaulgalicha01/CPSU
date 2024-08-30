@@ -39,6 +39,7 @@ $Client_Age;
 $Client_Birthdate;
 $Client_CivilStatus;
 $Client_CompleteAddress;
+$Client_ProfImg;
 
 if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
     $fetchingArtistiInfo = new fetch();
@@ -52,6 +53,7 @@ if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
             $Client_Birthdate = date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate']));
             $Client_CivilStatus = $rowfetchingArtistiInfo['CivilStatus'];
             $Client_CompleteAddress = $rowfetchingArtistiInfo['CompleteAddress'];
+            $Client_ProfImg = $rowfetchingArtistiInfo['ProfImg'];
         }
     }
 }
