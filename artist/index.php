@@ -123,6 +123,23 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
+                <div class="calendar mb-4">
+                <div class="calendar-header">
+                    <span class="prev">&#10094;</span>
+                    <span id="monthYear"></span>
+                    <span class="next">&#10095;</span>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="calendar-days" id="calendarDays"></div>
+                </div>
             </div>
 
              <!-- Area Chart -->
@@ -165,6 +182,11 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="col-xl-5 col-lg-7">
+            
             </div>
 
         </div>
