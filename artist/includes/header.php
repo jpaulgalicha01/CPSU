@@ -22,7 +22,7 @@
 
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="./css/index.css">
     <!-- Sweet Alet -->
     <script src="../assets/js/sweetAlert.js"></script>
     <script src="../assets/js/ajaxJquery.js"></script>
@@ -38,7 +38,6 @@
 
             return formattedDate;
         }
-
         const convertTime = (time) => {
             let hour = (time.split(':'))[0]
             let min = (time.split(':'))[1]
@@ -50,7 +49,6 @@
 
             return (`${hour}:${min} ${part}`)
         }
-
     </script>
 </head>
 
