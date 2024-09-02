@@ -1,6 +1,7 @@
 <?php
 include 'includes/autoload.inc.php';
-include 'includes/headerClient.php';
+include 'includes/header.php';
+include 'includes/navbar.php';
 
 //Checking if client is not logging in
 $UserID = secured($_GET['UserID']);
@@ -151,11 +152,12 @@ $count =  $rescheckingBookmark->rowCount();
     <div class="row px-xl-5">
         <div class="col">
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Description</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Reviews (0)</a>
             </div>
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab-pane-1">
+
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                     <h4 class="mb-3">Product Description</h4>
 
                     <?php
@@ -175,7 +177,9 @@ $count =  $rescheckingBookmark->rowCount();
                     ?>
 
                 </div>
-                <div class="tab-pane fade" id="tab-pane-3">
+
+                
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     <div class="row">
                         <div class="col-md-6">
                             <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
@@ -201,14 +205,14 @@ $count =  $rescheckingBookmark->rowCount();
                             <div class="d-flex my-3">
                                 <p class="mb-0 mr-2">Your Rating * :</p>
                             </div>
-                            <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
-                                data-show-caption="true" style="font-size: 0px !important">
                             <form>
+                            <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
+                            data-show-caption="true" style="font-size: 0px !important">
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
                                     <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
                                 </div>
-                                <div class="form-group mb-0">
+                                <div class="form-group mt-2">
                                     <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
                                 </div>
                             </form>
@@ -221,8 +225,7 @@ $count =  $rescheckingBookmark->rowCount();
 </div>
 <!-- Shop Detail End -->
 
-<!-- Products Start -->
-<div class="container-fluid py-5">
+<!-- <div class="container-fluid py-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Services Available</span></h2>
     </div>
@@ -257,21 +260,17 @@ $count =  $rescheckingBookmark->rowCount();
             </div>
         </div>
     </div>
-</div>
-<!-- Products End -->
+</div> -->
 
-<!-- Booking Modal-->
-<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Request For Booking</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="BookRequest">
+<!-- Modal -->
+<div class="modal fade" id="bookingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Request For Booking</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="BookRequest">
                 <input type="hidden" name="ArtistUserID" value="<?=$UserID?>">
                 <input type="hidden" name="function" value="book_request">
                 <div class="modal-body">
@@ -349,13 +348,17 @@ $count =  $rescheckingBookmark->rowCount();
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" id="btnRequest">Request</button>
                 </div>
             </form>
-        </div>
     </div>
+  </div>
 </div>
+
+
+
+
 
 <script>
     const SampleOutcome = document.getElementById("SampleOutcome");
@@ -387,7 +390,7 @@ $count =  $rescheckingBookmark->rowCount();
   }
   return null;
 }
-const checkingLogin = () => {
+function checkingLogin () {
 
     // checking if client is log in
     let clientUserID = getCookie("UserID");
@@ -398,11 +401,11 @@ const checkingLogin = () => {
         $("#bookingModal").modal("show")
 
 
+
     }else{
         window.location.href="login.php";
     }
 }
-
 
 
 //Add Booking

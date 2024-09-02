@@ -6,8 +6,7 @@ include 'includes/navbar.php';
 ?>
 
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
+    <div class="row py-5">
         <div class="chat-container">
           <!-- People List -->
 
@@ -19,7 +18,7 @@ include 'includes/navbar.php';
               <div class="d-flex align-items-center">
                 <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
                 <div class="mx-2">
-                  <strong>John Doe</strong><br />
+                  <strong class="d-lg-block d-none">John Doe</strong><br />
                 </div>
               </div>
             </div>
@@ -27,7 +26,7 @@ include 'includes/navbar.php';
               <div class="d-flex align-items-center">
                 <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
                 <div class="mx-2">
-                  <strong>John Doe</strong><br />
+                  <strong class="d-lg-block d-none">John Doe</strong><br />
                 </div>
               </div>
             </div>
@@ -36,7 +35,7 @@ include 'includes/navbar.php';
           </div>
 
           <!-- Chat Box -->
-          <div class="col-8 chat-box">
+          <div class="col-8 chat-box p-0 ms-2">
             <div class="chat-content" id="chat-content">
 
                 <?php
@@ -73,9 +72,7 @@ include 'includes/navbar.php';
           </div>
         </div>
       </div>
-    </div>
   </div>
-
 
   <script>
     const chatContent = document.getElementById('chat-content');
@@ -108,7 +105,6 @@ include 'includes/navbar.php';
     //   }
     // });
 
-    // Ensure chat box is scrolled to the bottom on page load
     window.onload = scrollToBottom;
   </script>
 

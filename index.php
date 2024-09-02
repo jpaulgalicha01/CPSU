@@ -14,7 +14,7 @@ include 'includes/navbar.php';
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner bg-dark">
-                    <div class="carousel-item active" style="height: 410px;">
+                    <div class="carousel-item active" style="height: 400px;">
                     <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 700px;">
@@ -25,7 +25,7 @@ include 'includes/navbar.php';
                     </div>
                 </div>
                     </div>
-                    <div class="carousel-item"  style="height: 410px;">
+                    <div class="carousel-item"  style="height: 400px;">
                     <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 700px;">
@@ -36,7 +36,7 @@ include 'includes/navbar.php';
                     </div>
                 </div>
                     </div>
-                    <div class="carousel-item" style="height: 410px;">
+                    <div class="carousel-item" style="height: 400px;">
                     <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 700px;">
@@ -98,7 +98,7 @@ include 'includes/navbar.php';
 <!-- Categories Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Top 5 Artist</span></h2>
+        <h2 class="section-title px-5"><span class="px-2">Top 3 Artist</span></h2>
     </div>
     
     <div class="row px-xl-5 pb-3">

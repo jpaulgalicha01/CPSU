@@ -35,7 +35,7 @@ include 'includes/navbar.php';
           </div>
 
           <!-- Chat Box -->
-          <div class="col-8 chat-box">
+          <div class="col-8 chat-box p-0 ml-2">
             <div class="chat-content" id="chat-content">
 
                 <?php

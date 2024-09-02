@@ -14,6 +14,26 @@
     <link rel="stylesheet" href="./assets/fontawesome-free-6.6.0-web/css/all.min.css" />
     <link rel="stylesheet" href="./assets/css/chat.css" />
 
+    
+    <!-- default styles -->
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+        rel="stylesheet" type="text/css" />
+
+    <!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.css"
+        media="all" rel="stylesheet" type="text/css" />
+
+    <!-- important mandatory libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+        type="text/javascript" defer></script>
+
+    <!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-svg/theme.js"
+        defer></script>
+
+    <!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js" defer></script>
 
     <style>
         #loginWrapper {
@@ -28,10 +48,17 @@
           );
         }
         header.sticky {
-          position: sticky;
-          top: 0;
-          background-color: white;
+          background-color : transparent;
+          width: 100%;
           z-index: 2;
+          transition: background-color .3s ease-in-out
+
+        }
+
+        header.scrolled{
+          position: fixed;
+          background-color : white;
+          animation: bounceDrop 0.7s ease-in-out;
         }
         .header-title {
             font-family: "Noto Sans TC", sans-serif;
@@ -75,12 +102,28 @@
           display: block;
           opacity: 1; 
         }
+
+            /* Keyframes for the bounce drop effect */
+        @keyframes bounceDrop {
+          0% {
+            top: -100px; /* Start off-screen */
+          }
+          60% {
+            top: 0px; /* Bounce slightly below its final position */
+          }
+          80% {
+            top: -1px; /* Bounce slightly above its final position */
+          }
+          100% {
+            top: 0; /* Settle into the final position */
+          }
+        }
     </style>
 
     <!-- Sweet Alet -->
     <script src="./assets/js/sweetAlert.js"></script>
     <script src="./assets/js/ajax.js"></script>
 
-  <body>
+  <body class="bg-body-tertiary">
 
 <main>
