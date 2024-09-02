@@ -12,6 +12,7 @@
     
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/fontawesome-free-6.6.0-web/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/chat.css" />
 
 
     <style>
@@ -46,36 +47,34 @@
           z-index: -99999;
         }
 
-          .hover-box {
-            box-shadow: inset 0 0 0 0 gray;
-            background-color: white;
-            position: relative;
-            overflow: hidden;
-            transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
-            z-index: 1;
-          }
+        .hover-box {
+          box-shadow: inset 0 0 0 0 gray;
+          background-color: white;
+          position: relative;
+          overflow: hidden;
+          transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
+          z-index: 1;
+        }
 
-          .hover-text {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            opacity: 0;
-            transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
-          }
-          .hover-box:hover {
-              box-shadow: inset 100vw 0 0 0 gray;
-          }
-          .hover-box:hover .hover-text {
-            display: block;
-            opacity: 1; 
-          }
-
-        
+        .hover-text {
+          display: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: white;
+          font-size: 18px;
+          text-align: center;
+          opacity: 0;
+          transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
+        }
+        .hover-box:hover {
+            box-shadow: inset 100vw 0 0 0 gray;
+        }
+        .hover-box:hover .hover-text {
+          display: block;
+          opacity: 1; 
+        }
     </style>
 
     <!-- Sweet Alet -->

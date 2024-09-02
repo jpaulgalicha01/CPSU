@@ -1,0 +1,58 @@
+div.chat-container {
+  height: 70vh;
+  display: flex;
+}
+
+.sticky-header {
+  position: sticky;
+  top: -15px;
+  background-color: white;
+  padding: 10px;
+  z-index: 1;
+}
+
+.people-list {
+  border-right: 1px solid #ddd;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.people-list .person {
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.selected {
+  background-color: #4e73df;
+  border-radius: 20px;
+  color: white;
+}
+
+.people-list .person:hover {
+  background-color: #f1f1f1;
+}
+
+.chat-box {
+  flex-grow: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-content {
+  flex-grow: 1;
+  border: 1px solid #ddd;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.chat-input {
+  margin-top: 10px;
+  display: flex;
+}
+
+.chat-input textarea {
+  flex-grow: 1;
+  margin-right: 10px;
+}
