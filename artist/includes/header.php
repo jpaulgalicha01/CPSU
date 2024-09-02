@@ -22,7 +22,11 @@
 
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../assets/css/chat.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/index.css">
+    
+    <script src="../assets/vendor/chart.js/apexChart.js"></script>
+
     <!-- Sweet Alet -->
     <script src="../assets/js/sweetAlert.js"></script>
     <script src="../assets/js/ajaxJquery.js"></script>

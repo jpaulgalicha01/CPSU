@@ -117,9 +117,9 @@ include 'includes/navbar.php';
                         <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body">
+                    <div class="card-body py-5">
                         <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
+                            <div id="chart"></div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +195,82 @@ include 'includes/navbar.php';
 
     </div>
     <!-- /.container-fluid -->
+
+<script>
+    // Example dates and values
+  var dates = [
+    { x: new Date('2023-01-01').getTime(), y: 2500000 },
+    { x: new Date('2023-02-01').getTime(), y: 3000000 },
+    { x: new Date('2023-03-01').getTime(), y: 2800000 },
+    { x: new Date('2023-04-01').getTime(), y: 3200000 },
+    { x: new Date('2023-05-01').getTime(), y: 3100000 },
+    { x: new Date('2023-06-01').getTime(), y: 3100000 },
+    { x: new Date('2023-07-20').getTime(), y: 3100000 }
+  ];
+
+  var options = {
+    series: [{
+      name: 'XYZ MOTORS',
+      data: dates
+    }],
+    chart: {
+      type: 'area',
+      stacked: false,
+      height: 350,
+      zoom: {
+        type: 'x',
+        enabled: true,
+        autoScaleYaxis: true
+      },
+      toolbar: {
+        autoSelected: 'zoom'
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    markers: {
+      size: 0
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        inverseColors: false,
+        opacityFrom: 0.5,
+        opacityTo: 0,
+        stops: [0, 90, 100]
+      }
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0); // Convert large numbers to millions
+        }
+      },
+      title: {
+        text: 'Price'
+      }
+    },
+    xaxis: {
+      type: 'datetime',
+    },
+    tooltip: {
+      shared: false,
+      y: {
+        formatter: function (val) {
+          return (val / 1000000).toFixed(0); // Format tooltip values
+        }
+      }
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+</script>
+
+
+
 
 
 <?php
