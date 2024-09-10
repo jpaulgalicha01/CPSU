@@ -1,3 +1,4 @@
+const SaveBookSched = document.getElementById("btnSaveBookSched");
 const calendarDays = document.getElementById("calendarDays");
 const monthYear = document.getElementById("monthYear");
 const prevBtn = document.querySelector(".prev");
@@ -6,9 +7,8 @@ const nextBtn = document.querySelector(".next");
 const currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
-const selectedDays = new Set(); // Set to store selected days
+let selectedDays = new Set(); // Set to store selected days
 
-// Array for month names
 const months = [
   "January",
   "February",
@@ -23,6 +23,20 @@ const months = [
   "November",
   "December",
 ];
+
+// Function to fetch selected days from the server
+function fetchSelectedDates(month, year) {
+  return fetch(`inputConfig.php?month=${month + 1}&year=${year}`)
+    .then((response) => response.json())
+    .then((data) => {
+      selectedDays = new Set(
+        data.map((res) => {
+          return new Date(res.date).getDate();
+        })
+      );
+    })
+    .catch((err) => console.error(err));
+}
 
 // Function to render the calendar
 function renderCalendar(month, year) {
@@ -53,29 +67,41 @@ function renderCalendar(month, year) {
     }
 
     // Check if the day is already selected
-    const dayKey = `${year}-${month}-${i}`;
-    if (selectedDays.has(dayKey)) {
+    if (selectedDays.has(i)) {
       day.classList.add("selected-day");
     }
 
     // Add click event to each day
     day.addEventListener("click", () => {
-      // Check if the day is already selected
-      if (selectedDays.has(dayKey)) {
-        // If already selected, deselect it
-        selectedDays.delete(dayKey);
+      if (selectedDays.has(i)) {
+        selectedDays.delete(i);
         day.classList.remove("selected-day");
       } else {
-        // Otherwise, select it
-        selectedDays.add(dayKey);
+        selectedDays.add(i);
         day.classList.add("selected-day");
       }
 
       console.log(`Selected Dates:`, Array.from(selectedDays));
+
+      if (Array.from(selectedDays).length !== 0) {
+        SaveBookSched.classList.remove("d-none");
+        return;
+      } else {
+        SaveBookSched.classList.add("d-none");
+      }
+
+      // savedDateSelected(selectedDays);
     });
 
     calendarDays.appendChild(day);
   }
+}
+
+// Function to initialize and render the calendar with selected dates
+function initializeCalendar() {
+  fetchSelectedDates(currentMonth, currentYear).then(() => {
+    renderCalendar(currentMonth, currentYear);
+  });
 }
 
 // Previous button click
@@ -85,7 +111,7 @@ prevBtn.addEventListener("click", () => {
     currentMonth = 11;
     currentYear--;
   }
-  renderCalendar(currentMonth, currentYear);
+  initializeCalendar();
 });
 
 // Next button click
@@ -95,8 +121,20 @@ nextBtn.addEventListener("click", () => {
     currentMonth = 0;
     currentYear++;
   }
-  renderCalendar(currentMonth, currentYear);
+  initializeCalendar();
 });
 
 // Initial render
-renderCalendar(currentMonth, currentYear);
+initializeCalendar();
+
+async function savedReservedDates() {
+  var data = [
+    {
+      data: Array.from(selectedDays),
+      function: "savedReservedDates",
+    },
+  ];
+
+  const res = await fetch('inputConfig.php',{method:"POST",body:data })
+
+}

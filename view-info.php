@@ -104,7 +104,7 @@ $count =  $rescheckingBookmark->rowCount();
         </div>
 
         <div class="col-lg-7 pb-5">
-            <h3 class="font-weight-semi-bold">Artist</h3>
+            <h3 class="font-weight-semi-bold">Artist </h3> 
             <div class="d-flex mb-3">
                 <div class="text-primary mr-2">
                     <small class="fas fa-star"></small>
@@ -143,9 +143,16 @@ $count =  $rescheckingBookmark->rowCount();
 
 
 
-            <div class="d-flex align-items-center mb-4 pt-2">
-                <button class="btn btn-primary px-3"  id="bookingbtn" value="" onclick="checkingLogin()"  <?= $count == 1 ? "disabled" : "" ?>>
+            <div class="d-flex align-items-center mb-4 pt-2 gap-2">
+                <button class="btn btn-primary px-3"  id="bookingbtn" value="" onclick="checkingLogin()"  <?= $count == 1 ? "disabled" : "" ?> >
                     <i class="fa fa-<?= $count == 1? "check":"bookmark"?>" aria-hidden="true"></i> <?= $count == 1? "Booked":"Request Bookmark"?></button>
+                    <?php
+                        if(isset($_COOKIE["PHPSESSID"]) && isset($_COOKIE["UserID"]) && $_COOKIE["TypeUser"] == "Client"){
+                            ?>
+                            <a href='messages.php?UserID=<?=$UserID?>' class='btn btn-success'><i class='fa fa-message' aria-hidden='true'></i>  Message Now</a>
+                            <?php
+                        }
+                    ?>
             </div>
         </div>
     </div>
@@ -356,6 +363,65 @@ $count =  $rescheckingBookmark->rowCount();
   </div>
 </div>
 
+<div class="modal fade " id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" ">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Login User</h1>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+            <div class="row">
+            <div class="col-12">
+                        <form class="pt-3" id="login">
+                            <div class="vstack gap-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="Uname" class="form-control rounded" id="floatingInputUName" placeholder="Username" required>
+                                    <label for="floatingInputUName"><i class="fa-solid fa-user"></i> Username</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="password" name="Password" class="form-control rounded" id="floatingInputPass" placeholder="Password" required>
+                                    <label for="floatingInputPass"><i class="fas fa-lock"></i> Password</label>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check pb-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="showCheckBoxPass"
+                                            onclick="showPass()"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="showCheckBoxPass"
+                                        >
+                                            Show Password
+                                        </label>
+                                    </div>
+                                    <div class=" pb-3">
+                                        <a href="#">Forget Password?</a>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="form-control btn btn-primary" id="login_btn">Login</button>
+                                <a href="register.php"class="text-center">Create Account</a>
+                            </div>
+                            </form>
+                    </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 
@@ -403,7 +469,7 @@ function checkingLogin () {
 
 
     }else{
-        window.location.href="login.php";
+        $("#loginModal").modal("show");
     }
 }
 

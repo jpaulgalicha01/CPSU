@@ -123,23 +123,42 @@ include 'includes/navbar.php';
                         </div>
                     </div>
                 </div>
-                <div class="calendar mb-4">
-                <div class="calendar-header">
-                    <span class="prev">&#10094;</span>
-                    <span id="monthYear"></span>
-                    <span class="next">&#10095;</span>
+
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Accepting Booking</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            
+                            <div class="calendar mb-4">
+                                <div class="calendar-header">
+                                    <span class="prev">&#10094;</span>
+                                    <span id="monthYear"></span>
+                                    <span class="next">&#10095;</span>
+                                </div>
+                                <div class="calendar-weekdays">
+                                    <div>Sun</div>
+                                    <div>Mon</div>
+                                    <div>Tue</div>
+                                    <div>Wed</div>
+                                    <div>Thu</div>
+                                    <div>Fri</div>
+                                    <div>Sat</div>
+                                </div>
+                                <div class="calendar-days" id="calendarDays"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary d-none" id="btnSaveBookSched" onclick="savedReservedDates()">Save</button>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="calendar-weekdays">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
-                </div>
-                <div class="calendar-days" id="calendarDays"></div>
-                </div>
+
+                
             </div>
 
              <!-- Area Chart -->

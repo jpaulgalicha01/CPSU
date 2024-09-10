@@ -3,6 +3,13 @@
 include 'includes/autoload.inc.php';
 include 'includes/header.php';
 include 'includes/navbar.php';
+
+
+if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
+  ob_end_flush(header("Location: index.php"));
+}
+
+
 ?>
 
 <div class="container-fluid">
@@ -13,100 +20,108 @@ include 'includes/navbar.php';
           <div class="col-4 people-list card">
             <h5 class="sticky-header">People</h5>
 
+
+
+            <?php
             
-            <div class="person selected">
-              <div class="d-flex align-items-center">
-                <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
-                <div class="mx-2">
-                  <strong class="d-lg-block d-none">John Doe</strong><br />
-                </div>
-              </div>
-            </div>
-            <div class="person ">
-              <div class="d-flex align-items-center">
-                <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
-                <div class="mx-2">
-                  <strong class="d-lg-block d-none">John Doe</strong><br />
-                </div>
-              </div>
-            </div>
-         
-     
+              $PeopleList = new fetch();
+              $ResPeopleList = $PeopleList->PeopleList();
+
+              if($ResPeopleList->rowCount() !=0){
+                  while($RowPeopleList = $ResPeopleList->fetch()){
+                    ?>
+                      <div class="person 
+                        <?php
+                            if(isset($_GET["UserID"])){
+                              if($RowPeopleList["UserID"]==$_GET['UserID']){
+                                echo "selected";
+                              }
+                            }
+                        ?>
+                      ">
+                        <a class="d-flex align-items-center text-decoration-none text-black" href="messages.php?UserID=<?=$RowPeopleList["UserID"]?>">
+                          <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
+                          <div class="mx-2">
+                            
+                            <p class="d-lg-block d-none <?=$RowPeopleList["StatusRead"]== '0' ? "fws-bold":""?>"><?=$RowPeopleList["FName"]. " ". $RowPeopleList["MName"]." ".$RowPeopleList["LName"]?></p>
+                          </div>
+                          </a>
+                      </div>
+                    <?php
+                  }
+              }
+            ?>
+  
           </div>
 
           <!-- Chat Box -->
-          <div class="col-8 chat-box p-0 ms-2">
-            <div class="chat-content" id="chat-content">
+              <?php
+                if(isset($_GET["UserID"])){
+                  ?>
+                    <div class="col-8 chat-box p-0 ms-2">
 
-                <?php
-                
-                for($y = 1; $y  < 100; $y++){
-                    ?>
+                        <div class="chat-content pb-0" id="chat-content">
+                          <?php
+                            $Converation = new fetch();
+                            $ResConversation = $Converation->Conversation($_GET["UserID"]);
 
-              <div class="d-flex mb-3">
-                <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle me-2">
-                <div class="bg-light p-3 rounded">
-                  <strong>John Doe</strong><br />
-                  Hello! How are you today?
-                </div>
-              </div>
+                            if($ResConversation->rowCount()!=0){
+                                while($RowConversation = $ResConversation->fetch()){
 
-              <div class="d-flex mb-3 justify-content-end">
-                <div class="bg-primary text-white p-3 rounded">
-                  I'm good! What about you?
-                </div>
-                <img src="./uploads/default.png" width="40" height="40" alt="avatar" class="rounded-circle ms-2">
-              </div>
+                                   
 
-                <?php
-                    }
-                ?>
+                                    $Date =  new DateTime($RowConversation["sent_at"]);
+                                    $DateConverted = $Date->format('m-d-Y g:i a');
 
-            </div>
+                                    if($RowConversation["UserID"] === $_GET["UserID"]){
+                                        ?>
+                                            <div class="d-flex mb-3">
+                                              <div class="bg-success bg-opacity-75 text-white p-3  rounded" style="width:50%">
+                                                  <p class="fw-bold"><?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?></p>
+                                                  <input type="hidden" id="reciever_name" value="<?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?>">
+                                                  <p class="p-0 mb-1"> <?=$RowConversation["message"]?></p>
+                                                  <small class="text-light d-flex justify-content-end"><?=$DateConverted?></small>
+                                              </div>
+                                            </div>
+                                        
+                                        <?php
+                                    }else{
+                                      ?>
+                                        <div class="d-flex mb-3 justify-content-end">
+                                          <div class="bg-primary text-white p-3  rounded" style="width:50%">
+                                            <p class="p-0 mb-1"> <?=$RowConversation["message"]?></p>
+                                            <small class="text-light d-flex justify-content-end"><?=$DateConverted?></small>
+                                          </div>
+                                      
+                                        </div>
+                                      <?php
+                                    }
+                                }
+                            }
 
-            <!-- Chat Input -->
-            <div class="chat-input">
-              <textarea class="form-control" rows="1" placeholder="Type your message..." id="message-input"></textarea>
-              <button class="btn btn-primary" id="send-btn">Send</button>
-            </div>
-          </div>
+                          ?>
+                          
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="chat-input">
+                          <form method="post" id="chat-form" class="d-flex w-100">
+                            <input type="hidden" value="<?=$_COOKIE["UserID"]?>" id="senderId">
+                            <input type="hidden" value="<?=isset($_GET["UserID"])? $_GET["UserID"]:""?>" id="receiverID">
+                            <textarea class="form-control" rows="1" placeholder="Type your message..." id="message"  required></textarea>
+                            <button class="btn btn-primary" type="submit" id="btnSubmit"><i class="fa-solid fa-paper-plane"></i> <small>Send</small></button>
+                          </form>
+                        </div>
+                    </div>
+                  <?php
+                }
+              
+              ?>
+              
         </div>
       </div>
-  </div>
-
-  <script>
-    const chatContent = document.getElementById('chat-content');
-    const sendBtn = document.getElementById('send-btn');
-    const messageInput = document.getElementById('message-input');
-
-    // Function to scroll chat to the bottom
-    function scrollToBottom() {
-      chatContent.scrollTop = chatContent.scrollHeight;
-    }
-
-    // Add a new message and scroll to bottom
-    // sendBtn.addEventListener('click', function () {
-    //   const message = messageInput.value.trim();
-    //   if (message) {
-    //     // Create new message div
-    //     const messageDiv = document.createElement('div');
-    //     messageDiv.classList.add('d-flex', 'mb-3', 'justify-content-end');
-    //     messageDiv.innerHTML = `
-    //       <div class="bg-primary text-white p-3 rounded">${message}</div>
-    //       <img src="https://via.placeholder.com/40" alt="avatar" class="rounded-circle ms-2">
-    //     `;
-    //     chatContent.appendChild(messageDiv);
-        
-    //     // Clear input field
-    //     messageInput.value = '';
-
-    //     // Scroll to the bottom
-    //     scrollToBottom();
-    //   }
-    // });
-
-    window.onload = scrollToBottom;
-  </script>
+</div>
+<script src="./assets/js/chat.js"></script>
 
 <?php
 include 'includes/footer.php';

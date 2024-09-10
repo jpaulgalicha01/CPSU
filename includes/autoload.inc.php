@@ -21,15 +21,6 @@ function Autoload($classname)
     include_once $full_path;
 }
 
-function secured($data)
-{
-    $data = htmlspecialchars($data);
-    $data = trim($data);
-    $data = stripcslashes($data);
-    $data = str_replace("'", "\'", $data);
-    return $data;
-}
-
 
 // Cient Information
 $Client_FName;

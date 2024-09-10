@@ -1,11 +1,11 @@
 <?php
-include 'config/security.php';
+include 'security.php';
 include '../dbConnection/ClsConnection.php';
 
 spl_autoload_register("Autoload");
 
 function Autoload($classname){
-	$path = "config/";
+	$path = "../config/";
 	$extenstion = ".config.php";
 	$full_path = $path . $classname . $extenstion;
 
