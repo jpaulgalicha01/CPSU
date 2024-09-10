@@ -2,7 +2,7 @@
 include 'includes/autoload.inc.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET") {
-
+ 
   if (isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")) {
     $ServicesName = secured($_POST['ServicesName']);
     $ServicePrice = secured($_POST['ServicePrice']);
@@ -63,9 +63,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
 
     $update_info = new update();
     $update_info->updateInfo($acc_fname, $acc_mname, $acc_lname, $acc_address, $acc_birth, $acc_phone, $acc_email, $acc_uname, $curr_pass, $new_pass);
-  } else {
+  }
+  
+  else if(isset($_REQUEST['month']) && isset($_REQUEST['year'])){
+    $month = secured($_REQUEST['month']);
+    $year= secured($_REQUEST['year']);
+
+    $fetching_reserved_date = new fetch();
+    $fetching_reserved_date->fetchingReservedDate($month,$year);
+  } 
+
+  else if(isset($_POST["function"]) && $_POST["function"] == "savedReservedDates"){
+    $data = json_decode($_POST["data"],true);
+    $selectedDates = secured($data['dates']);
+
+    $insertDateSched = new insert();
+    $insertDateSched->insertDateSched($selectedDates);
+  }
+
+  else {
     ob_end_flush(header("Location: index.php"));
   }
+
+
+  
 } else {
   return false;
 }

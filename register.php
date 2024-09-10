@@ -4,10 +4,10 @@ include_once ("includes/header.php");
 <div id="loginWrapper" class="d-flex justify-content-center align-items-center py-lg-5"  
     style="
         margin: 0;
-        backgroundSize:cover;
+        background-size:cover;
         display: 'flex';
-        justifyContent: 'center';
-        alignItems: 'center';
+        justify-content: 'center';
+        align-items: 'center';
         position: 'relative';
     "
 >

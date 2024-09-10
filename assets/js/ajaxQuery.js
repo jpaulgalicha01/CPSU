@@ -38,7 +38,15 @@ $(document).on("submit", "#login", function (e) {
           icon: res.icon,
           title: "Log in Successfully",
         }).then(() => {
-          window.location.href = res.redirect;
+          // checking the link
+          var url = new URL(window.location.href);
+          var params = new URLSearchParams(url.search);
+
+          if (params.get("UserID")) {
+            window.location.reload();
+          } else {
+            window.location.href = res.redirect;
+          }
         });
       }
       if (res.status == 404) {
