@@ -186,9 +186,27 @@ class controller extends db
         }
 
         protected function insert_date_sched($selectedDates){
+            $currentMonth = date('m');
+            $currentYear = date('Y');
+            $dateSave = $currentYear.'-'.$currentMonth.'-'.$selectedDates;
+
+            $checking = $this->PlsConnect()->prepare("SELECT ID FROM tblreservedate WHERE UserID=? AND date=? ");
+            $checking->execute([$_COOKIE["UserID"],$dateSave]);
+            // Checking if my schedula na save
+            if($checking->rowCount() !== 0){
+                //delete ang date for booking
+
+                $deleteBookingDate = $this->PlsConnect()->prepare("DELETE FROM `tblreservedate` WHERE UserID=? AND date=?");
+                $deleteBookingDate->execute([$_COOKIE["UserID"],$dateSave]);
+
+                return true;
+            }
+
+            //saving date for booking 
             $query = "INSERT INTO `tblreservedate`(`UserID`, `date`) VALUES (?,?)";
             $stmt = $this->PlsConnect()->prepare($query);
-            $stmt->execute([$_COOKIE["UserID"],$selectedDates]);
+            $stmt->execute([$_COOKIE["UserID"],$dateSave]);
+
             return true;
         }
      // ------------------------- Inserting ------------------------- //

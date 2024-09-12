@@ -1,4 +1,5 @@
 <?php
+
 namespace MyApp;
 
 use DateTime;
@@ -40,7 +41,7 @@ class Chat implements MessageComponentInterface {
             $message = $data['message'];
 
             $Date =  new DateTime();
-            $DateConverted = $Date->format('m-d-Y h:i:s');
+            $DateConverted = $Date->format('m-d-Y g:i a');
 
             $insertingdata = $this->pdo->prepare("INSERT INTO `tblmessages`(`UserID`, `receiver_id`, `message`) VALUES (?,?,?)");
             $insertingdata->execute([$senderUserID,$receiverUserID,$message]);

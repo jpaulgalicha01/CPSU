@@ -73,9 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
     $fetching_reserved_date->fetchingReservedDate($month,$year);
   } 
 
-  else if(isset($_POST["function"]) && $_POST["function"] == "savedReservedDates"){
-    $data = json_decode($_POST["data"],true);
-    $selectedDates = secured($data['dates']);
+  else if(isset($_GET["function"]) && $_GET["function"] == "saved_reserved_date"){
+    $selectedDates = $_GET['data']; 
 
     $insertDateSched = new insert();
     $insertDateSched->insertDateSched($selectedDates);

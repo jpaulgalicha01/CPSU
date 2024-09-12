@@ -151,9 +151,9 @@ include 'includes/navbar.php';
                                 <div class="calendar-days" id="calendarDays"></div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
+                        <!-- <div class="d-flex justify-content-center">
                             <button class="btn btn-primary d-none" id="btnSaveBookSched" onclick="savedReservedDates()">Save</button>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -288,10 +288,7 @@ include 'includes/navbar.php';
   chart.render();
 </script>
 
-
-
-
-
+<script src="./js/index.js"></script>
 <?php
 include 'includes/footer.php';
 ?>
