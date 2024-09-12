@@ -4,7 +4,7 @@
     const navbar = document.getElementById('sticky');
     function handleScroll() {
     const offset = window.scrollY;
-    if (offset > 100) {
+    if (offset > 80) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');

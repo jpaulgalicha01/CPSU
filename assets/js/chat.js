@@ -23,7 +23,7 @@ conn.onmessage = function (e) {
 
   if (data.receiverUserID == senderID) {
     content =
-      '<div class="bg-success bg-opacity-75 text-white p-3 rounded" style="width:50%"><p class="fw-bold">' +
+      '<div class="bg-success bg-opacity-75 text-white p-3 rounded chat-convo-box"><p class="fw-bold">' +
       reciever_name +
       '</p><p class="p-0 mb-1">' +
       data.message +
@@ -34,7 +34,7 @@ conn.onmessage = function (e) {
   }
   if (data.receiverUserID !== senderID) {
     content =
-      '<div class="bg-primary text-white p-3 rounded" style="width:50%"><p class="p-0 mb-1">' +
+      '<div class="bg-primary text-white p-3 rounded chat-convo-box"><p class="p-0 mb-1">' +
       data.message +
       '</p><small class="text-light d-flex justify-content-end">' +
       date +
@@ -51,11 +51,6 @@ conn.onmessage = function (e) {
 $("#chat-form").on("submit", function (e) {
   try {
     e.preventDefault();
-    document.getElementById("btnSubmit").disabled = true;
-
-    $("#btnSubmit").html(
-      "<div class='text-center'><i class='spinner-border spinner-border-sm'></i></div>"
-    );
     var senderID = $("#senderId").val();
     var receiverID = $("#receiverID").val();
     var message = $("#message").val();
@@ -65,22 +60,11 @@ $("#chat-form").on("submit", function (e) {
       receiverUserID: receiverID,
       message: message,
     };
-    const res = conn.send(JSON.stringify(data));
+    conn.send(JSON.stringify(data));
 
-    if (res) {
-      $("#btnSubmit").html(
-        "<i class='fa fa-paper-plane'></i> <small>Send</small>"
-      );
-      document.getElementById("btnSubmit").disabled = false;
-    } else {
-      $("#btnSubmit").html(
-        "<i class='fa fa-paper-plane'></i> <small>Send</small>"
-      );
-      document.getElementById("btnSubmit").disabled = false;
-    }
+    document.getElementById("btnSubmit").disabled = false;
   } catch (error) {
     alert("There's something error please try again");
-    console.error(error);
   }
 });
 

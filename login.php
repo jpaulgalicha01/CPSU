@@ -55,12 +55,10 @@ include 'includes/header.php';
                                             Show Password
                                         </label>
                                     </div>
-                                    <div class=" pb-3">
-                                        <a href="#">Forget Password?</a>
-                                    </div>
+                                   
                                 </div>
 
-                                <button type="submit" class="form-control btn btn-primary" id="login_btn">Login</button>
+                                <button type="submit" class="form-control btn btn-primary" id="login_btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
                                 <a href="register.php"class="text-center">Create Account</a>
                             </div>
                             </form>

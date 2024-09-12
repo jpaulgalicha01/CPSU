@@ -75,22 +75,16 @@ function renderCalendar(month, year) {
     day.addEventListener("click", () => {
       if (selectedDays.has(i)) {
         selectedDays.delete(i);
+        savedReservedDates(i);
+
         day.classList.remove("selected-day");
       } else {
         selectedDays.add(i);
         day.classList.add("selected-day");
+        savedReservedDates(i);
       }
 
       console.log(`Selected Dates:`, Array.from(selectedDays));
-
-      if (Array.from(selectedDays).length !== 0) {
-        SaveBookSched.classList.remove("d-none");
-        return;
-      } else {
-        SaveBookSched.classList.add("d-none");
-      }
-
-      // savedDateSelected(selectedDays);
     });
 
     calendarDays.appendChild(day);
@@ -127,14 +121,52 @@ nextBtn.addEventListener("click", () => {
 // Initial render
 initializeCalendar();
 
-async function savedReservedDates() {
-  var data = [
-    {
-      data: Array.from(selectedDays),
-      function: "savedReservedDates",
+// Saving or Updating Removing Accepting Booking
+async function savedReservedDates(selectedDays) {
+  $.ajax({
+    type: "GET",
+    url: "inputConfig.php",
+    data: {
+      data: selectedDays,
+      function: "saved_reserved_date",
     },
-  ];
-
-  const res = await fetch('inputConfig.php',{method:"POST",body:data })
-
+    success: function (response) {
+      var res = jQuery.parseJSON(response);
+      console.log(res);
+      if (res.status == 200) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        Toast.fire({
+          icon: res.icon,
+          title: res.message,
+        });
+      } else if (res.status == 500) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        Toast.fire({
+          icon: res.icon,
+          title: res.message,
+        });
+      } else {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        Toast.fire({
+          icon: "question",
+          title: "Not Found",
+        });
+      }
+    },
+  });
 }

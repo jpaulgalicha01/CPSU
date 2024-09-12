@@ -73,13 +73,23 @@ class insert extends controller
 
 		public function insertDateSched($selectedDates){
 			$stmt = $this->insert_date_sched($selectedDates);
-
 			if($stmt){
 
-				echo "success";
-
+				$data = [
+					'status' => 200,
+					'icon'=>'success',
+					'message' => "Successfully Save",
+				];
+				echo json_encode($data);
+				return false;
 			}else{
-				echo "failed";
+				$data = [
+					'status' => 500,
+					'icon'=>'error',
+					'message' => "Internal Server Error",
+				];
+				echo json_encode($data);
+				return false;
 			}
 
 		}

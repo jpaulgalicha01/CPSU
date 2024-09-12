@@ -9,7 +9,6 @@ if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
   ob_end_flush(header("Location: index.php"));
 }
 
-
 ?>
 
 <div class="container-fluid">
@@ -19,8 +18,6 @@ if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
 
           <div class="col-4 people-list card">
             <h5 class="sticky-header">People</h5>
-
-
 
             <?php
             
@@ -76,7 +73,7 @@ if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
                                     if($RowConversation["UserID"] === $_GET["UserID"]){
                                         ?>
                                             <div class="d-flex mb-3">
-                                              <div class="bg-success bg-opacity-75 text-white p-3  rounded" style="width:50%">
+                                              <div class="bg-success bg-opacity-75 text-white p-3  rounded chat-convo-box">
                                                   <p class="fw-bold"><?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?></p>
                                                   <input type="hidden" id="reciever_name" value="<?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?>">
                                                   <p class="p-0 mb-1"> <?=$RowConversation["message"]?></p>
@@ -88,7 +85,7 @@ if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
                                     }else{
                                       ?>
                                         <div class="d-flex mb-3 justify-content-end">
-                                          <div class="bg-primary text-white p-3  rounded" style="width:50%">
+                                          <div class="bg-primary text-white p-3  rounded chat-convo-box">
                                             <p class="p-0 mb-1"> <?=$RowConversation["message"]?></p>
                                             <small class="text-light d-flex justify-content-end"><?=$DateConverted?></small>
                                           </div>

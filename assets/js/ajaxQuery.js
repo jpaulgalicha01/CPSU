@@ -60,7 +60,9 @@ $(document).on("submit", "#login", function (e) {
           icon: res.icon,
           title: res.message,
         });
-        $("#login_btn").text("Login");
+        $("#login_btn").html(
+          "<i class='fa-solid fa-right-to-bracket'></i> Login"
+        );
         document.getElementById("login_btn").disabled = false;
       }
       if (res.status == 302) {
@@ -74,7 +76,9 @@ $(document).on("submit", "#login", function (e) {
           icon: res.icon,
           title: res.message,
         });
-        $("#login_btn").text("Login");
+        $("#login_btn").html(
+          "<i class='fa-solid fa-right-to-bracket'></i> Login"
+        );
         document.getElementById("login_btn").disabled = false;
       }
     },
@@ -126,7 +130,9 @@ $(document).on("submit", "#createAcc", function (e) {
           icon: "error",
           title: res.message,
         });
-        $("#create_acc_btn").text("Create Account");
+        $("#create_acc_btn").html(
+          "<i class='fa-solid fa-id-card'></i> Create Account"
+        );
         document.getElementById("create_acc_btn").disabled = false;
       }
     },

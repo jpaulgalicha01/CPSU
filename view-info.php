@@ -53,12 +53,10 @@ $count =  $rescheckingBookmark->rowCount();
 <div class="container-fluid py-5">
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
-            <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner border">
 
-                    <div style="max-width:479px; height:423px" class="d-flex">
-
-                        <?php
+        <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-inner">
+                    <?php
                         $fetchArtistProfile = new fetch();
                         $resfetchArtistProfile = $fetchArtistProfile->fetchArtistProfile($UserID);
 
@@ -78,8 +76,6 @@ $count =  $rescheckingBookmark->rowCount();
                                     </div>
                                     <?php
                                 }
-
-
                                 $x++;
                             }
                         } else {
@@ -90,16 +86,15 @@ $count =  $rescheckingBookmark->rowCount();
                             <?php
                         }
                         ?>
-
-                    </div>
-
                 </div>
-                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                    <i class="fa fa-2x fa-angle-left text-dark"></i>
-                </a>
-                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                    <i class="fa fa-2x fa-angle-right text-dark"></i>
-                </a>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
 
@@ -400,12 +395,10 @@ $count =  $rescheckingBookmark->rowCount();
                                             Show Password
                                         </label>
                                     </div>
-                                    <div class=" pb-3">
-                                        <a href="#">Forget Password?</a>
-                                    </div>
+                      
                                 </div>
 
-                                <button type="submit" class="form-control btn btn-primary" id="login_btn">Login</button>
+                                <button type="submit" class="form-control btn btn-primary" id="login_btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
                                 <a href="register.php"class="text-center">Create Account</a>
                             </div>
                             </form>

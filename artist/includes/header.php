@@ -29,7 +29,7 @@
 
     <!-- Sweet Alet -->
     <script src="../assets/js/sweetAlert.js"></script>
-    <script src="../assets/js/ajaxJquery.js"></script>
+    <script src="../assets/js/ajax.js"></script>
     <script>
         // converting formate date in to MM-DD-YYYY
         function convertDate(datestring) {

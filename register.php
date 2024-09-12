@@ -155,7 +155,7 @@ include_once ("includes/header.php");
                                 </div>
                                 
                             </div>
-                                <button type="submit" class="form-control btn btn-primary" id="create_acc_btn" >Login</button>
+                                <button type="submit" class="form-control btn btn-primary" id="create_acc_btn" ><i class="fa-solid fa-id-card"></i> Create Account</button>
                                 <a href="login.php"class="text-center">I'll Already Account </a>
                                 </div>
                         </form>

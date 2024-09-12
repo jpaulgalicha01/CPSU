@@ -3,13 +3,9 @@ include 'includes/autoload.inc.php';
 include 'includes/header.php';
 include 'includes/navbar.php';
 
-
-
 unset($_SESSION['title']);
 unset($_SESSION['Active_Navigate']);
 $_SESSION['title'] = "Dashboard";
-
-
 
 ?>
 
@@ -76,7 +72,7 @@ $_SESSION['title'] = "Dashboard";
                                     if($RowConversation["UserID"] === $_GET["UserID"]){
                                         ?>
                                             <div class="d-flex mb-3">
-                                              <div class="bg-success bg-opacity-75 text-white p-3  rounded" style="width:50%">
+                                              <div class="bg-success bg-opacity-75 text-white p-3  rounded chat-convo-box">
                                                   <p class="fw-bold"><?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?></p>
                                                   <input type="hidden" id="reciever_name" value="<?=$RowConversation["FName"]. " ". $RowConversation["MName"]." ".$RowConversation["LName"]?>">
                                                   <p class="p-0 mb-1"> <?=$RowConversation["message"]?></p>
@@ -88,7 +84,7 @@ $_SESSION['title'] = "Dashboard";
                                     }else{
                                       ?>
                                         <div class="d-flex mb-3 justify-content-end">
-                                          <div class="bg-primary text-white p-3  rounded" style="width:50%">
+                                          <div class="bg-primary text-white p-3  rounded chat-convo-box">
                                             <p class="p-0 mb-1 text-end"> <?=$RowConversation["message"]?></p>
                                             <small class="text-light d-flex justify-content-end"><?=$DateConverted?></small>
                                           </div>
@@ -105,12 +101,12 @@ $_SESSION['title'] = "Dashboard";
 
                         <!-- Chat Input -->
                         <div class="chat-input">
-                            <form method="post" id="chat-form" class="d-flex w-100">
-                              <input type="hidden" value="<?=$_COOKIE["UserID"]?>" id="senderId">
-                              <input type="hidden" value="<?=isset($_GET["UserID"])? $_GET["UserID"]:""?>" id="receiverID">
-                              <textarea class="form-control" rows="1" placeholder="Type your message..." id="message"  required></textarea>
-                              <button class="btn btn-primary" type="submit" id="btnSubmit"><i class="fa fa-paper-plane"></i> <small>Send</small></button>
-                            </form>
+                          <form method="post" id="chat-form" class="d-flex w-100">
+                            <input type="hidden" value="<?=$_COOKIE["UserID"]?>" id="senderId">
+                            <input type="hidden" value="<?=isset($_GET["UserID"])? $_GET["UserID"]:""?>" id="receiverID">
+                            <textarea class="form-control" rows="1" placeholder="Type your message..." id="message"  required></textarea>
+                            <button class="btn btn-primary" type="submit" id="btnSubmit"><i class="fa fa-paper-plane"></i> <small>Send</small></button>
+                          </form>
                         </div>
                     </div>
                   <?php
@@ -122,8 +118,7 @@ $_SESSION['title'] = "Dashboard";
     </div>
   </div>
 
-
-  <script src="../assets/js/chat.js"></script>
+<script src="../assets/js/chat.js"></script>
 
 <?php
 include 'includes/footer.php';

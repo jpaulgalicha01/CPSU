@@ -24,15 +24,15 @@
                                 <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                                 <li><a class="dropdown-item" href="messages.php">Messages <span class="badge text-danger">4</span></a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                                <li><a class="dropdown-item" href="logout.php"><i class="fa-solid fa-power-off"></i> Sign out</a></li>
                             </ul>
                         </div>
                     <?php
                 } else {
                     ?>
                         <div class="gap-2">
-                            <a href="login.php" class="btn btn-primary btn-md rounded p-1">Login</a>
-                            <a href="register.php" class="btn  btn-md rounded p-1 btn-outline-secondary">Sign Up</a>
+                            <a href="login.php" class="btn btn-primary btn-md rounded p-1"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                            <a href="register.php" class="btn  btn-md rounded p-1 btn-outline-secondary"><i class="fa-solid fa-id-card"></i> Create Account</a>
                         </div>
                     <?php
                 }
