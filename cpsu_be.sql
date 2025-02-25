@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2024 at 01:00 PM
+-- Generation Time: Feb 25, 2025 at 11:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cpsumukha_be`
+-- Database: `cpsu_be`
 --
 
 -- --------------------------------------------------------
@@ -50,6 +50,7 @@ CREATE TABLE `tblbooking` (
 CREATE TABLE `tbldescription` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(250) NOT NULL,
+  `ServicesName` text NOT NULL,
   `Description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -57,8 +58,11 @@ CREATE TABLE `tbldescription` (
 -- Dumping data for table `tbldescription`
 --
 
-INSERT INTO `tbldescription` (`RowNum`, `UserID`, `Description`) VALUES
-(1, '2108113524', 'askdjhakjsdkjawd\r\nasdlkhaslkdjkasjdjasd.\r\nlkjhasjdkajshdljkahsddd');
+INSERT INTO `tbldescription` (`RowNum`, `UserID`, `ServicesName`, `Description`) VALUES
+(1, '2108113524', '', 'askdjhakjsdkjawd\r\nasdlkhaslkdjkasjdjasd.\r\nlkjhasjdkajshdljkahsddd'),
+(3, '716792885', 'Testing1233', 'asddd'),
+(4, '716792885', 'aaa', 'asd'),
+(5, '716792885', 'testing', 'Within 3 days ahead of the schedule of booking.');
 
 -- --------------------------------------------------------
 
@@ -84,8 +88,20 @@ CREATE TABLE `tblmessages` (
 CREATE TABLE `tblprofimages` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(50) NOT NULL,
+  `ServicesName` text NOT NULL,
   `Images` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblprofimages`
+--
+
+INSERT INTO `tblprofimages` (`RowNum`, `UserID`, `ServicesName`, `Images`) VALUES
+(13, '716792885', 'aaa', 'man.png'),
+(14, '716792885', 'testing', 'man.png'),
+(15, '716792885', 'Testing1233', 'men-women-who-show-love-each-other-b.png'),
+(16, '716792885', 'Testing1233', 'men-women-who-show-love-each-other.png'),
+(17, '716792885', 'Testing1233', 'watercolor-valentine-s-day-flowers-illustration-b.png');
 
 -- --------------------------------------------------------
 
@@ -106,7 +122,10 @@ CREATE TABLE `tblreservedate` (
 INSERT INTO `tblreservedate` (`id`, `UserID`, `date`) VALUES
 (53, '1848684243', '2024-09-17'),
 (56, '1848684243', '2024-09-11'),
-(59, '1848684243', '2024-09-18');
+(59, '1848684243', '2024-09-18'),
+(60, '716792885', '2025-02-26'),
+(61, '716792885', '2025-02-27'),
+(62, '716792885', '2025-02-28');
 
 -- --------------------------------------------------------
 
@@ -117,7 +136,6 @@ INSERT INTO `tblreservedate` (`id`, `UserID`, `date`) VALUES
 CREATE TABLE `tblservices` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(50) NOT NULL,
-  `Images` varchar(250) NOT NULL,
   `ServicesName` varchar(50) NOT NULL,
   `Price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -126,9 +144,12 @@ CREATE TABLE `tblservices` (
 -- Dumping data for table `tblservices`
 --
 
-INSERT INTO `tblservices` (`RowNum`, `UserID`, `Images`, `ServicesName`, `Price`) VALUES
-(0, '2108113524', 'default.png', 'Hair Cut', 500.00),
-(0, '1848684243', 'logo1.png', 'asddd', 123.00);
+INSERT INTO `tblservices` (`RowNum`, `UserID`, `ServicesName`, `Price`) VALUES
+(1, '2108113524', 'Hair Cut', 500.00),
+(2, '1848684243', 'asddd', 123.00),
+(4, '716792885', 'Testing1233', 1200.00),
+(5, '716792885', 'aaa', 500.00),
+(6, '716792885', 'testing', 200.00);
 
 -- --------------------------------------------------------
 
@@ -239,6 +260,12 @@ ALTER TABLE `tblreservedate`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblservices`
+--
+ALTER TABLE `tblservices`
+  ADD PRIMARY KEY (`RowNum`);
+
+--
 -- Indexes for table `tbluser`
 --
 ALTER TABLE `tbluser`
@@ -258,7 +285,7 @@ ALTER TABLE `tblbooking`
 -- AUTO_INCREMENT for table `tbldescription`
 --
 ALTER TABLE `tbldescription`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tblmessages`
@@ -270,13 +297,19 @@ ALTER TABLE `tblmessages`
 -- AUTO_INCREMENT for table `tblprofimages`
 --
 ALTER TABLE `tblprofimages`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tblreservedate`
 --
 ALTER TABLE `tblreservedate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `tblservices`
+--
+ALTER TABLE `tblservices`
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbluser`
