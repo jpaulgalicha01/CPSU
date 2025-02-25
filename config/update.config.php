@@ -1,7 +1,7 @@
 <?php
 class update extends controller
 {
-// ------------------------- Admin Side -------------------------//
+	// ------------------------- Admin Side -------------------------//
 	public function updateBooking($ClientUserID, $status)
 	{
 		$stmt = $this->update_booking($ClientUserID, $status);
@@ -73,6 +73,32 @@ class update extends controller
 			}
 		}
 	}
-// ------------------------- Admin Side -------------------------//
+	// ------------------------- Admin Side -------------------------//
+
+	// ------------------------- Artist Side -------------------------//
+
+	public function editservices($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy)
+	{
+		$stmt = $this->edit_services($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy);
+
+		if (!$stmt) {
+			$_SESSION['alert'] = "Show";
+			$_SESSION['icon'] = "error";
+			$_SESSION['title_alert'] = "There's Somthing Wrong. Please try again";
+			ob_end_flush(header("Location: " . $_SERVER['HTTP_REFERER'] . ""));
+		}
+		if ($stmt !== 1) {
+			$_SESSION['alert'] = "Show";
+			$_SESSION['icon'] = "error";
+			$_SESSION['title_alert'] = $stmt;
+			ob_end_flush(header("Location: " . $_SERVER['HTTP_REFERER'] . ""));
+		}
+		$_SESSION['alert'] = "Show";
+		$_SESSION['icon'] = "success";
+		$_SESSION['title_alert'] = "Successfully Updated";
+		ob_end_flush(header("Location: " . $_SERVER['HTTP_REFERER'] . ""));
+	}
+
+	// ------------------------- Artist Side -------------------------//
+
 }
-?>

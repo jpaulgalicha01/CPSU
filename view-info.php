@@ -20,7 +20,7 @@ $civilStatus;
 $CompleteAddress;
 
 $fetchingArtistiInfo = new fetch();
-$resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_GET['UserID']),"Artist");
+$resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_GET['UserID']), "Artist");
 if ($resfetchingArtistiInfo->rowCount() != 0) {
     while ($rowfetchingArtistiInfo = $resfetchingArtistiInfo->fetch()) {
         $FName = $rowfetchingArtistiInfo['FName'];
@@ -37,11 +37,11 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 
 
 $count = 0;
-if(isset($_COOKIE['UserID'])){
+if (isset($_COOKIE['UserID'])) {
     $checkingBookmark = new fetch();
-$rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID);
+    $rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID);
 
-$count =  $rescheckingBookmark->rowCount();
+    $count =  $rescheckingBookmark->rowCount();
 }
 
 ?>
@@ -53,39 +53,38 @@ $count =  $rescheckingBookmark->rowCount();
 <div class="container-fluid py-5">
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
-
-        <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-inner">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-inner text-center">
                     <?php
-                        $fetchArtistProfile = new fetch();
-                        $resfetchArtistProfile = $fetchArtistProfile->fetchArtistProfile($UserID);
+                    $fetchArtistProfile = new fetch();
+                    $resfetchArtistProfile = $fetchArtistProfile->fetchArtistProfile($UserID);
 
-                        if ($resfetchArtistProfile->rowCount() != 0) {
-                            $x = 1;
-                            while ($rowfetchArtistProfile = $resfetchArtistProfile->fetch()) {
-                                if ($x == 1) {
-                                    ?>
-                                    <div class="carousel-item  active">
-                                        <img class="w-100 h-100" src="uploads/<?= $rowfetchArtistProfile['Images'] ?>" alt="Image">
-                                    </div>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <div class="carousel-item ">
-                                        <img class="w-100 h-100" src="uploads/<?= $rowfetchArtistProfile['Images'] ?>" alt="Image">
-                                    </div>
-                                    <?php
-                                }
-                                $x++;
-                            }
-                        } else {
-                            ?>
-                            <div class="carousel-item active">
-                                <img class="w-100 h-100" src="uploads/default.png" alt="Image">
-                            </div>
+                    if ($resfetchArtistProfile->rowCount() != 0) {
+                        $x = 1;
+                        while ($rowfetchArtistProfile = $resfetchArtistProfile->fetch()) {
+                            if ($x == 1) {
+                    ?>
+                                <div class="carousel-item  active">
+                                    <img class="w-75 h-75" src="uploads/<?= $rowfetchArtistProfile['ProfImg'] ?>" alt="Image">
+                                </div>
                             <?php
+                            } else {
+                            ?>
+                                <div class="carousel-item ">
+                                    <img class="w-75 h-75" src="uploads/<?= $rowfetchArtistProfile['ProfImg'] ?>" alt="Image">
+                                </div>
+                        <?php
+                            }
+                            $x++;
                         }
+                    } else {
                         ?>
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="uploads/default.png" alt="Image">
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -99,7 +98,7 @@ $count =  $rescheckingBookmark->rowCount();
         </div>
 
         <div class="col-lg-7 pb-5">
-            <h3 class="font-weight-semi-bold">Artist </h3> 
+            <h3 class="font-weight-semi-bold">Artist </h3>
             <div class="d-flex mb-3">
                 <div class="text-primary mr-2">
                     <small class="fas fa-star"></small>
@@ -139,49 +138,26 @@ $count =  $rescheckingBookmark->rowCount();
 
 
             <div class="d-flex align-items-center mb-4 pt-2 gap-2">
-                <button class="btn btn-primary px-3"  id="bookingbtn" value="" onclick="checkingLogin()"  <?= $count == 1 ? "disabled" : "" ?> >
-                    <i class="fa fa-<?= $count == 1? "check":"bookmark"?>" aria-hidden="true"></i> <?= $count == 1? "Booked":"Request Bookmark"?></button>
-                    <?php
-                        if(isset($_COOKIE["PHPSESSID"]) && isset($_COOKIE["UserID"]) && $_COOKIE["TypeUser"] == "Client"){
-                            ?>
-                            <a href='messages.php?UserID=<?=$UserID?>' class='btn btn-success'><i class='fa fa-message' aria-hidden='true'></i>  Message Now</a>
-                            <?php
-                        }
-                    ?>
+                <button class="btn btn-primary px-3" id="bookingbtn" value="" onclick="checkingLogin()" <?= $count == 1 ? "disabled" : "" ?>>
+                    <i class="fa fa-<?= $count == 1 ? "check" : "bookmark" ?>" aria-hidden="true"></i> <?= $count == 1 ? "Booked" : "Request Bookmark" ?></button>
+                <?php
+                if (isset($_COOKIE["PHPSESSID"]) && isset($_COOKIE["UserID"]) && $_COOKIE["TypeUser"] == "Client") {
+                ?>
+                    <a href='messages.php?UserID=<?= $UserID ?>' class='btn btn-success'><i class='fa fa-message' aria-hidden='true'></i> Message Now</a>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
     <div class="row px-xl-5">
         <div class="col">
-            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+            <div class="nav nav-tabs justify-content-start border-secondary mb-4">
                 <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Description</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Reviews (0)</a>
             </div>
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                    <h4 class="mb-3">Product Description</h4>
-
-                    <?php
-                    $fetchArtistDesc = new fetch();
-                    $resfetchArtistDesc = $fetchArtistDesc->fetchArtistDesc(secured($_GET['UserID']));
-                    if ($resfetchArtistDesc->rowCount() != 0) {
-                        while ($rowfetchArtistDesc = $resfetchArtistDesc->fetch()) {
-                            ?>
-                            <p style="white-space: pre-wrap; text-align:justify;"><?= $rowfetchArtistDesc['Description'] ?></p>
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <p>No Post Found..</p>
-                        <?php
-                    }
-                    ?>
-
-                </div>
-
-                
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     <div class="row">
                         <div class="col-md-6">
                             <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
@@ -208,8 +184,8 @@ $count =  $rescheckingBookmark->rowCount();
                                 <p class="mb-0 mr-2">Your Rating * :</p>
                             </div>
                             <form>
-                            <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
-                            data-show-caption="true" style="font-size: 0px !important">
+                                <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
+                                    data-show-caption="true" style="font-size: 0px !important">
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
                                     <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
@@ -220,14 +196,16 @@ $count =  $rescheckingBookmark->rowCount();
                             </form>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 <!-- Shop Detail End -->
 
-<!-- <div class="container-fluid py-5">
+<div class="container-fluid py-5">
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Services Available</span></h2>
     </div>
@@ -241,19 +219,19 @@ $count =  $rescheckingBookmark->rowCount();
 
                 if ($resfetchArtistServices->rowCount() != 0) {
                     while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
-                        ?>
+                ?>
                         <div class="card product-item border-0">
                             <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                                 <img class="img-fluid w-100" src="uploads/<?= $rowfetchArtistServices['Images'] ?>" alt="">
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3"><?=$rowfetchArtistServices['ServicesName']?></h6>
+                                <h6 class="text-truncate mb-3"><?= $rowfetchArtistServices['ServicesName'] ?></h6>
                                 <div class="d-flex justify-content-center">
-                                    <h6>₱<?=$rowfetchArtistServices['Price']?></h6>
+                                    <h6>₱<?= $rowfetchArtistServices['Price'] ?></h6>
                                 </div>
                             </div>
                         </div>
-                        <?php
+                <?php
                     }
                 } else {
                     echo "<p>No Services Found</p>";
@@ -262,18 +240,18 @@ $count =  $rescheckingBookmark->rowCount();
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="bookingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Request For Booking</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form id="BookRequest">
-                <input type="hidden" name="ArtistUserID" value="<?=$UserID?>">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Request For Booking</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="BookRequest">
+                <input type="hidden" name="ArtistUserID" value="<?= $UserID ?>">
                 <input type="hidden" name="function" value="book_request">
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -291,13 +269,13 @@ $count =  $rescheckingBookmark->rowCount();
                                     </div>
                                     <div>
                                         <label for="FName">Last Name</label>
-                                        <input type="text" name="FName" id="FName" class="form-control" value="<?=$Client_LName?>" disabled>
+                                        <input type="text" name="FName" id="FName" class="form-control" value="<?= $Client_LName ?>" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="Address">Pin Location</label>
-                                    <input type="text" name="Address" id="Address" class="form-control" value="<?=$Client_CompleteAddress?>" >
+                                    <input type="text" name="Address" id="Address" class="form-control" value="<?= $Client_CompleteAddress ?>">
                                 </div>
 
                                 <div class="d-md-flex d-sm-grid form-group" style="gap:20px">
@@ -311,9 +289,9 @@ $count =  $rescheckingBookmark->rowCount();
                                             if ($resfetchArtistServices->rowCount() != 0) {
                                                 echo "<option value='' selected disabled>-- Please Select --</option>";
                                                 while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
-                                                    ?>
+                                            ?>
                                                     <option><?= $rowfetchArtistServices['ServicesName'] ?></option>
-                                                    <?php
+                                            <?php
                                                 }
                                             } else {
                                                 echo "<option selected disbaled> -- No Data Found--</option>";
@@ -332,8 +310,8 @@ $count =  $rescheckingBookmark->rowCount();
 
                                 </div>
 
-                                <div class="form-group" >
-                                <div>
+                                <div class="form-group">
+                                    <div>
                                         <label for="SampleOutcome">Sample Outcome <small><i>(optional)</i></small></label>
                                         <select name="SampleOutcome" id="SampleOutcome" class="form-control">
                                             <option>No</option>
@@ -341,8 +319,8 @@ $count =  $rescheckingBookmark->rowCount();
                                         </select>
                                     </div>
                                     <div class="d-none" id="uploadSampleOutcome">
-                                    <label for="">uploads file here.</label>
-                                    <input type="file" class="form-control" name="uploadSampleOutcome">
+                                        <label for="">uploads file here.</label>
+                                        <input type="file" class="form-control" name="uploadSampleOutcome">
                                     </div>
                                 </div>
                             </div>
@@ -350,31 +328,31 @@ $count =  $rescheckingBookmark->rowCount();
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" id="btnRequest">Request</button>
                 </div>
             </form>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="modal fade " id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" ">
-  <div class="modal-dialog modal-md">
+  <div class=" modal-dialog modal-md">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Login User</h1>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-            <div class="row">
-            <div class="col-12">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Login User</h1>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
                         <form class="pt-3" id="login">
                             <div class="vstack gap-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" name="Uname" class="form-control rounded" id="floatingInputUName" placeholder="Username" required>
                                     <label for="floatingInputUName"><i class="fa-solid fa-user"></i> Username</label>
                                 </div>
-                                
+
                                 <div class="form-floating mb-3">
                                     <input type="password" name="Password" class="form-control rounded" id="floatingInputPass" placeholder="Password" required>
                                     <label for="floatingInputPass"><i class="fas fa-lock"></i> Password</label>
@@ -386,32 +364,30 @@ $count =  $rescheckingBookmark->rowCount();
                                             class="form-check-input"
                                             type="checkbox"
                                             id="showCheckBoxPass"
-                                            onclick="showPass()"
-                                        />
+                                            onclick="showPass()" />
                                         <label
                                             class="form-check-label"
-                                            for="showCheckBoxPass"
-                                        >
+                                            for="showCheckBoxPass">
                                             Show Password
                                         </label>
                                     </div>
-                      
+
                                 </div>
 
                                 <button type="submit" class="form-control btn btn-primary" id="login_btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-                                <a href="register.php"class="text-center">Create Account</a>
+                                <a href="register.php" class="text-center">Create Account</a>
                             </div>
-                            </form>
+                        </form>
                     </div>
+                </div>
             </div>
         </div>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 </div>
 
 
@@ -421,7 +397,7 @@ $count =  $rescheckingBookmark->rowCount();
 
 <script>
     const SampleOutcome = document.getElementById("SampleOutcome");
-    SampleOutcome.addEventListener('input', function () {
+    SampleOutcome.addEventListener('input', function() {
         let value = SampleOutcome.value;
 
         if (value == "Yes") {
@@ -436,103 +412,102 @@ $count =  $rescheckingBookmark->rowCount();
 
 
     function getCookie(cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return null;
     }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
+
+    function checkingLogin() {
+
+        // checking if client is log in
+        let clientUserID = getCookie("UserID");
+        let clientTypeUser = getCookie("TypeUser");
+
+        if (clientUserID != null && clientTypeUser != null) {
+            // alert(clientUserID + " "+ clientTypeUser);
+            $("#bookingModal").modal("show")
+
+
+
+        } else {
+            $("#loginModal").modal("show");
+        }
     }
-  }
-  return null;
-}
-function checkingLogin () {
-
-    // checking if client is log in
-    let clientUserID = getCookie("UserID");
-    let clientTypeUser = getCookie("TypeUser");
-
-    if(clientUserID != null && clientTypeUser != null){
-        // alert(clientUserID + " "+ clientTypeUser);
-        $("#bookingModal").modal("show")
 
 
+    //Add Booking
+    $(document).on('submit', '#BookRequest', function(e) {
+        e.preventDefault(e);
+        var formData = new FormData(this);
+        formData.append("book_request", true);
 
-    }else{
-        $("#loginModal").modal("show");
-    }
-}
+        $("#btnRequest").html("<div class='text-center'><div class='spinner-border' role='status'><span class='visually-hidden'></span></div></div>");
+        document.getElementById("btnRequest").disabled = true;
+        $.ajax({
+            method: "POST",
+            url: "inputConfig.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
 
+                if (res.status == 200) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: res.icon,
+                        title: "Successfully Added",
+                    }).then(() => {
+                        $("#bookingModal").modal('hide');
+                        document.getElementById("bookingbtn").disabled = true;
+                        $("#bookingbtn").html("<i class='fa fa-check' aria-hidden='true'></i> Reserved");
+                    });
+                } else if (res.status == 302) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    Toast.fire({
+                        icon: res.icon,
+                        title: res.message,
+                    })
+                    $("#btnRequest").text("Booked");
+                    document.getElementById("btnRequest").disabled = false;
+                } else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    Toast.fire({
+                        icon: res.icon,
+                        title: res.message,
+                    })
+                    $("#btnRequest").text("Request");
+                    document.getElementById("btnRequest").disabled = false;
+                }
 
-//Add Booking
-$(document).on('submit','#BookRequest',function (e) {
-  e.preventDefault(e);
-  var formData = new FormData(this);
- formData.append("book_request", true);
-
- $("#btnRequest").html("<div class='text-center'><div class='spinner-border' role='status'><span class='visually-hidden'></span></div></div>");
-  document.getElementById("btnRequest").disabled = true;
-  $.ajax({
-      method: "POST",
-      url: "inputConfig.php",
-      data: formData,
-      processData: false,
-      contentType:false,
-      success:function(response){
-          var res = jQuery.parseJSON(response);
-
-          if(res.status == 200){
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: res.icon,
-              title: "Successfully Added",
-            }).then(()=>{
-                $("#bookingModal").modal('hide');
-                document.getElementById("bookingbtn").disabled = true;
-                $("#bookingbtn").html("<i class='fa fa-check' aria-hidden='true'></i> Reserved");
-            });
-          }
-          else if(res.status == 302){
-              const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 2000,
-              });
-              Toast.fire({
-                icon: res.icon,
-                title: res.message,
-              })
-              $("#btnRequest").text("Booked");
-              document.getElementById("btnRequest").disabled = false;
-          }
-          else{
-              const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 2000,
-              });
-              Toast.fire({
-                icon: res.icon,
-                title: res.message,
-              })
-              $("#btnRequest").text("Request");
-              document.getElementById("btnRequest").disabled = false;
-          }
-          
-      }
-    })
-});
+            }
+        })
+    });
 </script>
 
 <?php
