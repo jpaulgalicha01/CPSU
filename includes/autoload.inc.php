@@ -22,6 +22,13 @@ function Autoload($classname)
 }
 
 
+function FormatDate($formatType, $CurrentDate)
+{
+    $data = date($formatType, strtotime($CurrentDate));
+    return $data;
+}
+
+
 // Cient Information
 $Client_FName;
 $Client_MName;

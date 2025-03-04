@@ -91,13 +91,113 @@ class controller extends db
 
     protected function fetchinng_pending_booking($BookingID, $Status)
     {
+
+        $query = "";
+
         if ($BookingID == "0") {
+
+            if ($Status === "All") {
+                $query = "
+                SELECT 
+                   `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
+                   `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+                   `cpsu_be`.`tbluser`.`FName` AS `FName`,
+                   `cpsu_be`.`tbluser`.`MName` AS `MName`,
+                   `cpsu_be`.`tbluser`.`LName` AS `LName`,
+                   `cpsu_be`.`tbluser`.`Age` AS `Age`,
+                   `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
+                   `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
+                   `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
+                   `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
+                   `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
+                   `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
+                   `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
+                   `cpsu_be`.`tblbooking`.`Services` AS `Services`,
+                   `cpsu_be`.`tblbooking`.`Date` AS `Date`,
+                   `cpsu_be`.`tblbooking`.`Time` AS `Time`,
+                   `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+                   `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+                   `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+                   `cpsu_be`.`tblbooking`.`Status` AS `Status`
+               FROM
+                   (`cpsu_be`.`tbluser`
+                   JOIN `cpsu_be`.`tblbooking`)
+               WHERE
+                   `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  IN (Done, Cancelled)
+               ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+               
+               ";
+            } else {
+
+                $query = "
+            SELECT 
+               `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
+               `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+               `cpsu_be`.`tbluser`.`FName` AS `FName`,
+               `cpsu_be`.`tbluser`.`MName` AS `MName`,
+               `cpsu_be`.`tbluser`.`LName` AS `LName`,
+               `cpsu_be`.`tbluser`.`Age` AS `Age`,
+               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
+               `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
+               `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
+               `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
+               `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
+               `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
+               `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
+               `cpsu_be`.`tblbooking`.`Services` AS `Services`,
+               `cpsu_be`.`tblbooking`.`Date` AS `Date`,
+               `cpsu_be`.`tblbooking`.`Time` AS `Time`,
+               `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+               `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+               `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+               `cpsu_be`.`tblbooking`.`Status` AS `Status`
+           FROM
+               (`cpsu_be`.`tbluser`
+               JOIN `cpsu_be`.`tblbooking`)
+           WHERE
+               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  = ?
+           ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+           
+           ";
+            }
 
             $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `ArtistUserID`=? AND `Status`=? ");
             $stmt->execute([$_COOKIE['UserID'], $Status]);
             return $stmt;
         } else {
-            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `ArtistUserID`=? AND `RowNum`=? AND `Status`=?  ");
+
+            $query = "
+            SELECT 
+               `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
+               `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+               `cpsu_be`.`tbluser`.`FName` AS `FName`,
+               `cpsu_be`.`tbluser`.`MName` AS `MName`,
+               `cpsu_be`.`tbluser`.`LName` AS `LName`,
+               `cpsu_be`.`tbluser`.`Age` AS `Age`,
+               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
+               `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
+               `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
+               `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
+               `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
+               `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
+               `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
+               `cpsu_be`.`tblbooking`.`Services` AS `Services`,
+               `cpsu_be`.`tblbooking`.`Date` AS `Date`,
+               `cpsu_be`.`tblbooking`.`Time` AS `Time`,
+               `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+               `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+               `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+               `cpsu_be`.`tblbooking`.`Status` AS `Status`
+           FROM
+               (`cpsu_be`.`tbluser`
+               JOIN `cpsu_be`.`tblbooking`)
+           WHERE
+               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`RowNum` = ? AND  `cpsu_be`.`tblbooking`.`Status`  = ?
+           ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+           
+           ";
+
+            $stmt = $this->PlsConnect()->prepare($query);
             $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
             return $stmt;
         }
@@ -362,7 +462,7 @@ class controller extends db
         }
     }
 
-    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome)
+    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $Date, $Time, $SampleOutcome)
     {
         try {
 
@@ -371,11 +471,11 @@ class controller extends db
 
 
             //Checking if already book
-            $checking = $this->PlsConnect()->prepare("SELECT * FROM `tblbooking` WHERE `ArtistUserID`=? AND `UserID` = ? AND `Services`=?  ");
-            $checking->execute([$ArtistUserID, $UserID, $Services]);
+            $checking = $this->PlsConnect()->prepare("SELECT * FROM `tblbooking` WHERE `UserID` = ? AND  `Status` IN ('Pending', 'Accept') ");
+            $checking->execute([$UserID]);
 
             if ($checking->rowCount() != 0) {
-                return "Already Book";
+                return "Have pending booked. Please try again later";
             } else {
 
                 //Checking if null image
@@ -395,8 +495,8 @@ class controller extends db
                     }
                 }
 
-                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,Date,Time,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?,?,?) ");
-                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, $Date, $Time, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
+                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,TypeService,Date,Time,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?,?,?,?) ");
+                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, $TypeServices, $Date, $Time, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
 
                 if ($insert) {
                     return 1;
@@ -456,7 +556,7 @@ class controller extends db
             a.UserID,
             a.ServicesName,
             a.Price,
-            (SELECT Images FROM `tblprofimages` WHERE UserID = a.UserID) AS Images
+            (SELECT Description FROM `tbldescription` WHERE UserID = a.UserID AND ServicesName = a.ServicesName) AS Description
         FROM 
             `tblservices` a 
         WHERE 
@@ -470,6 +570,24 @@ class controller extends db
     {
         $stmt = $this->PlsConnect()->prepare("SELECT * FROM tblbooking WHERE `ArtistUserID`=? AND `UserID`=? AND `Status`!='Declined'  ");
         $stmt->execute([$ArtistUserID, $_COOKIE['UserID']]);
+        return $stmt;
+    }
+
+
+    protected function fetch_services_image($servicesName, $servicesUserID)
+    {
+        $stmt = $this->PlsConnect()->prepare("SELECT Images FROM tblprofimages WHERE ServicesName=? AND UserID=?");
+        $stmt->execute([$servicesName, $servicesUserID]);
+        return $stmt;
+    }
+
+    protected function avail_date_res($ArtistUserID)
+    {
+        $query = "SELECT date FROM `tblreservedate` WHERE CURDATE() <= `date` AND UserID = ?";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$ArtistUserID]);
+
         return $stmt;
     }
 

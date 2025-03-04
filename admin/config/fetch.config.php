@@ -1,22 +1,26 @@
 <?php
 
-class fetch extends controller {
-    
-    public function fetchInfoUser($UserID){
+class fetch extends controller
+{
+
+	public function fetchInfoUser($UserID)
+	{
 		$stmt = $this->fetch_info_user($UserID);
 		return $stmt;
 	}
 
 
-    public function fetchClientArtist($TypeUser){
+	public function fetchClientArtist($TypeUser)
+	{
 		$stmt = $this->fetch_client_artist($TypeUser);
 		return $stmt;
 	}
 
-    public function viewUser($user_id){
+	public function viewUser($user_id)
+	{
 		$stmt = $this->view_user($user_id);
 
-		if($stmt->rowCount()){
+		if ($stmt->rowCount()) {
 			$fetch_info = $stmt->fetch();
 
 			$data = [
@@ -25,18 +29,20 @@ class fetch extends controller {
 			];
 			echo json_encode($data);
 			return false;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-    public function countUser($TypeUser,$Status){
-		$stmt = $this->count_user($TypeUser,$Status);
-		if($stmt->rowCount()){
+	public function countUser($TypeUser, $Status)
+	{
+		$stmt = $this->count_user($TypeUser, $Status);
+		if ($stmt->rowCount()) {
 			echo $stmt->rowCount();
-		}else{
+		} else {
 			echo "0";
 		}
 	}
 
+	
 }

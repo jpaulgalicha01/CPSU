@@ -5,7 +5,7 @@ class insert extends controller
 	// ------------------------- Artist Side -------------------------//
 	public function insertServices($ServicesName, $ServicePrice, $ServicesPolicy)
 	{
-		$stmt = $this->insert_services($ServicesName, $ServicePrice,$ServicesPolicy);
+		$stmt = $this->insert_services($ServicesName, $ServicePrice, $ServicesPolicy);
 
 		if ($stmt) {
 			if ($stmt !== 1) {
@@ -129,9 +129,9 @@ class insert extends controller
 		}
 	}
 
-	public function clientBooking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome)
+	public function clientBooking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $Date, $Time, $SampleOutcome)
 	{
-		$stmt = $this->client_booking($ArtistUserID, $UserID, $Address, $Services, $Date, $Time, $SampleOutcome);
+		$stmt = $this->client_booking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $Date, $Time, $SampleOutcome);
 
 		if ($stmt) {
 			if ($stmt !== 1) {

@@ -49,7 +49,6 @@ if (isset($_COOKIE['UserID'])) {
 </div>
 <!-- Navbar End -->
 
-<!-- Shop Detail Start -->
 <div class="container-fluid py-5">
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
@@ -136,7 +135,6 @@ if (isset($_COOKIE['UserID'])) {
             </div>
 
 
-
             <div class="d-flex align-items-center mb-4 pt-2 gap-2">
                 <button class="btn btn-primary px-3" id="bookingbtn" value="" onclick="checkingLogin()" <?= $count == 1 ? "disabled" : "" ?>>
                     <i class="fa fa-<?= $count == 1 ? "check" : "bookmark" ?>" aria-hidden="true"></i> <?= $count == 1 ? "Booked" : "Request Bookmark" ?></button>
@@ -153,7 +151,7 @@ if (isset($_COOKIE['UserID'])) {
     <div class="row px-xl-5">
         <div class="col">
             <div class="nav nav-tabs justify-content-start border-secondary mb-4">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Description</a>
+                <a class="nav-item nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Reviews</a>
             </div>
             <div class="tab-content">
 
@@ -203,7 +201,6 @@ if (isset($_COOKIE['UserID'])) {
         </div>
     </div>
 </div>
-<!-- Shop Detail End -->
 
 <div class="container-fluid py-5">
     <div class="text-center mb-4">
@@ -212,32 +209,72 @@ if (isset($_COOKIE['UserID'])) {
     <div class="row px-xl-5">
         <div class="col">
             <div class="owl-carousel related-carousel">
-
                 <?php
                 $fetchArtistServices = new fetch();
                 $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']));
 
                 if ($resfetchArtistServices->rowCount() != 0) {
+                    $carouselIndex = 0; // Initialize counter for unique carousel IDs
                     while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
+                        $carouselID = "carouselExampleIndicators_" . $carouselIndex; // Unique ID
                 ?>
                         <div class="card product-item border-0">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="uploads/<?= $rowfetchArtistServices['Images'] ?>" alt="">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border py-2 d-flex justify-content-center">
+                                <div id="<?= $carouselID ?>" class="carousel slide">
+                                    <div class="carousel-inner text-center">
+                                        <?php
+                                        $fetchServicesImage = new fetch();
+                                        $resfetchServicesImage = $fetchServicesImage->fetchServicesImage($rowfetchArtistServices['ServicesName'], $_GET['UserID']);
+
+                                        if ($resfetchServicesImage->rowCount() != 0) {
+                                            $isFirst = true; // Track the first item
+                                            while ($rowfetchServicesImage = $resfetchServicesImage->fetch()) {
+                                        ?>
+                                                <div class="carousel-item <?= $isFirst ? 'active' : '' ?>">
+                                                    <img width="300" height="300" src="uploads/<?= $rowfetchServicesImage['Images'] ?>" alt="Image" class="d-block w-100">
+                                                </div>
+                                            <?php
+                                                $isFirst = false;
+                                            }
+                                        } else {
+                                            ?>
+                                            <div class="carousel-item active">
+                                                <img class="w-100 h-100" src="uploads/default.png" alt="Image">
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#<?= $carouselID ?>" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#<?= $carouselID ?>" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3"><?= $rowfetchArtistServices['ServicesName'] ?></h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>₱<?= $rowfetchArtistServices['Price'] ?></h6>
+                                <h3 class="text-truncate mb-3"><?= htmlspecialchars($rowfetchArtistServices['ServicesName']) ?></h3>
+                                <div class="d-grid justify-content-center gap-3">
+                                    <h6>₱<?= htmlspecialchars($rowfetchArtistServices['Price']) ?></h6>
+                                    <div>
+                                        <span>Policy</span>
+                                        <h6><?= htmlspecialchars($rowfetchArtistServices['Description']) ?></h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                 <?php
+                        $carouselIndex++; // Increment the index for the next carousel
                     }
                 } else {
                     echo "<p>No Services Found</p>";
                 }
                 ?>
             </div>
+
         </div>
     </div>
 </div>
@@ -300,8 +337,41 @@ if (isset($_COOKIE['UserID'])) {
                                         </select>
                                     </div>
                                     <div>
-                                        <label for="">Date:</label>
-                                        <input type="date" name="date" id="date" class="form-control" required>
+                                        <label for="typeServices">Type of Service</label>
+                                        <select name="typeServices" id="typeServices" class=" form-control " required>
+                                            <option value="" disabled selected>---- Please Select ----</option>
+                                            <option>Home Service</option>
+                                            <option>None</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <!-- <label for="">Date:</label>
+                                        <input type="date" name="date" id="date" class="form-control" required> -->
+
+
+                                        <label for="date">Available Date</label>
+                                        <select name="date" id="date" class=" form-control " required>
+                                            <?php
+                                            $availDateRes = new fetch();
+                                            $res_availDateRes = $availDateRes->availDateRes(secured($_GET['UserID']));
+
+                                            if ($res_availDateRes->rowCount() != 0) {
+                                                echo "<option value='' selected disabled>-- Please Select --</option>";
+                                                while ($row_availDateRes = $res_availDateRes->fetch()) {
+                                            ?>
+                                                    <option value="<?= $row_availDateRes['date'] ?>">
+                                                        <?= FormatDate("F d, Y", $row_availDateRes['date']) ?>
+                                                    </option>
+                                            <?php
+                                                }
+                                            } else {
+                                                echo "<option value= '' selected disbaled> -- No Available Date Found--</option>";
+                                            }
+
+
+                                            ?>
+
+                                        </select>
                                     </div>
                                     <div>
                                         <label for="">Time:</label>
@@ -390,11 +460,6 @@ if (isset($_COOKIE['UserID'])) {
 </div>
 </div>
 
-
-
-
-
-
 <script>
     const SampleOutcome = document.getElementById("SampleOutcome");
     SampleOutcome.addEventListener('input', function() {
@@ -475,7 +540,7 @@ if (isset($_COOKIE['UserID'])) {
                     }).then(() => {
                         $("#bookingModal").modal('hide');
                         document.getElementById("bookingbtn").disabled = true;
-                        $("#bookingbtn").html("<i class='fa fa-check' aria-hidden='true'></i> Reserved");
+                        $("#bookingbtn").html("<i class='fa fa-check' aria-hidden='true'></i> Booked");
                     });
                 } else if (res.status == 302) {
                     const Toast = Swal.mixin({

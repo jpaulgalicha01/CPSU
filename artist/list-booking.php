@@ -3,8 +3,8 @@ include 'includes/autoload.inc.php';
 
 unset($_SESSION['title']);
 unset($_SESSION['Active_Navigate']);
-$_SESSION['title'] = "Accept List Booking";
-$_SESSION['Active_Navigate'] = "Accept List Booking";
+$_SESSION['title'] = "List Booking";
+$_SESSION['Active_Navigate'] = "List Booking";
 
 include 'includes/header.php';
 include 'includes/navbar.php';
@@ -12,14 +12,30 @@ include 'includes/navbar.php';
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Accept List Booking</h1>
+    <h1 class="h3 mb-2 text-gray-800">List Booking</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Accept List Of Booking</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List Of Booking</h6>
         </div>
         <div class="card-body">
+            <div class="mb-5">
+                <div class="d-grid align-items-center">
+                    <div class="w-50 mb-2">
+                        <label for="Status" class="mr-1">Status :</label>
+                        <select id="Status" class="form-control mr-2">
+                            <option>All</option>
+                            <option>Done</option>
+                            <option>Cancelled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" id="filterBtn">Filter</button>
+                    </div>
+
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -34,53 +50,7 @@ include 'includes/navbar.php';
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                        <?php
-                        $fetchinngPendingBooking = new fetch();
-                        $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Accept");
-
-                        if ($resfetchinngPendingBooking->rowCount() != 0) {
-                            while ($rowfetchinngPendingBooking = $resfetchinngPendingBooking->fetch()) {
-                                $TDate = date('m/d/Y', strtotime(($rowfetchinngPendingBooking['TDate'])));
-
-                        ?>
-                                <tr>
-                                    <td><?= $TDate ?></td>
-                                    <td><?= $rowfetchinngPendingBooking['FName'] ?>
-                                        <?= $rowfetchinngPendingBooking['MName'] ?>
-                                        <?= $rowfetchinngPendingBooking['LName'] ?>
-                                    </td>
-                                    <td><?= $rowfetchinngPendingBooking['Age'] ?></td>
-                                    <td><?= date('F d,Y', strtotime(($rowfetchinngPendingBooking['Birthdate']))) ?></td>
-                                    <td><?= $rowfetchinngPendingBooking['CompleteAddress'] ?></td>
-                                    <td>+63<?= $rowfetchinngPendingBooking['ContactNumber'] ?></td>
-                                    <td>
-                                        <?php
-                                        if ($rowfetchinngPendingBooking['SampleOutcomeImg'] != "NA") {
-                                        ?>
-                                            <a href="../ploads/<?= $rowfetchinngPendingBooking['SampleOutcomeImg'] ?>"
-                                                target="_bulank">View Here !</a>
-
-                                        <?php
-                                        } else {
-                                            echo "NA";
-                                        }
-                                        ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-success btn-sm rounded"
-                                            value="<?= $rowfetchinngPendingBooking['RowNum'] ?>" id="showBookingInfo"><i
-                                                class="fa fa-eye"></i></button>
-                                    </td>
-                                </tr>
-                        <?php
-                            }
-                        } else {
-                            echo "<tr><td colspan='8' class='text-center'>No Data Found</td></tr>";
-                        }
-                        ?>
-
+                    <tbody id="result">
 
                     </tbody>
                 </table>
@@ -89,7 +59,6 @@ include 'includes/navbar.php';
     </div>
 </div>
 <!-- /.container-fluid -->
-
 
 <!-- view booking Modal-->
 <div class="modal fade" id="viewBooking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -102,7 +71,9 @@ include 'includes/navbar.php';
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="">
+            <form action="inputConfig.php" method="POST">
+                <input type="hidden" name="function" value="booking_action">
+                <input type="hidden" name="ClientUserID" id="ClientUserID">
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
@@ -113,9 +84,9 @@ include 'includes/navbar.php';
                                     </div>
                                     <div class="col py-lg-0 py-3">
                                         <h5>Client Information</h5>
-                                        <label for="Services">Services: </label>
+                                        <label for="FullName">Services: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="Services"></p>
-                                        <label for="DateTime">Date & Time: </label>
+                                        <label for="FullName">Date & Time: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="DateTime"></p>
                                         <label for="FullName">Name: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="FullName"></p>
@@ -127,15 +98,12 @@ include 'includes/navbar.php';
                                         <p class="mb-1 view-user-modal font-weight-bold" id="CivilStatus"></p>
                                         <label for="CompleteAddress">Complete Address: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="CompleteAddress"></p>
-                                        <div class="d-flex">
-                                            <label for="status" class="mr-2">Status: </label>
-                                            <p class="mb-1 view-user-modal font-weight-bold">
-                                                <span class="bg-success p-1 rounded text-white" id="status"></span>
-                                            </p>
-                                        </div>
-                                        <select name="status" id="status" class="form-control mt-2">
-                                            <option>Done</option>
-                                            <option>Cancelled</option>
+                                        <label for="CompleteAddress">Pin Location: </label>
+                                        <a href="#" class="mb-1 view-user-modal">Click Here!</a>
+                                        <select name="status" id="status" class="form-control">
+                                            <option>Pending</option>
+                                            <option>Accept</option>
+                                            <option>Declined</option>
                                         </select>
                                     </div>
                                 </div>
@@ -144,20 +112,45 @@ include 'includes/navbar.php';
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success" name="booking_action">Submit</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success" name="booking_action">Submit</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
 
 <script>
+    // $(document).ready(function() {
+    //     $("#Status").change(function() {
+    //         const value = $(this).val();
+
+
+    //         $.get("list-booking-data.php", {
+    //             status: value
+    //         }, function(data) {
+    //             $("#result").html(data);
+    //         })
+
+    //     })
+    //     $("#Status").trigger("change")
+
+    // })
+
+    $(document).on("click", "#filterBtn", function() {
+        var status = document.getElementById("Status").value
+        $.get("list-booking-data.php", {
+            status: status
+        }, function(data) {
+            $("#result").html(data);
+        })
+    })
+
+
     $(document).on("click", "#showBookingInfo", function() {
         var value = $(this).val();
 
-        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Accept`, function(data) {
+        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Pending`, function(data) {
                 var res = jQuery.parseJSON(data);
 
                 if (res.status == 200) {
@@ -172,7 +165,7 @@ include 'includes/navbar.php';
 
                     $("#CivilStatus").text(res.data['CivilStatus']);
                     $("#CompleteAddress").text(res.data['CompleteAddress']);
-                    $("#status").text(res.data['Status']);
+                    $("#status").val(res.data['Status']);
                 } else {
                     alert(res.message)
                 }
