@@ -15,37 +15,37 @@ include 'includes/navbar.php';
                 </div>
                 <div class="carousel-inner bg-dark">
                     <div class="carousel-item active" style="max-height:80vh; ">
-                    <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div >
-                        <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                        <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                            application for cosmetic services</h4>
-                        <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
-                    </div>
-                </div>
-                    </div>
-                    <div class="carousel-item"  style="max-height:80vh; ">
-                    <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div >
-                        <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                        <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                            application for cosmetic services</h4>
-                        <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
-                    </div>
-                </div>
+                        <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
+                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
+                                    application for cosmetic services</h4>
+                                <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="carousel-item" style="max-height:80vh; ">
-                    <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5"  class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div >
-                        <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                        <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                            application for cosmetic services</h4>
-                        <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
+                        <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
+                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
+                                    application for cosmetic services</h4>
+                                <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="carousel-item" style="max-height:80vh; ">
+                        <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
+                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
+                                    application for cosmetic services</h4>
+                                <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -61,10 +61,9 @@ include 'includes/navbar.php';
     </div>
 </div>
 <!-- Banner -->
-
-
+    
 <!-- Featured Start -->
-<div class="container-fluid pt-5">
+<!-- <div class="container-fluid pt-5">
     <div class="row px-xl-5 pb-3">
         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
             <div class="d-flex align-items-center justify-content-center border mb-4" style="padding: 30px;">
@@ -91,7 +90,7 @@ include 'includes/navbar.php';
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Featured Start -->
 
 
@@ -100,35 +99,35 @@ include 'includes/navbar.php';
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Top 3 Artist</span></h2>
     </div>
-    
+
     <div class="row px-xl-5 pb-3">
         <?php
-            $fetch_artist = new fetch();
-            $res = $fetch_artist->fetchArtist();
+        $fetch_artist = new fetch();
+        $res = $fetch_artist->fetchArtist();
 
-            if ($res->rowCount() != 0) {
-                while ($row = $res->fetch()) {
-                    ?>
-            <div class="col-xl-4 col-md-6 col-12 mb-2">
-                <div class="card rounded shadow-lg p-2">
-                    <div class="card-body ">
-                        <a href="view-info.php?UserID=<?= $row['UserID'] ?>"
-                            class="d-flex justify-content-center mb-3 img-prof hover-box" >
-                            <img class="img-fluid" src="uploads/<?= $row['ProfImg'] ?>" alt="">
-                            <p class="hover-text btn btn-primary">See more..</p>
-                        </a>
-                        <h5 class="font-weight-semi-bold m-0"><?= $row['FName'] ?> <?= $row['MName'] ?> <?= $row['LName'] ?></h5>
-                        <p class="font-weight-semi-bold m-0"><?= $row['CompleteAddress'] ?></p>
-                        <span>⭐5.0</span>
+        if ($res->rowCount() != 0) {
+            while ($row = $res->fetch()) {
+        ?>
+                <div class="col-xl-4 col-md-6 col-12 mb-2">
+                    <div class="card rounded shadow-lg p-2">
+                        <div class="card-body ">
+                            <a href="view-info.php?UserID=<?= $row['UserID'] ?>"
+                                class="d-flex justify-content-center mb-3 img-prof hover-box">
+                                <img class="img-fluid" src="uploads/<?= $row['ProfImg'] ?>" alt="">
+                                <p class="hover-text btn btn-primary">See more..</p>
+                            </a>
+                            <h5 class="font-weight-semi-bold m-0"><?= $row['FName'] ?> <?= $row['MName'] ?> <?= $row['LName'] ?></h5>
+                            <p class="font-weight-semi-bold m-0"><?= $row['CompleteAddress'] ?></p>
+                            <span>⭐5.0</span>
+                        </div>
                     </div>
                 </div>
-            </div>
         <?php
-                }
-            } else {
-                echo "No Artist Available";
             }
-            ?>
+        } else {
+            echo "No Artist Available";
+        }
+        ?>
     </div>
 
     <!-- <div class="row px-xl-5 pb-3">

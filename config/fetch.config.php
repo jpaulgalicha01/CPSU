@@ -167,6 +167,21 @@ class fetch extends controller
         echo json_encode($fetchingData);
         return false;
     }
+
+
+    public function fetchServicesImage($servicesName, $servicesUserID)
+    {
+
+        $stmt = $this->fetch_services_image($servicesName, $servicesUserID);
+        return $stmt;
+    }
+
+
+    public function availDateRes($ArtistUserID){
+        $stmt = $this->avail_date_res($ArtistUserID);
+
+        return $stmt;
+    }
     // ------------------------- Client Side -------------------------//
 
 
