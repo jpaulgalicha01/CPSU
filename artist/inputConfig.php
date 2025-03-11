@@ -4,12 +4,13 @@ include 'includes/autoload.inc.php';
 if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET") {
 
   if (isset($_POST['creating_services']) && secured($_POST['function'] == "creating_services")) {
+    $ServiceCatNo = secured($_POST['ServiceCatNo']);
     $ServicesName = secured($_POST['ServicesName']);
     $ServicePrice = secured($_POST['ServicePrice']);
     $ServicesPolicy = secured($_POST["ServicesPolicy"]);
 
     $AddServices = new insert();
-    $AddServices->insertServices($ServicesName, $ServicePrice, $ServicesPolicy);
+    $AddServices->insertServices($ServiceCatNo, $ServicesName, $ServicePrice, $ServicesPolicy);
   } else if (isset($_REQUEST['ServicesId'])) {
     $ServicesId = secured($_REQUEST['ServicesId']);
 
@@ -30,9 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
   } else if (isset($_POST['booking_action']) && secured($_POST['function'] == "booking_action")) {
     $ClientUserID = secured($_POST['ClientUserID']);
     $status = secured($_POST['status']);
+    $itemNo = secured($_POST["ItemNo"]);
 
     $update_booking = new update();
-    $res_update_booking = $update_booking->updateBooking($ClientUserID, $status);
+    $res_update_booking = $update_booking->updateBooking($ClientUserID, $status, $itemNo);
   } else if (isset($_POST['change_profile']) && secured($_POST['function'] == "change_profile")) {
     $change_img = $_FILES['change_img']['name'];
 
@@ -78,18 +80,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
     $insertDateSched->insertDateSched($selectedDates);
   } else if (isset($_GET["profImageProfile"])) {
     $value = secured($_GET["profImageProfile"]);
+    $ServiceName = secured($_GET["ServiceName"]);
 
     $fetchingProfImg = new fetch();
-    $resfetchingProfImg = $fetchingProfImg->fetchingProfImg($value);
+    $resfetchingProfImg = $fetchingProfImg->fetchingProfImg($value, $ServiceName);
   } else if (isset($_POST["edit_services"]) && secured($_POST['function'] == "edit_services")) {
     $servicesID = secured($_POST["servicesID"]);
     $prevServicesName = secured($_POST["prevServicesName"]);
-    $editServicesName = secured($_POST["editServicesName"]);
+    $editServiceCatNo = secured($_POST["prevServicesCat"]);
     $editServicePrice = secured($_POST["editServicePrice"]);
+    $editServicesName = secured($_POST["prevServicesName"]);
     $editServicesPolicy = secured($_POST["editServicesPolicy"]);
 
     $editservices = new update();
-    $reseditservices = $editservices->editservices($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy);
+    $reseditservices = $editservices->editservices($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
   } else if (isset($_GET["deleteServicesImg"]) && isset($_GET["servicesName"]) && $_GET["function"] == "deleteServicesImg") {
     $imgRowNum = secured($_GET["deleteServicesImg"]);
     $servicesName = secured($_GET["servicesName"]);
@@ -98,12 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
     $resdeleteImg = $deleteImg->deleteImg($imgRowNum, $servicesName);
   } else if (isset($_POST["editProfImg"]) && $_POST["function"] === "editProfImg") {
 
+    $servicesCatNo = secured($_POST["servicesCatNo"]);
     $servicesName = secured($_POST["servicesName"]);
 
     $add_profile_images = new insert();
-    $add_profile_images->addProfileImages($servicesName);
-
-
+    $add_profile_images->addProfileImages($servicesCatNo, $servicesName);
   } else {
     ob_end_flush(header("Location: index.php"));
   }

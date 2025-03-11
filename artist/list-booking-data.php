@@ -35,6 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         }
                         ?>
                     </td>
+                    <td>
+                        <p class="bg-<?= ($rowfetchinngPendingBooking["Status"] == "Done") ? "success" : "danger" ?> p-1 text-white text-center"><?= $rowfetchinngPendingBooking["Status"] ?></p>
+                    </td>
                     <td class="text-center">
                         <button class="btn btn-success btn-sm rounded"
                             value="<?= $rowfetchinngPendingBooking['RowNum'] ?>" id="showBookingInfo"><i

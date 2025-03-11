@@ -4,12 +4,13 @@ include '../dbConnection/ClsConnection.php';
 
 spl_autoload_register("Autoload");
 
-function Autoload($classname){
+function Autoload($classname)
+{
 	$path = "../config/";
 	$extenstion = ".config.php";
 	$full_path = $path . $classname . $extenstion;
 
-	if(!file_exists($full_path)){
+	if (!file_exists($full_path)) {
 		return false;
 	}
 	include_once $full_path;
@@ -30,7 +31,7 @@ $user_uname = "";
 
 $fetch_info_user = new fetch();
 $res_fetch_info_user = $fetch_info_user->fetchInfoUser($UserID);
-if($res_fetch_info_user->rowCount()){
+if ($res_fetch_info_user->rowCount()) {
 	$res = $res_fetch_info_user->fetch();
 
 	// $user_profile = $fetch_info_admin['acc_profile'];
@@ -43,5 +44,9 @@ if($res_fetch_info_user->rowCount()){
 	// $user_email = $fetch_info_admin['acc_email'];
 	// $user_uname = $fetch_info_admin['acc_uname'];
 
-	$UserName = $res['LName']. ", ".$res['FName'];
+	$UserName = $res['LName'] . ", " . $res['FName'];
 }
+
+$messege;
+$messageCount = new fetch();
+$messege = $messageCount->messageCount();

@@ -2,9 +2,9 @@
 class update extends controller
 {
 	// ------------------------- Admin Side -------------------------//
-	public function updateBooking($ClientUserID, $status)
+	public function updateBooking($ClientUserID, $status, $itemNo)
 	{
-		$stmt = $this->update_booking($ClientUserID, $status);
+		$stmt = $this->update_booking($ClientUserID, $status, $itemNo);
 
 		if (!$stmt) {
 			$_SESSION['alert'] = "Show";
@@ -77,9 +77,9 @@ class update extends controller
 
 	// ------------------------- Artist Side -------------------------//
 
-	public function editservices($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy)
+	public function editservices($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
 	{
-		$stmt = $this->edit_services($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy);
+		$stmt = $this->edit_services($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
 
 		if (!$stmt) {
 			$_SESSION['alert'] = "Show";
@@ -101,4 +101,11 @@ class update extends controller
 
 	// ------------------------- Artist Side -------------------------//
 
+
+
+	public function checkingBooking()
+	{
+		$stmt = $this->checking_booking();
+		return $stmt;
+	}
 }

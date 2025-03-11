@@ -26,8 +26,8 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
         $FName = $rowfetchingArtistiInfo['FName'];
         $MName = $rowfetchingArtistiInfo['MName'];
         $LName = $rowfetchingArtistiInfo['LName'];
-        $Age = $rowfetchingArtistiInfo['Age'];
-        $Birthdate = date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate']));
+        $Age = ($rowfetchingArtistiInfo['Age'] != "0") ? $rowfetchingArtistiInfo['Age'] : "";
+        $Birthdate = ($rowfetchingArtistiInfo['Age'] != "0") ? date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate'])) : "";
         $CivilStatus = $rowfetchingArtistiInfo['CivilStatus'];
         $CompleteAddress = $rowfetchingArtistiInfo['CompleteAddress'];
     }
@@ -39,9 +39,15 @@ if ($resfetchingArtistiInfo->rowCount() != 0) {
 $count = 0;
 if (isset($_COOKIE['UserID'])) {
     $checkingBookmark = new fetch();
-    $rescheckingBookmark = $checkingBookmark->checkingBookmark($UserID);
+    $rescheckingBookmark = $checkingBookmark->checkingBookmark();
 
-    $count =  $rescheckingBookmark->rowCount();
+    while ($rowcheckingBookmark = $rescheckingBookmark->fetch()) {
+        if ($rowcheckingBookmark['Status'] == "Done" || $rowcheckingBookmark['Status'] == "Cancelled" || $rowcheckingBookmark['Status'] == "Declined") {
+            $count = 0;
+        } else {
+            $count = 1;
+        }
+    }
 }
 
 ?>
@@ -211,12 +217,12 @@ if (isset($_COOKIE['UserID'])) {
             <div class="owl-carousel related-carousel">
                 <?php
                 $fetchArtistServices = new fetch();
-                $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']));
+                $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']), "0");
 
                 if ($resfetchArtistServices->rowCount() != 0) {
-                    $carouselIndex = 0; // Initialize counter for unique carousel IDs
+                    $carouselIndex = 0;
                     while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
-                        $carouselID = "carouselExampleIndicators_" . $carouselIndex; // Unique ID
+                        $carouselID = "carouselExampleIndicators_" . $carouselIndex;
                 ?>
                         <div class="card product-item border-0">
                             <div class="card-header product-img position-relative overflow-hidden bg-transparent border py-2 d-flex justify-content-center">
@@ -227,7 +233,7 @@ if (isset($_COOKIE['UserID'])) {
                                         $resfetchServicesImage = $fetchServicesImage->fetchServicesImage($rowfetchArtistServices['ServicesName'], $_GET['UserID']);
 
                                         if ($resfetchServicesImage->rowCount() != 0) {
-                                            $isFirst = true; // Track the first item
+                                            $isFirst = true;
                                             while ($rowfetchServicesImage = $resfetchServicesImage->fetch()) {
                                         ?>
                                                 <div class="carousel-item <?= $isFirst ? 'active' : '' ?>">
@@ -256,7 +262,7 @@ if (isset($_COOKIE['UserID'])) {
                                 </div>
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h3 class="text-truncate mb-3"><?= htmlspecialchars($rowfetchArtistServices['ServicesName']) ?></h3>
+                                <h3 class="text-truncate mb-3"><?= htmlspecialchars(($rowfetchArtistServices["ServiceOtherName"] == "Other") ? $rowfetchArtistServices['ServicesName'] . "(" . $rowfetchArtistServices["ServiceOtherName"] . ")" : $rowfetchArtistServices['ServiceOtherName']) ?></h3>
                                 <div class="d-grid justify-content-center gap-3">
                                     <h6>₱<?= htmlspecialchars($rowfetchArtistServices['Price']) ?></h6>
                                     <div>
@@ -315,69 +321,91 @@ if (isset($_COOKIE['UserID'])) {
                                     <input type="text" name="Address" id="Address" class="form-control" value="<?= $Client_CompleteAddress ?>">
                                 </div>
 
-                                <div class="d-md-flex d-sm-grid form-group" style="gap:20px">
-                                    <div>
-                                        <label for="Services">Services</label>
-                                        <select name="Services" id="Services" class=" form-control " required>
-                                            <?php
-                                            $fetchArtistServices = new fetch();
-                                            $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']));
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="Services">Services</label>
+                                            <select name="Services" id="Services" class=" form-control " required>
+                                                <?php
+                                                $fetchArtistServices = new fetch();
+                                                $resfetchArtistServices = $fetchArtistServices->fetchArtistServices(secured($_GET['UserID']), "1");
 
-                                            if ($resfetchArtistServices->rowCount() != 0) {
-                                                echo "<option value='' selected disabled>-- Please Select --</option>";
-                                                while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
-                                            ?>
-                                                    <option><?= $rowfetchArtistServices['ServicesName'] ?></option>
-                                            <?php
+                                                if ($resfetchArtistServices->rowCount() != 0) {
+                                                    echo "<option value='' selected disabled>-- Please Select --</option>";
+                                                    while ($rowfetchArtistServices = $resfetchArtistServices->fetch()) {
+                                                ?>
+                                                        <option value="<?= secured($_GET['UserID']) . '&' . $rowfetchArtistServices["ServiceCatNo"] ?>"><?= htmlspecialchars($rowfetchArtistServices['ServicesName']) ?></option>
+
+                                                <?php
+                                                    }
+                                                } else {
+                                                    echo "<option selected disbaled> -- No Data Found--</option>";
                                                 }
-                                            } else {
-                                                echo "<option selected disbaled> -- No Data Found--</option>";
-                                            }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label for="typeServices">Type of Service</label>
-                                        <select name="typeServices" id="typeServices" class=" form-control " required>
-                                            <option value="" disabled selected>---- Please Select ----</option>
-                                            <option>Home Service</option>
-                                            <option>None</option>
-                                        </select>
+                                    <div class="col-md-6 col-12">
+                                        <div id="otherNameGroup" class="d-none">
+                                            <label for="OtherName">Other Name</label>
+                                            <select name="OtherName" id="OtherName" class="form-control ">
+                                                <option value="">---Please Select</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <!-- <label for="">Date:</label>
-                                        <input type="date" name="date" id="date" class="form-control" required> -->
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-md-4 col-12">
 
-                                        <label for="date">Available Date</label>
-                                        <select name="date" id="date" class=" form-control " required>
-                                            <?php
-                                            $availDateRes = new fetch();
-                                            $res_availDateRes = $availDateRes->availDateRes(secured($_GET['UserID']));
+                                        <div class="mx-auto ">
+                                            <label for="typeServices">Type of Service</label>
+                                            <select name="typeServices" id="typeServices" class="form-control " required>
+                                                <option value="" disabled selected>---- Please Select ----</option>
+                                                <option>Home Service</option>
+                                                <option>None</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                            if ($res_availDateRes->rowCount() != 0) {
-                                                echo "<option value='' selected disabled>-- Please Select --</option>";
-                                                while ($row_availDateRes = $res_availDateRes->fetch()) {
-                                            ?>
-                                                    <option value="<?= $row_availDateRes['date'] ?>">
-                                                        <?= FormatDate("F d, Y", $row_availDateRes['date']) ?>
-                                                    </option>
-                                            <?php
+                                    <div class="col-md-4 col-12">
+
+                                        <div class="mx-auto ">
+
+                                            <label for="date">Available Date</label>
+                                            <select name="date" id="date" class=" form-control " required>
+                                                <?php
+                                                $availDateRes = new fetch();
+                                                $res_availDateRes = $availDateRes->availDateRes(secured($_GET['UserID']));
+
+                                                if ($res_availDateRes->rowCount() != 0) {
+                                                    echo "<option value='' selected disabled>-- Please Select --</option>";
+                                                    while ($row_availDateRes = $res_availDateRes->fetch()) {
+                                                ?>
+                                                        <option value="<?= $row_availDateRes['date'] ?>">
+                                                            <?= FormatDate("F d, Y", $row_availDateRes['date']) ?>
+                                                        </option>
+                                                <?php
+                                                    }
+                                                } else {
+                                                    echo "<option value= '' selected disbaled> -- No Available Date Found--</option>";
                                                 }
-                                            } else {
-                                                echo "<option value= '' selected disbaled> -- No Available Date Found--</option>";
-                                            }
 
 
-                                            ?>
+                                                ?>
 
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="">Time:</label>
-                                        <input type="time" name="time" id="time" class="form-control" required>
+                                            </select>
+                                        </div>
                                     </div>
 
+
+                                    <div class="col-md-4 col-12">
+
+                                        <div class="mx-auto ">
+                                            <label for="">Time:</label>
+                                            <input type="time" name="time" id="time" class="form-control" required>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -572,6 +600,42 @@ if (isset($_COOKIE['UserID'])) {
 
             }
         })
+    });
+
+
+
+    $(document).on("change", "#Services", function() {
+        let otherNameGroup = $("#otherNameGroup");
+
+        var value = $(this).val();
+        let values = value.split("&").map(v => v.trim());
+
+        let ArtistID = values[0];
+        let ServicesCatNo = values[1];
+
+        if (ServicesCatNo === "16") {
+            otherNameGroup.removeClass("d-none");
+
+            $.get(`inputConfig.php?ArtistID=${ArtistID}&ServicesCatNo=${ServicesCatNo}`, function(data) {
+                var res = jQuery.parseJSON(data);
+
+                if (res.status == 200) {
+                    let output = '';
+
+                    $.each(res.data, function(index, item) {
+                        output += `<option>${item.ServicesName}</option>`;
+                    });
+
+                    $("#OtherName").html(output);
+
+                } else {
+                    console.error("Error fetching Data.");
+                }
+            });
+
+        } else {
+            otherNameGroup.addClass("d-none");
+        }
     });
 </script>
 

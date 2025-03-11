@@ -44,7 +44,7 @@ include 'includes/navbar.php';
                             while ($rowfetchinngPendingBooking = $resfetchinngPendingBooking->fetch()) {
                                 $TDate = date('m/d/Y', strtotime(($rowfetchinngPendingBooking['TDate'])));
 
-                                ?>
+                        ?>
                                 <tr>
                                     <td><?= $TDate ?></td>
                                     <td><?= $rowfetchinngPendingBooking['FName'] ?>
@@ -58,11 +58,11 @@ include 'includes/navbar.php';
                                     <td>
                                         <?php
                                         if ($rowfetchinngPendingBooking['SampleOutcomeImg'] != "NA") {
-                                            ?>
+                                        ?>
                                             <a href="../uploads/<?= $rowfetchinngPendingBooking['SampleOutcomeImg'] ?>"
                                                 target="_blank">View Here !</a>
 
-                                            <?php
+                                        <?php
                                         } else {
                                             echo "NA";
                                         }
@@ -74,10 +74,8 @@ include 'includes/navbar.php';
                                                 class="fa fa-eye"></i></button>
                                     </td>
                                 </tr>
-                                <?php
+                        <?php
                             }
-                        } else {
-                            echo "<tr><td colspan='8' class='text-center'>No Data Found</td></tr>";
                         }
                         ?>
 
@@ -104,6 +102,7 @@ include 'includes/navbar.php';
             </div>
             <form action="inputConfig.php" method="POST">
                 <input type="hidden" name="function" value="booking_action">
+                <input type="hidden" name="ItemNo" id="ItemNo">
                 <input type="hidden" name="ClientUserID" id="ClientUserID">
                 <div class="modal-body">
                     <div class="container">
@@ -129,8 +128,6 @@ include 'includes/navbar.php';
                                         <p class="mb-1 view-user-modal font-weight-bold" id="CivilStatus"></p>
                                         <label for="CompleteAddress">Complete Address: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="CompleteAddress"></p>
-                                        <label for="CompleteAddress">Pin Location: </label>
-                                        <a href="#" class="mb-1 view-user-modal">Click Here!</a>
                                         <select name="status" id="status" class="form-control">
                                             <option>Pending</option>
                                             <option>Accept</option>
@@ -152,32 +149,32 @@ include 'includes/navbar.php';
 </div>
 
 <script>
-
-    $(document).on("click", "#showBookingInfo", function () {
+    $(document).on("click", "#showBookingInfo", function() {
         var value = $(this).val();
 
-        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Pending`, function (data) {
-            var res = jQuery.parseJSON(data);
+        $.get(`inputConfig.php?viewBookingInfo=${value}&Status=Pending`, function(data) {
+                var res = jQuery.parseJSON(data);
 
-            if (res.status == 200) {
-                $("#viewBooking").modal("show");
-                $("#user_profile").html("<img src='../uploads/" + res.data['ProfImg'] + "' class='img-fluid' width='250px' height='250px' />");
-                $("#Services").text(res.data['Services']);
-                $("#DateTime").text(convertDate(res.data['Date']) + " - " + convertTime(res.data['Time']));
-                $("#FullName").text(res.data['FName'] + " " + res.data['MName'] + " " + res.data['LName']);
-                $("#Age").text(res.data['Age']);
-                $("#ClientUserID").val(res.data['ClientUserID']);
-                $("#Birthdate").text(convertDate(res.data['Birthdate']));
+                if (res.status == 200) {
+                    $("#viewBooking").modal("show");
+                    $("#user_profile").html("<img src='../uploads/" + res.data['ProfImg'] + "' class='img-fluid' width='250px' height='250px' />");
+                    $("#Services").text((res.data['Services'] == "16") ? res.data['ServicesName'] + `(${res.data['OtherNameServices']})` : res.data['ServicesName']);
+                    $("#DateTime").text(convertDate(res.data['Date']) + " - " + convertTime(res.data['Time']));
+                    $("#FullName").text(res.data['FName'] + " " + res.data['MName'] + " " + res.data['LName']);
+                    $("#Age").text(res.data['Age']);
+                    $("#ItemNo").val(res.data['RowNum']);
+                    $("#ClientUserID").val(res.data['ClientUserID']);
+                    $("#Birthdate").text(convertDate(res.data['Birthdate']));
 
-                $("#CivilStatus").text(res.data['CivilStatus']);
-                $("#CompleteAddress").text(res.data['CompleteAddress']);
-                $("#status").val(res.data['Status']);
-            } else {
-                alert(res.message)
-            }
-        })
+                    $("#CivilStatus").text(res.data['CivilStatus']);
+                    $("#CompleteAddress").text(res.data['CompleteAddress']);
+                    $("#status").val(res.data['Status']);
+                } else {
+                    alert(res.message)
+                }
+            })
 
-            .fail(function (xhr, status, error) {
+            .fail(function(xhr, status, error) {
                 console.log('Ajax request failed:', status, error);
             })
 
