@@ -25,6 +25,15 @@ class controller extends db
 
     // ------------------------- Fetching ------------------------- //
 
+    protected function message_count()
+    {
+        $query = "SELECT * FROM tblmessages WHERE receiver_id = ? AND StatusRead = ?";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$_COOKIE["UserID"], "0"]);
+        return $stmt;
+    }
+
     protected function fetch_info_user($UserID)
     {
         $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `UserID`=?  ");
@@ -33,36 +42,80 @@ class controller extends db
     }
 
 
-    protected function services_list()
+    protected function services_list($checking, $service_cat_no)
     {
-        $stmt = $this->PlsConnect()->prepare(
-            "SELECT 
-            a.ServicesName,
-            a.Price,
-            a.RowNum,
-            a.UserID,
-            (SELECT Description FROM tbldescription WHERE LOWER(ServicesName) =  a.ServicesName AND UserID = a.UserID) AS ServicesPolicy
-            FROM tblservices a WHERE a.UserID = ?
-            "
-        );
-        $stmt->execute([$_COOKIE['UserID']]);
-        return $stmt;
+
+        $stmt = "";
+
+        if ($checking === 1 && $service_cat_no === "") {
+
+            $stmt = $this->PlsConnect()->prepare(
+                "SELECT 
+                a.ServiceCatNo,
+                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1 ) as ServicesNameCat,
+                a.ServicesName,
+                a.Price,
+                a.RowNum,
+                a.UserID,
+                (SELECT Description FROM tbldescription WHERE (a.ServicesName IS NULL OR LOWER(ServicesName) = LOWER(a.ServicesName)) AND ServiceCatNo = a.ServiceCatNo AND UserID = a.UserID LIMIT 1) AS ServicesPolicy
+                FROM tblservices a WHERE a.UserID = ?
+                "
+            );
+            $stmt->execute([$_COOKIE['UserID']]);
+            return $stmt;
+        } else {
+            $query = "";
+            if ($service_cat_no == "all") {
+                $query =   "SELECT 
+                a.ServiceCatNo,
+                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1 ) as ServicesNameCat,
+                a.ServicesName,
+                a.Price,
+                a.RowNum,
+                a.UserID,
+                (SELECT ProfImg FROM `tbluser` WHERE UserID = a.UserID) AS ProfImg,
+                (SELECT Description FROM tbldescription WHERE (a.ServicesName IS NULL OR LOWER(ServicesName) = LOWER(a.ServicesName)) AND UserID = a.UserID LIMIT 1) AS ServicesPolicy
+                FROM tblservices a 
+                ";
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute();
+                return $stmt;
+            } else {
+                $query =   "SELECT 
+                a.ServiceCatNo,
+                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1 ) as ServicesNameCat,
+                a.ServicesName,
+                a.Price,
+                a.RowNum,
+                a.UserID,
+                (SELECT ProfImg FROM `tbluser` WHERE UserID = a.UserID) AS ProfImg,
+                (SELECT Description FROM tbldescription WHERE (a.ServicesName IS NULL OR LOWER(ServicesName) = LOWER(a.ServicesName)) AND ServiceCatNo = a.ServiceCatNo AND UserID = a.UserID LIMIT 1) AS ServicesPolicy
+                FROM tblservices a WHERE a.ServiceCatNo=?
+                ";
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute([$service_cat_no]);
+                return $stmt;
+            }
+        }
     }
 
     protected function  Services_fetch_id($ServicesId)
     {
         $query = "SELECT 
             a.UserID,
+            a.ServiceCatNo,
             a.ServicesName,
             a.Price,
-            (SELECT b.Description 
-            FROM tbldescription b 
-            WHERE b.ServicesName = a.ServicesName 
-            AND b.UserID = a.UserID 
+            (SELECT Description
+            FROM tbldescription b
+            WHERE ServiceCatNo = a.ServiceCatNo 
+            AND (a.ServicesName IS NULL OR LOWER(b.ServicesName) = LOWER(a.ServicesName))
+            AND UserID = a.UserID 
             LIMIT 1) AS ServicesPolicy
         FROM tblservices a 
         WHERE a.RowNum = ?
-        AND a.UserID = ?  ";
+        AND a.UserID = ? ;
+        ";
 
         $stmt = $this->PlsConnect()->prepare($query);
         $stmt->execute([$ServicesId, $_COOKIE['UserID']]);
@@ -93,6 +146,7 @@ class controller extends db
     {
 
         $query = "";
+        $stmt = "";
 
         if ($BookingID == "0") {
 
@@ -123,10 +177,12 @@ class controller extends db
                    (`cpsu_be`.`tbluser`
                    JOIN `cpsu_be`.`tblbooking`)
                WHERE
-                   `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  IN (Done, Cancelled)
+                   `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  IN ('Done', 'Cancelled')
                ORDER BY `cpsu_be`.`tbluser`.`RowNum`
                
                ";
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute([$_COOKIE['UserID']]);
             } else {
 
                 $query = "
@@ -155,26 +211,24 @@ class controller extends db
                (`cpsu_be`.`tbluser`
                JOIN `cpsu_be`.`tblbooking`)
            WHERE
-               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  = ?
+               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  = ?
            ORDER BY `cpsu_be`.`tbluser`.`RowNum`
            
            ";
-            }
 
-            $stmt = $this->PlsConnect()->prepare("SELECT * FROM `viewbooking` WHERE  `ArtistUserID`=? AND `Status`=? ");
-            $stmt->execute([$_COOKIE['UserID'], $Status]);
-            return $stmt;
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute([$_COOKIE['UserID'], $Status]);
+            }
         } else {
 
-            $query = "
-            SELECT 
+            $query = "SELECT 
                `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
                `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
                `cpsu_be`.`tbluser`.`FName` AS `FName`,
                `cpsu_be`.`tbluser`.`MName` AS `MName`,
                `cpsu_be`.`tbluser`.`LName` AS `LName`,
                `cpsu_be`.`tbluser`.`Age` AS `Age`,
-               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
+               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,  
                `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
                `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
                `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
@@ -182,6 +236,8 @@ class controller extends db
                `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
                `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
                `cpsu_be`.`tblbooking`.`Services` AS `Services`,
+               `cpsu_be`.`tblbooking`.`OtherNameServices` AS `OtherNameServices`,
+               (SELECT ServiceName FROM tblservicecategory WHERE id = Services) AS ServicesName,
                `cpsu_be`.`tblbooking`.`Date` AS `Date`,
                `cpsu_be`.`tblbooking`.`Time` AS `Time`,
                `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
@@ -199,15 +255,23 @@ class controller extends db
 
             $stmt = $this->PlsConnect()->prepare($query);
             $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
-            return $stmt;
         }
+        return $stmt;
     }
 
-    protected function fetching_Prof_Img($value)
+    protected function fetching_Prof_Img($value, $ServiceName)
     {
-        $query = "SELECT Images,RowNum FROM `tblprofimages` WHERE LOWER(ServicesName) =? and UserID = ?";
-        $stmt = $this->PlsConnect()->prepare($query);
-        $stmt->execute([$value, $_COOKIE["UserID"]]);
+        $stmt = "";
+
+        if ($value === "16") {
+            $query = "SELECT Images,RowNum FROM `tblprofimages` WHERE ServiceCatNo = ? AND  LOWER(ServicesName) =? AND UserID = ?";
+            $stmt = $this->PlsConnect()->prepare($query);
+            $stmt->execute([$value, $ServiceName, $_COOKIE["UserID"]]);
+        } else {
+            $query = "SELECT Images,RowNum FROM `tblprofimages` WHERE ServiceCatNo = ? AND UserID = ?";
+            $stmt = $this->PlsConnect()->prepare($query);
+            $stmt->execute([$value, $_COOKIE["UserID"]]);
+        }
 
         return $stmt;
     }
@@ -221,6 +285,14 @@ class controller extends db
         return  $stmt;
     }
 
+
+    protected function fetching_service_cat()
+    {
+        $stmt = $this->PlsConnect()->prepare("SELECT id, ServiceName FROM `tblservicecategory` ");
+        $stmt->execute();
+        return $stmt;
+    }
+
     // ------------------------- Fetching ------------------------- //
 
 
@@ -230,73 +302,76 @@ class controller extends db
 
     // ------------------------- Update ------------------------- //
 
-    protected function update_booking($ClientUserID, $status)
+    protected function update_booking($ClientUserID, $status, $itemNo)
     {
-        $stmt = $this->PlsConnect()->prepare('UPDATE `tblbooking` SET `Status`=? WHERE `ArtistUserID`=? AND `UserID`=? ');
-        $stmt->execute([$status, $_COOKIE['UserID'], $ClientUserID]);
+        $stmt = $this->PlsConnect()->prepare('UPDATE `tblbooking` SET `Status`=? WHERE `ArtistUserID`=? AND `UserID`=? AND `RowNum` = ?');
+        $stmt->execute([$status, $_COOKIE['UserID'], $ClientUserID, $itemNo]);
         return 1;
     }
 
-    protected function edit_services($servicesID, $prevServicesName, $editServicesName, $editServicePrice, $editServicesPolicy)
+    protected function edit_services($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
     {
 
         $queryServices =
             "UPDATE 
             `tblservices` SET 
             `ServicesName`=?,
-            `Price`= ? WHERE RowNum = ? AND UserID = ?";
+            `Price`= ? WHERE RowNum = ? AND UserID = ? AND ServiceCatNo = ?";
         $stmt = $this->PlsConnect()->prepare($queryServices);
-        $stmt->execute([$editServicesName, $editServicePrice, $servicesID, $_COOKIE["UserID"]]);
+        $stmt->execute([$editServicesName, $editServicePrice, $servicesID, $_COOKIE["UserID"], $editServiceCatNo]);
 
         if ($stmt) {
             $queryDesc =
                 "UPDATE 
             `tbldescription` SET 
             `Description`= ?, ServicesName = ?
-            WHERE LOWER(ServicesName) = ? AND UserID = ?";
+            WHERE LOWER(ServicesName) = ? AND UserID = ? AND ServiceCatNo =? ";
 
             $stmt1 = $this->PlsConnect()->prepare($queryDesc);
-            $stmt1->execute([$editServicesPolicy, $editServicesName, $prevServicesName, $_COOKIE["UserID"]]);
+            $stmt1->execute([$editServicesPolicy, $editServicesName, $prevServicesName, $_COOKIE["UserID"], $editServiceCatNo]);
 
             if ($stmt1) {
                 $queryDesc =
                     "UPDATE `tblprofimages` SET 
                         `ServicesName`=?
-                        WHERE (ServicesName) = ? AND UserID = ?";
+                        WHERE (ServicesName) = ? AND UserID = ? AND ServiceCatNo=?";
 
                 $stmt2 = $this->PlsConnect()->prepare($queryDesc);
-                $stmt2->execute([$editServicesName, $prevServicesName, $_COOKIE["UserID"]]);
+                $stmt2->execute([$editServicesName, $prevServicesName, $_COOKIE["UserID"], $editServiceCatNo]);
                 if ($stmt2) {
                     return 1;
                 }
-                return "ERROR2!";
+                return "ERROR3!";
             }
             return "ERROR2!";
         }
-        return "ERROR!";
+        return "ERROR1!";
     }
 
     // ------------------------- Update ------------------------- //
 
 
     // ------------------------- Inserting ------------------------- //
-    protected function insert_services($ServicesName, $ServicePrice, $ServicesPolicy)
+    protected function insert_services($ServiceCatNo, $ServicesName, $ServicePrice, $ServicesPolicy)
     {
-        $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tblservices` WHERE `UserID`=? AND LOWER(ServicesName) =  ? ");
-        $stmt->execute([$_COOKIE['UserID'], $ServicesName]);
 
-        if ($stmt->rowCount() < 1) {
-            // $file1_name = $_FILES['Images']['name'];
-            // $file1_tmp_name = $_FILES['Images']['tmp_name'];
-            // $file1_dest = "../uploads/" . $file1_name;
 
-            // // Validate and upload files
-            // $file1_uploaded = validateAndUploadImage('Images', $file1_tmp_name, $file1_dest);
+        $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tblservices` WHERE `UserID`=? AND ServiceCatNo = ?");
+        // $stmt = $this->PlsConnect()->prepare("SELECT * FROM `tblservices` WHERE `UserID`=? AND LOWER(ServicesName) =  ? ");
+        $stmt->execute([$_COOKIE['UserID'], $ServiceCatNo]);
 
-            // if (!$file1_uploaded) {
-            //     return "Invalid file type! Only JPG, JPEG, PNG, and GIF images are allowed.";
-            // }
+        if ($stmt->rowCount() >= 1 && $ServiceCatNo != 16) {
+            return "Already added services";
+        } else {
 
+            if ($ServiceCatNo == 16) {
+                $stmt2 = $this->PlsConnect()->prepare("SELECT * FROM `tblservices` WHERE `UserID`=? AND (ServicesName IS NULL OR LOWER(ServicesName) = LOWER(?)) AND ServiceCatNo = ? ");
+                $stmt2->execute([$_COOKIE['UserID'], $ServicesName, $ServiceCatNo]);
+
+                if ($stmt->rowCount() >= 1) {
+                    return "Already added services";
+                }
+            }
 
             foreach ($_FILES['ProfileImages']['name'] as $key => $value) {
                 $image_name = $_FILES['ProfileImages']['name'][$key];
@@ -309,31 +384,29 @@ class controller extends db
                     $status_message = "Please select jpg, jpeg, png image file type";
                     return $status_message;
                 } else {
-                    $insert_img = $this->PlsConnect()->prepare("INSERT INTO `tblprofimages`(`UserID`, `Images`,`ServicesName`) VALUES (?,?,?)");
-                    $insert_img->execute([$_COOKIE['UserID'], $image_name, $ServicesName]);
+                    $insert_img = $this->PlsConnect()->prepare("INSERT INTO `tblprofimages`(`UserID`, `Images`,`ServiceCatNo`, `ServicesName`) VALUES (?,?,?,?)");
+                    $insert_img->execute([$_COOKIE['UserID'], $image_name, $ServiceCatNo, $ServicesName]);
                     move_uploaded_file($image_tmp, $target_dir . $image_name);
                 }
             }
 
 
-            $InsertServices = $this->PlsConnect()->prepare("INSERT INTO `tblservices` (UserID,ServicesName,Price) VALUES (?,?,?)");
-            $InsertServices->execute([$_COOKIE['UserID'], $ServicesName, $ServicePrice]);
+            $InsertServices = $this->PlsConnect()->prepare("INSERT INTO `tblservices` (UserID,ServiceCatNo,ServicesName,Price) VALUES (?,?,?,?)");
+            $InsertServices->execute([$_COOKIE['UserID'], $ServiceCatNo, $ServicesName, $ServicePrice]);
 
             if ($InsertServices) {
 
-                $insertData = $this->PlsConnect()->prepare("INSERT INTO `tbldescription` (`UserID`,`ServicesName`,`Description`) VALUES (?,?,?) ");
-                $insertData->execute([$_COOKIE['UserID'], $ServicesName, $ServicesPolicy]);
+                $insertData = $this->PlsConnect()->prepare("INSERT INTO `tbldescription` (`UserID`,`ServiceCatNo`,`ServicesName`,`Description`) VALUES (?,?,?,?) ");
+                $insertData->execute([$_COOKIE['UserID'], $ServiceCatNo, $ServicesName, $ServicesPolicy]);
 
                 return 1;
             } else {
                 return "There's something wrong to add data. Please try again";
             }
-        } else {
-            return "Already added services";
         }
     }
 
-    protected function add_profile_images($servicesName)
+    protected function add_profile_images($servicesCatNo, $servicesName)
     {
         foreach ($_FILES['ProfileImages']['name'] as $key => $value) {
             $image_name = $_FILES['ProfileImages']['name'][$key];
@@ -346,8 +419,8 @@ class controller extends db
                 $status_message = "Please select jpg, jpeg, png image file type";
                 return $status_message;
             } else {
-                $insert_img = $this->PlsConnect()->prepare("INSERT INTO `tblprofimages`(`UserID`, `Images`,`ServicesName`) VALUES (?,?,?)");
-                $insert_img->execute([$_COOKIE['UserID'], $image_name, $servicesName]);
+                $insert_img = $this->PlsConnect()->prepare("INSERT INTO `tblprofimages`(`UserID`, `Images`,`ServiceCatNo`,`ServicesName`) VALUES (?,?,?,?)");
+                $insert_img->execute([$_COOKIE['UserID'], $image_name, $servicesCatNo, $servicesName]);
                 move_uploaded_file($image_tmp, $target_dir . $image_name);
             }
         }
@@ -462,7 +535,7 @@ class controller extends db
         }
     }
 
-    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $Date, $Time, $SampleOutcome)
+    protected function client_booking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $OtherNameServices, $Date, $Time, $SampleOutcome)
     {
         try {
 
@@ -495,8 +568,8 @@ class controller extends db
                     }
                 }
 
-                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,TypeService,Date,Time,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?,?,?,?) ");
-                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, $TypeServices, $Date, $Time, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
+                $insert = $this->PlsConnect()->prepare("INSERT INTO `tblbooking` (ArtistUserID,TDate,UserID,PinLocationAddress,Services,OtherNameServices,TypeService,Date,Time,SampleOutcome,SampleOutcomeImg,Status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ");
+                $insert->execute([$ArtistUserID, $DateNowConvert, $UserID, $Address, $Services, $OtherNameServices, $TypeServices, $Date, $Time, ($SampleOutcome == "Yes" ? 1 : 0), $file1_name, "Pending"]);
 
                 if ($insert) {
                     return 1;
@@ -550,26 +623,49 @@ class controller extends db
         return $stmt;
     }
 
-    protected function fetch_artist_services($UserID)
+    protected function fetch_artist_services($UserID, $modal)
     {
-        $query = "SELECT 
-            a.UserID,
-            a.ServicesName,
-            a.Price,
-            (SELECT Description FROM `tbldescription` WHERE UserID = a.UserID AND ServicesName = a.ServicesName) AS Description
-        FROM 
-            `tblservices` a 
-        WHERE 
-            a.UserID = ? ";
+        $query = "";
+
+        if ($modal !== "1") {
+            $query = "SELECT 
+                a.UserID,
+                a.ServicesName, 
+                a.Price,
+                a.ServiceCatNo,
+                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1) AS ServiceOtherName,
+                (SELECT Description FROM `tbldescription` WHERE UserID = a.UserID AND ServicesName = a.ServicesName) AS Description
+            FROM 
+                `tblservices` a 
+            WHERE 
+                a.UserID = ? ";
+        } else {
+
+            $query = "SELECT 
+                a.UserID,
+                a.Price,
+                a.ServiceCatNo,
+                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1) AS ServicesName
+            FROM 
+                `tblservices` a 
+            WHERE 
+                a.UserID = ?
+            GROUP BY 
+                a.UserID, a.ServiceCatNo;";
+        }
+
         $stmt = $this->PlsConnect()->prepare($query);
         $stmt->execute([$UserID]);
         return $stmt;
     }
 
-    protected function checking_bookmark($ArtistUserID)
+    protected function checking_bookmark()
     {
-        $stmt = $this->PlsConnect()->prepare("SELECT * FROM tblbooking WHERE `ArtistUserID`=? AND `UserID`=? AND `Status`!='Declined'  ");
-        $stmt->execute([$ArtistUserID, $_COOKIE['UserID']]);
+        $stmt = $this->PlsConnect()->prepare("SELECT * FROM tblbooking 
+        WHERE `UserID` = ? 
+        ORDER BY `RowNum` DESC 
+        LIMIT 1;");
+        $stmt->execute([$_COOKIE['UserID']]);
         return $stmt;
     }
 
@@ -588,6 +684,29 @@ class controller extends db
         $stmt = $this->PlsConnect()->prepare($query);
         $stmt->execute([$ArtistUserID]);
 
+        return $stmt;
+    }
+
+    protected function fetch_other_name_services($ArtistID, $ServicesCatNo)
+    {
+        $query = "SELECT 
+                 ServicesName
+            FROM 
+                `tblservices`
+            WHERE 
+                UserID = ? AND ServiceCatNo = ?";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$ArtistID, $ServicesCatNo]);
+        return $stmt;
+    }
+
+    protected function fetching_services_info($servicesID)
+    {
+        $query = "";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$servicesID]);
         return $stmt;
     }
 
@@ -642,4 +761,25 @@ class controller extends db
     }
     // ------------------------- Chat Side -------------------------//
 
+
+
+    protected function checking_booking()
+    {
+
+
+        $query =  "SELECT RowNum FROM `tblbooking` WHERE Status ='Pending' AND  DATEDIFF(CURDATE(), Date) >= 3";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute();
+
+        if ($stmt->rowCount() != 0) {
+            $fetchingData = $stmt->fetch();
+
+            $stmt2 = $this->PlsConnect()->prepare("UPDATE `tblbooking` SET `Status`='Cancelled' WHERE `Rownum` = ? ");
+            $stmt2->execute([$fetchingData["RowNum"]]);
+
+            return 1;
+        }
+        return 1;
+    }
 }

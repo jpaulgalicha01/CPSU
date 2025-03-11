@@ -47,6 +47,7 @@ include 'includes/navbar.php';
                             <th>Address</th>
                             <th>Contact Number</th>
                             <th>Sample Outcome</th>
+                            <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>

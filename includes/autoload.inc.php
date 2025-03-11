@@ -55,3 +55,15 @@ if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
         }
     }
 }
+
+
+//--------------- Checking Booking Past 3 Days -------------//
+$checkingBooking = new update();
+$checkingBooking->checkingBooking();
+
+
+if (isset($_COOKIE["UserID"])) {
+    $messege;
+    $messageCount = new fetch();
+    $messege = $messageCount->messageCount();
+}

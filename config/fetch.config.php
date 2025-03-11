@@ -6,9 +6,21 @@ class fetch extends controller
 
     // ------------------------- Artist Side -------------------------//
 
-    public function fetchingProfImg($value)
+    public function messageCount()
     {
-        $stmt = $this->fetching_Prof_Img($value);
+        $stmt = $this->message_count();
+
+        if ($stmt) {
+            $countMessage = $stmt->rowCount();
+            return $countMessage;
+        } else {
+            return "Message Count Error";
+        }
+    }
+
+    public function fetchingProfImg($value, $ServiceName)
+    {
+        $stmt = $this->fetching_Prof_Img($value, $ServiceName);
 
         if ($stmt) {
             if ($stmt->rowCount()) {
@@ -33,6 +45,12 @@ class fetch extends controller
         }
     }
 
+    public function fetchingServiceCat()
+    {
+        $stmt = $this->fetching_service_cat();
+        return $stmt;
+    }
+
     // ------------------------- Artist Side -------------------------//
 
 
@@ -44,9 +62,9 @@ class fetch extends controller
         return $stmt;
     }
 
-    public function ServicesList()
+    public function ServicesList($checking, $service_cat_no)
     {
-        $stmt = $this->services_list();
+        $stmt = $this->services_list($checking, $service_cat_no);
         return $stmt;
     }
 
@@ -177,11 +195,69 @@ class fetch extends controller
     }
 
 
-    public function availDateRes($ArtistUserID){
+    public function availDateRes($ArtistUserID)
+    {
         $stmt = $this->avail_date_res($ArtistUserID);
 
         return $stmt;
     }
+
+    public function fetchOtherNameServices($ArtistID, $ServicesCatNo)
+    {
+        $stmt = $this->fetch_other_name_services($ArtistID, $ServicesCatNo);
+        if ($stmt) {
+            if ($stmt->rowCount()) {
+                $fetch_info = $stmt->fetchAll();
+
+                $data = [
+                    'status' => 200,
+                    'data' => $fetch_info,
+                ];
+                echo json_encode($data);
+                return false;
+            } else {
+                return false;
+            }
+        } else {
+
+            $data = [
+                'status' => 500,
+                'message' => "There's something wrong.",
+            ];
+            echo json_encode($data);
+            return false;
+        }
+    }
+
+
+    public function fetchingServicesInfo($servicesID){
+        $stmt = $this->fetching_services_info($servicesID);
+        if ($stmt) {
+            if ($stmt->rowCount()) {
+                $fetch_info = $stmt->fetchAll();
+
+                $data = [
+                    'status' => 200,
+                    'data' => $fetch_info,
+                ];
+                echo json_encode($data);
+                return false;
+            } else {
+                return false;
+            }
+        } else {
+
+            $data = [
+                'status' => 500,
+                'message' => "There's something wrong.",
+            ];
+            echo json_encode($data);
+            return false;
+        }
+    }
+
+
+
     // ------------------------- Client Side -------------------------//
 
 
@@ -278,15 +354,15 @@ class fetch extends controller
         return $stmt;
     }
 
-    public function fetchArtistServices($UserID)
+    public function fetchArtistServices($UserID, $modal)
     {
-        $stmt = $this->fetch_artist_services($UserID);
+        $stmt = $this->fetch_artist_services($UserID, $modal);
         return $stmt;
     }
 
-    public function checkingBookmark($ArtistUserID)
+    public function checkingBookmark()
     {
-        $stmt = $this->checking_bookmark($ArtistUserID);
+        $stmt = $this->checking_bookmark();
         return $stmt;
     }
 

@@ -7,20 +7,19 @@ include 'includes/navbar.php';
 <div class="container-fluid" style="z-index: 1;">
     <div class="row">
         <div class="col-12">
-            <div id="carouselExampleIndicators" class="carousel slide">
+            <div id="cauroselBannerTop" class="carousel slide">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#cauroselBannerTop" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#cauroselBannerTop" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 </div>
                 <div class="carousel-inner bg-dark">
                     <div class="carousel-item active" style="max-height:80vh; ">
                         <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div>
-                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                                    application for cosmetic services</h4>
+                                <h5 class="text-uppercase text-white font-weight-semi-bold mb-md-4 mb-3">Mukha</h5>
+                                <p class="text-light font-weight-lighter mb-md-4 mb-3">An enchance online web
+                                    application for cosmetic services</p>
                                 <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
                             </div>
                         </div>
@@ -29,39 +28,28 @@ include 'includes/navbar.php';
                         <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div>
-                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                                    application for cosmetic services</h4>
+                                <h5 class="text-uppercase text-white font-weight-semi-bold mb-md-4 mb-3">Mukha</h5>
+                                <p class="text-light font-weight-lighter mb-md-4 mb-3">An enchance online web
+                                    application for cosmetic services</p>
                                 <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item" style="max-height:80vh; ">
-                        <img src="img/carousel-1.jpg" class="img-fluid" style="opacity: .5" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                            <div>
-                                <h3 class="display-4 text-uppercase text-white font-weight-semi-bold mb-4">Mukha</h3>
-                                <h4 class="text-light font-weight-lighter mb-3">An enchance online web
-                                    application for cosmetic services</h4>
-                                <a href="" class="btn btn-light py-2 px-3">Booked Now</a>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#cauroselBannerTop" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#cauroselBannerTop" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
     </div>
 </div>
 <!-- Banner -->
-    
+
 <!-- Featured Start -->
 <!-- <div class="container-fluid pt-5">
     <div class="row px-xl-5 pb-3">
@@ -97,7 +85,7 @@ include 'includes/navbar.php';
 <!-- Categories Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Top 3 Artist</span></h2>
+        <h2 class="section-title px-5"><span class="px-2">TOP 3 ARTIST</span></h2>
     </div>
 
     <div class="row px-xl-5 pb-3">
@@ -149,6 +137,72 @@ include 'includes/navbar.php';
                 
     </div> -->
 </div>
+
+
+<div class="container-fluid py-5 mt-5 " style="background-color:#EFF4F7; border-radius: 50px 50px 0px 0px;">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">DID YOU KNOW ?</span></h2>
+    </div>
+    <div class="row px-xl-5 pb-3">
+        <div class="col-12">
+            <div id="cauroselDidYouKnow" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#cauroselDidYouKnow" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#cauroselDidYouKnow" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                </div>
+                <div class="carousel-inner bg-dark">
+                    <div class="carousel-item active text-center" style="max-height:80vh; ">
+                        <img src="img/did_you_know_1.jpg" class="img-fluid " style="opacity: .5" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h5 class="text-uppercase text-white font-weight-semi-bold mb-4">Ancient Eyeline</h5>
+                                <p>The ancient Egyptians used kohl (a mix of lead, copper, and ash) as eyeliner to protect their eyes from the sun and ward off evil spirits.
+                                    Source: <a href="https://edition.cnn.com/2024/02/29/style/eyeliner-kohl-cultural-history/index.html" target="_blank">https://edition.cnn.com/2024/02/29/style/eyeliner-kohl-cultural-history/index.html</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item  text-center" style="max-height:80vh; ">
+                        <img src="img/did_you_know_2.jpg" class="img-fluid " style="opacity: .5" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h5 class="text-uppercase text-white font-weight-semi-bold mb-4">Lipstick’s Unusual Ingredients</h5>
+                                <p>Early lipsticks contained crushed beetles for red pigment and fish scales for shimmer. Modern lipsticks often use synthetic alternatives.
+                                    Sourse: <a href="https://en.m.wikipedia.org/wiki/Lipstick" target="_blank">https://en.m.wikipedia.org/wiki/Lipstick</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#cauroselDidYouKnow" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#cauroselDidYouKnow" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container-fluid mt-5 pt-5 bg-secondary">
+    <div class="text-center mb-4">
+        <h1 class="text-title-primary text-white pb-lg-3 pb-2 ">ABOUT US</h1>
+    </div>
+    <div class="row px-xl-5 pb-3">
+        <div class="col-12">
+            <p class="fs-4 text-white" style="text-align: justify;">Welcome to Mukha, your ultimate destination for beauty and self-care! Our enhanced online web application is designed to provide access to cosmetic services. </p>
+            <p class="fs-4 text-white" style="text-align: justify;">At Mukha, we believe that everyone deserves to feel confident and radiant. Whether you're looking for skincare treatments, makeup services, or aesthetic enhancements.</p>
+            <p class="fs-4 text-white" style="text-align: justify;">Experience beauty at your fingertips with Mukha!</p>
+        </div>
+
+    </div>
+</div>
+
+
+
 <!-- Categories End -->
 
 <?php

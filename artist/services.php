@@ -39,15 +39,15 @@ include 'includes/navbar.php';
                     <tbody>
                         <?php
                         $fetch_services = new fetch();
-                        $res = $fetch_services->ServicesList();
+                        $res = $fetch_services->ServicesList(1, "");
 
                         if ($res->rowCount() != 0) {
                             while ($row = $res->fetch()) {
                         ?>
                                 <tr>
-                                    <td class="align-middle"><?= $row["ServicesName"] ?></td>
+                                    <td class="align-middle"><?= ($row["ServicesNameCat"] !== "Other") ? $row["ServicesNameCat"] : $row["ServicesName"] . '(' . $row["ServicesNameCat"] . ')' ?></td>
                                     <td class="align-middle">
-                                        <p style="cursor: pointer; text-decoration: underline;" id="imageLink" data-value="<?= $row["ServicesName"] ?>">Click Here!</p>
+                                        <p style="cursor: pointer; text-decoration: underline;" id="imageLink" data-value="<?= ($row["ServiceCatNo"] !== '16') ? $row["ServiceCatNo"] : $row["ServiceCatNo"] . '&' . $row["ServicesName"] ?>">Click Here!</p>
                                     </td>
                                     <td class="align-middle"><?= $row["Price"] ?></td>
                                     <td><?= $row["ServicesPolicy"] ?></td>
@@ -57,8 +57,6 @@ include 'includes/navbar.php';
                                 </tr>
                         <?php
                             }
-                        } else {
-                            echo "<tr><td colspan='4' class='text-center'>No Data Found</td></tr>";
                         }
                         ?>
 
@@ -95,11 +93,26 @@ include 'includes/navbar.php';
                                     <input type="file" class="form-control" name="ProfileImages[]" multiple
                                         accept=".jpg,.jpeg, .png, .gif" required>
                                 </div>
-                                <div class='d-md-flex d-sm-grid justify-content-around'>
+                                <div class='d-md-flex d-sm-grid justify-content-between '>
                                     <div class="py-2">
-                                        <label for="ServicesName">Services Name</label>
-                                        <input type="text" class="form-control" id="ServicesName" name="ServicesName"
-                                            placeholder="ex. Parlor" required>
+                                        <label for="ServiceCatNo">Services Category</label>
+                                        <select class="form-control" name="ServiceCatNo" id="ServiceCatNo" required>
+                                            <option value="" selected disabled>-- Please Select --</option>
+
+                                            <?php
+                                            $fetchingServiceCat = new fetch();
+                                            $resfetchingServiceCat = $fetchingServiceCat->fetchingServiceCat();
+
+                                            if ($resfetchingServiceCat->rowCount() != 0) {
+                                                while ($rowfetchingServiceCat = $resfetchingServiceCat->fetch()) {
+                                            ?>
+
+                                                    <option value="<?= $rowfetchingServiceCat["id"] ?>"><?= $rowfetchingServiceCat["ServiceName"] ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="py-2">
                                         <label for="ServicePrice">Price</label>
@@ -112,6 +125,9 @@ include 'includes/navbar.php';
                                         </div>
                                     </div>
                                 </div>
+                                <input type="text" class="form-control my-2 d-none" id="others" name="ServicesName"
+                                    placeholder="Others">
+
                                 <div class="form-group">
                                     <label>Policy</label>
                                     <textarea name="ServicesPolicy" id="ServicesPolicy" rows="5" class="form-control"
@@ -143,6 +159,7 @@ include 'includes/navbar.php';
             </div>
             <form action="inputConfig.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="function" value="editProfImg">
+                <input type="hidden" name="servicesCatNo" id="servicesCatNo">
                 <input type="hidden" name="servicesName" id="servicesName">
                 <div class="modal-body">
                     <div class="contienr-fluid">
@@ -205,7 +222,7 @@ include 'includes/navbar.php';
                     <div class="contienr-fluid">
                         <div class="row">
                             <div class='col-12 py-2'>
-                                <div class='d-md-flex d-sm-grid justify-content-around'>
+                                <!-- <div class='d-md-flex d-sm-grid justify-content-around'>
                                     <div class="py-2">
                                         <label for="editServicesName">Services Name</label>
                                         <input type="text" class="form-control" id="editServicesName" name="editServicesName"
@@ -221,7 +238,45 @@ include 'includes/navbar.php';
                                                 id="editServicePrice" value="0.00" required>
                                         </div>
                                     </div>
+                                </div> -->
+
+
+                                <div class='d-md-flex d-sm-grid justify-content-between '>
+                                    <div class="py-2">
+                                        <label for="prevServicesCat">Services Category</label>
+                                        <select class="form-control" name="prevServicesCat" id="prevServicesCat" onchange="prevServicesCat(this)" required>
+                                            <option value="" selected disabled>-- Please Select --</option>
+
+                                            <?php
+                                            $fetchingServiceCat = new fetch();
+                                            $resfetchingServiceCat = $fetchingServiceCat->fetchingServiceCat();
+
+                                            if ($resfetchingServiceCat->rowCount() != 0) {
+                                                while ($rowfetchingServiceCat = $resfetchingServiceCat->fetch()) {
+                                            ?>
+
+                                                    <option value="<?= $rowfetchingServiceCat["id"] ?>"><?= $rowfetchingServiceCat["ServiceName"] ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="py-2">
+                                        <label for="editServicePrice">Price</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">₱</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="editServicePrice"
+                                                id="editServicePrice" value="0.00" required oninput="checkingletters(this)">
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <input type="text" class="form-control my-2 d-none" id="prevServicesName" name="prevServicesName"
+                                    placeholder="Others">
+
                                 <div class=" form-group">
                                     <label for="editServicesPolicy">Policy</label>
                                     <textarea name="editServicesPolicy" id="editServicesPolicy" rows="5" class="form-control"
@@ -243,14 +298,19 @@ include 'includes/navbar.php';
 
 <script>
     $(document).on("click", "#imageLink", function() {
-        let value = $(this).data("value");
+        let value = $(this).attr("data-value");
+
+        let values = value.split("&").map(v => v.trim());
+        console.log(values);
+
 
         $("#ProfImages").modal("show");
-        $("#servicesName").val(value)
+        $("#servicesCatNo").val(value[0])
+        $("#servicesName").val(value[1])
         let imageContainer = $("#ImgName");
         imageContainer.empty();
 
-        $.get(`inputConfig.php?profImageProfile=${value}`, function(data) {
+        $.get(`inputConfig.php?profImageProfile=${values[0]}&ServiceName=${values[1]}`, function(data) {
             var res = $.parseJSON(data);
 
             if (res.status === 200) {
@@ -321,6 +381,7 @@ include 'includes/navbar.php';
                 if (res.status == "200") {
                     $("#editServices").modal("show");
                     $("#servicesID").val(value);
+                    $("#prevServicesCat").val(res.data['ServiceCatNo']);
                     $("#prevServicesName").val(res.data['ServicesName']);
                     $("#editServicesName").val(res.data['ServicesName']);
                     $("#editServicePrice").val(res.data['Price']);
@@ -334,6 +395,37 @@ include 'includes/navbar.php';
             })
 
     });
+
+
+    $(document).on("change", "#ServiceCatNo", function() {
+        let value = $(this).val();
+        var inputOther = document.getElementById("others")
+
+        if (value == "16") {
+            inputOther.classList.remove("d-none")
+            inputOther.setAttribute("required", "true");
+        } else {
+            inputOther.classList.add("d-none");
+            inputOther.removeAttribute("required");
+            inputOther.value = "";
+        }
+    })
+
+
+
+    $(document).on("change", "#prevServicesCat", function() {
+        let value = $(this).val();
+        var inputOther1 = document.getElementById("prevServicesName")
+        console.log(value)
+        if (value == "16") {
+            inputOther1.classList.remove("d-none")
+            inputOther1.setAttribute("required", "true");
+        } else {
+            inputOther1.classList.add("d-none");
+            inputOther1.removeAttribute("required");
+            inputOther1.value = "";
+        }
+    })
 </script>
 
 <?php

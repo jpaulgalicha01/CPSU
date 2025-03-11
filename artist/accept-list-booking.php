@@ -76,8 +76,6 @@ include 'includes/navbar.php';
                                 </tr>
                         <?php
                             }
-                        } else {
-                            echo "<tr><td colspan='8' class='text-center'>No Data Found</td></tr>";
                         }
                         ?>
 
@@ -102,7 +100,10 @@ include 'includes/navbar.php';
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="">
+            <form action="inputConfig.php" method="POST">
+                <input type="hidden" name="function" value="booking_action">
+                <input type="hidden" name="ClientUserID" id="ClientUserID">
+                <input type="hidden" name="ItemNo" id="itemNo">
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
@@ -163,11 +164,12 @@ include 'includes/navbar.php';
                 if (res.status == 200) {
                     $("#viewBooking").modal("show");
                     $("#user_profile").html("<img src='../uploads/" + res.data['ProfImg'] + "' class='img-fluid' width='250px' height='250px' />");
-                    $("#Services").text(res.data['Services']);
+                    $("#Services").text((res.data['Services'] == "16") ? res.data['ServicesName'] + `(${res.data['OtherNameServices']})` : res.data['ServicesName']);
                     $("#DateTime").text(convertDate(res.data['Date']) + " - " + convertTime(res.data['Time']));
                     $("#FullName").text(res.data['FName'] + " " + res.data['MName'] + " " + res.data['LName']);
                     $("#Age").text(res.data['Age']);
                     $("#ClientUserID").val(res.data['ClientUserID']);
+                    $("#itemNo").val(res.data["RowNum"])
                     $("#Birthdate").text(convertDate(res.data['Birthdate']));
 
                     $("#CivilStatus").text(res.data['CivilStatus']);
