@@ -249,7 +249,7 @@ class controller extends db
                JOIN `cpsu_be`.`tblbooking`)
            WHERE
                `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`RowNum` = ? AND  `cpsu_be`.`tblbooking`.`Status`  = ?
-           ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+           ORDER BY `cpsu_be`.`tbluser`.`RowNum` 
            
            ";
 

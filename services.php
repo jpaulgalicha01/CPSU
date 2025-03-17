@@ -359,6 +359,7 @@ include 'includes/navbar.php';
         });
     });
 
+
     $(document).on('submit', '#BookRequest', function(e) {
         e.preventDefault(e);
         var formData = new FormData(this);
