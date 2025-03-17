@@ -86,6 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fetchingServicesInfo = new fetch();
         $fetchingServicesInfo->fetchingServicesInfo($servicesID);
     }
+
+    else if(isset($_GET["reservedBookingID"])){
+        $reservedBookingID = secured($_GET["reservedBookingID"]);
+
+        $ShowBookingInfo = new fetch();
+        $ShowBookingInfo->ShowBookingInfo($reservedBookingID);
+    }
     else {
 
         ob_end_flush(header("Location: login.php"));

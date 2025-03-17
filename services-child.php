@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-primary fs-4 m-0">₱ <?= $row["Price"] ?></p>
                                 <button class="btn btn-primary btn-rounded p-1" style="border-radius: 10px;" id="servicesBtn" value="<?= $row["RowNum"] ?>">
-                                    <i class="fa fa-bookmark" aria-hidden="true"></i> Reserve Now</button>
+                                    <i class="fa fa-eye" aria-hidden="true"></i> View</button>
                             </div>
                         </div>
                     </div>

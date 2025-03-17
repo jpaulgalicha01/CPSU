@@ -302,8 +302,6 @@ include 'includes/navbar.php';
 
         let values = value.split("&").map(v => v.trim());
         console.log(values);
-
-
         $("#ProfImages").modal("show");
         $("#servicesCatNo").val(value[0])
         $("#servicesName").val(value[1])

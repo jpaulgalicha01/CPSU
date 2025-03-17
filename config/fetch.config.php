@@ -230,15 +230,20 @@ class fetch extends controller
     }
 
 
-    public function fetchingServicesInfo($servicesID){
+    public function fetchingServicesInfo($servicesID)
+    {
         $stmt = $this->fetching_services_info($servicesID);
         if ($stmt) {
             if ($stmt->rowCount()) {
-                $fetch_info = $stmt->fetchAll();
+                $fetch_info = $stmt->fetch();
+
+                $stmt2 = $this->fetching_Prof_Img2($fetch_info["ServiceCatNo"], $fetch_info["ServicesName"], $fetch_info["UserID"]);
+                $fetch_info2 = $stmt2->fetchAll();
 
                 $data = [
                     'status' => 200,
                     'data' => $fetch_info,
+                    'data2' => $fetch_info2,
                 ];
                 echo json_encode($data);
                 return false;
@@ -252,6 +257,27 @@ class fetch extends controller
                 'message' => "There's something wrong.",
             ];
             echo json_encode($data);
+            return false;
+        }
+    }
+
+    public function ShowBookingInfo($reservedBookingID)
+    {
+        $stmt = $this->show_booking_info($reservedBookingID);
+        if ($stmt->rowCount()) {
+            $fetch_info = $stmt->fetch();
+            $UserID = $fetch_info["UserID"];
+
+            $stmt2 = $this->avail_date_res($UserID);
+            $fetch_info2 = $stmt2->fetchAll();
+            $data = [
+                'status' => 200,
+                'data' => $fetch_info,
+                'data2' => $fetch_info2,
+            ];
+            echo json_encode($data);
+            return false;
+        } else {
             return false;
         }
     }

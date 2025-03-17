@@ -259,7 +259,7 @@ class controller extends db
         return $stmt;
     }
 
-    protected function fetching_Prof_Img($value, $ServiceName)
+    protected function fetching_Prof_Img($value, $ServiceName,)
     {
         $stmt = "";
 
@@ -290,6 +290,25 @@ class controller extends db
     {
         $stmt = $this->PlsConnect()->prepare("SELECT id, ServiceName FROM `tblservicecategory` ");
         $stmt->execute();
+        return $stmt;
+    }
+
+
+
+    protected function fetching_Prof_Img2($value, $ServiceName, $artistID)
+    {
+        $stmt = "";
+
+        if ($value === "16") {
+            $query = "SELECT Images,RowNum FROM `tblprofimages` WHERE ServiceCatNo = ? AND  LOWER(ServicesName) =? AND UserID = ?";
+            $stmt = $this->PlsConnect()->prepare($query);
+            $stmt->execute([$value, $ServiceName, $artistID]);
+        } else {
+            $query = "SELECT Images,RowNum FROM `tblprofimages` WHERE ServiceCatNo = ? AND UserID = ?";
+            $stmt = $this->PlsConnect()->prepare($query);
+            $stmt->execute([$value, $artistID]);
+        }
+
         return $stmt;
     }
 
@@ -703,14 +722,34 @@ class controller extends db
 
     protected function fetching_services_info($servicesID)
     {
-        $query = "";
+        $query = "SELECT
+            a.RowNum, 
+            a.UserID,
+            a.ServiceCatNo,
+            a.ServicesName,
+           (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1) AS ServiceCatName,
+           a.Price
+           FROM `tblservices` a WHERE RowNum = ?
+        ";
 
         $stmt = $this->PlsConnect()->prepare($query);
         $stmt->execute([$servicesID]);
         return $stmt;
     }
 
+    protected function show_booking_info($reservedBookingID)
+    {
+        $query = "SELECT 
+                  a.UserID, 
+                  a. ServiceCatNo, 
+                  a.ServicesName,
+                  (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1) AS ServiceCatName
+                  FROM tblservices a WHERE a.RowNum = ? ";
 
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$reservedBookingID]);
+        return $stmt;
+    }
 
 
     // ------------------------- Fetch Data -------------------------//
