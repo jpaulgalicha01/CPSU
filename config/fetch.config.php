@@ -177,6 +177,16 @@ class fetch extends controller
         }
     }
 
+
+    public function fetchingInfo($BookingID, $Status)
+    {
+        $stmt = $this->fetching_info($BookingID, $Status);
+        if ($stmt) {
+            return $stmt;
+        }
+        echo "ERROR!";
+    }
+
     public function fetchingReservedDate($month, $year)
     {
         $stmt = $this->fetching_reserved_date($month, $year);
@@ -282,6 +292,36 @@ class fetch extends controller
         }
     }
 
+    public function fetchingBookingClient($bookingID)
+    {
+
+        $stmt = $this->fetching_booking_client($bookingID);
+        if ($stmt->rowCount()) {
+            $fetch_info = $stmt->fetch();
+            $data = [
+                'status' => 200,
+                'data' => $fetch_info,
+            ];
+            echo json_encode($data);
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    public function fetchReview($ArtistUserID)
+    {
+        $stmt = $this->fetch_review($ArtistUserID);
+
+        return $stmt;
+    }
+
+
+    public function CountStars($UserID)
+    {
+        $stmt = $this->count_stars($UserID);
+        return $stmt;
+    }
 
 
     // ------------------------- Client Side -------------------------//
@@ -356,6 +396,8 @@ class fetch extends controller
         }
     }
 
+
+
     public function fetchArtist()
     {
         $stmt = $this->fetch_artist();
@@ -405,5 +447,7 @@ class fetch extends controller
         $stmt = $this->conversation1($SenderUserId);
         return $stmt;
     }
+
+
     // ------------------------- Client Side -------------------------//
 }

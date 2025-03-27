@@ -67,6 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $client_booking = new insert();
         $client_booking->clientBooking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $OtherNameServices, $Date, $Time, $SampleOutcome);
+    } elseif (isset($_POST["RevSubmit"]) && $_POST["function"] == "RevSubmit") {
+        $ArtistID = secured($_POST["ArtistID"]);
+        $RevStars = secured($_POST["RevStars"]);
+        $RevMessage = secured($_POST["RevMessage"]);
+
+
+
+        $ReviewSubmit = new insert();
+        $ReviewSubmit->ReviewSubmit($ArtistID,$RevStars,$RevMessage);
     } else {
         ob_end_flush(header("Location: login.php"));
     }
@@ -78,22 +87,27 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $fetchOtherNameServices = new fetch();
         $fetchOtherNameServices->fetchOtherNameServices($ArtistID, $ServicesCatNo);
-    }
-    
-    else if(isset($_GET["servicesID"])){
+    } else if (isset($_GET["servicesID"])) {
         $servicesID = secured($_GET["servicesID"]);
 
         $fetchingServicesInfo = new fetch();
         $fetchingServicesInfo->fetchingServicesInfo($servicesID);
-    }
-
-    else if(isset($_GET["reservedBookingID"])){
+    } else if (isset($_GET["reservedBookingID"])) {
         $reservedBookingID = secured($_GET["reservedBookingID"]);
 
         $ShowBookingInfo = new fetch();
         $ShowBookingInfo->ShowBookingInfo($reservedBookingID);
-    }
-    else {
+    } elseif (isset($_GET["bookingID"])) {
+        $bookingID = secured($_GET["bookingID"]);
+
+        $fetchingBookingClient = new fetch();
+        $fetchingBookingClient->fetchingBookingClient($bookingID);
+    } else if (isset($_GET["bookingIDCancelled"]) && $_GET["function"] === "Cancelled Booking") {
+        $bookingID = secured($_GET["bookingIDCancelled"]);
+
+        $CancelledBooking = new update();
+        $CancelledBooking->CancelledBooking($bookingID);
+    } else {
 
         ob_end_flush(header("Location: login.php"));
     }

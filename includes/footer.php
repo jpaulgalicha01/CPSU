@@ -1,3 +1,26 @@
+<?php
+if (isset($_SESSION['alert']) && $_SESSION['alert'] == "Show") {
+?>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+        });
+        Toast.fire({
+            icon: "<?= $_SESSION['icon'] ?>",
+            title: "<?= $_SESSION['title_alert'] ?>",
+        });
+    </script>
+<?php
+    unset($_SESSION['alert']);
+    unset($_SESSION['icon']);
+    unset($_SESSION['title_alert']);
+}
+?>
+
+
 <footer>
     <div class="container-fluid text-center">
         <div class="row bg-dark">

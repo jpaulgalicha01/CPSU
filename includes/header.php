@@ -46,6 +46,16 @@
 
       return formattedDate;
     }
+
+    function convertTime(timestring) {
+      const [hours, minutes] = timestring.split(":").map(Number);
+
+      return new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).format(new Date(1970, 0, 1, hours, minutes));
+    }
   </script>
   <style>
     #loginWrapper {

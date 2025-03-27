@@ -103,8 +103,6 @@ include 'includes/navbar.php';
 
                 <a href="#" class="btn btn-primary text-center form-control btn-rounded" id="previewArtist">Preview</a>
 
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Close</button>
@@ -279,7 +277,6 @@ include 'includes/navbar.php';
 
     function loadServiceData(serviceId) {
         if (!serviceId) return;
-
 
         $("#listServices").html("<p>Loading.....</p>");
 
