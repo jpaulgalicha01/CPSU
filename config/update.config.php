@@ -108,4 +108,26 @@ class update extends controller
 		$stmt = $this->checking_booking();
 		return $stmt;
 	}
+
+
+	public function CancelledBooking($bookingID)
+	{
+
+		$stmt = $this->cancelled_booking($bookingID);
+		if ($stmt) {
+			$data = [
+				'status' => 200,
+				`message` => "Success Update Data"
+			];
+			echo json_encode($data);
+			return false;
+		} else {
+			$data = [
+				'status' => 500,
+				`message` => "Failed To Update Data"
+			];
+			echo json_encode($data);
+			return false;
+		}
+	}
 }

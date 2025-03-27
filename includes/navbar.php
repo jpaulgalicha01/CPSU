@@ -20,7 +20,7 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small">
-                    <li><a class="dropdown-item" href="#">Booked List</a></li>
+                    <li><a class="dropdown-item" href="booked-list.php">Booked List</a></li>
                     <li><a class="dropdown-item d-lg-none d-block" href="services.php#serv_list=all">Services</a></li>
                     <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                     <li><a class="dropdown-item" href="messages.php">Messages <span class="badge text-danger"><?= $messege ?></span></a></li>

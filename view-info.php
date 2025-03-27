@@ -18,6 +18,8 @@ $Age;
 $Birthdate;
 $civilStatus;
 $CompleteAddress;
+$TotalReviews;
+$TotalRevStars;
 
 $fetchingArtistiInfo = new fetch();
 $resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_GET['UserID']), "Artist");
@@ -48,6 +50,18 @@ if (isset($_COOKIE['UserID'])) {
             $count = 1;
         }
     }
+}
+
+
+$CountStars = new fetch();
+$rowCountStars = $CountStars->CountStars($UserID);
+if ($rowCountStars->rowCount()) {
+    $TotalReviews = $rowCountStars->rowCount();
+    $Stars = 0;
+    while ($resCountStars = $rowCountStars->fetch()) {
+        $Stars += $resCountStars["RevStars"];
+    }
+    $TotalRevStars = $Stars / $TotalReviews;
 }
 
 ?>
@@ -104,16 +118,10 @@ if (isset($_COOKIE['UserID'])) {
 
         <div class="col-lg-7 pb-5">
             <h3 class="font-weight-semi-bold">Artist </h3>
-            <div class="d-flex mb-3">
-                <div class="text-primary mr-2">
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star"></small>
-                    <small class="fas fa-star-half-alt"></small>
-                    <small class="far fa-star"></small>
-                </div>
-                <small class="pt-1">(50 Reviews)</small>
-            </div>
+            <small class="pt-1">(<?= $TotalReviews ?> Reviews)</small>
+
+            <input name="RevStars" class="rating rating-loading" data-show-clear="false"
+                style="font-size: 0px !important; margin-bottom:0px !important" disabled value="<?= $TotalRevStars ?>">
 
             <div class="mb-2">
                 <h5 class="font-weight-semi-bold">Name</h5>
@@ -163,23 +171,49 @@ if (isset($_COOKIE['UserID'])) {
 
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                     <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
-                            <div class="media mb-4">
-                                <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                                <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                    <div class="text-primary mb-2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
+                        <div class="col-md-6" style="max-height: 70vh;height:1005; overflow-y: auto;">
+
+                            <?php
+
+                            $fetchReview = new fetch();
+                            $rowfetchReview = $fetchReview->fetchReview($_GET["UserID"]);
+
+                            if ($rowfetchReview->rowCount() != 0) {
+                            ?>
+                                <h4 class="mb-4"><?= $rowfetchReview->rowCount() ?> review for "<?= $FName . " " . $MName . " " . $LName ?>"</h4>
+
+                                <?php
+
+                                while ($resfetchReview = $rowfetchReview->fetch()) {
+
+                                ?>
+
+                                    <div class="card mb-2">
+                                        <div class="card-body">
+                                            <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                            <div class="media-body">
+                                                <h6><?= $resfetchReview["ClientName"] ?><small> - <i><?= date('d M, Y', strtotime($resfetchReview['Date'])) ?></i></small></h6>
+                                                <div class="text-primary mb-2">
+                                                    <input name="RevStars" class="rating rating-loading" data-show-clear="false"
+                                                        style="font-size: 0px !important; margin-bottom:0px !important" disabled value="<?= $resfetchReview["RevStars"] ?>">
+                                                </div>
+                                                <p><?= $resfetchReview["RevMessage"] ?></p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no
-                                        at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                </div>
-                            </div>
+
+
+                            <?php
+                                }
+                            } else {
+                                echo "no data found. ";
+                            }
+
+                            ?>
+
+
+
+
                         </div>
                         <div class="col-md-6">
                             <h4 class="mb-4">Leave a review</h4>
@@ -187,15 +221,17 @@ if (isset($_COOKIE['UserID'])) {
                             <div class="d-flex my-3">
                                 <p class="mb-0 mr-2">Your Rating * :</p>
                             </div>
-                            <form>
-                                <input id="input-4" name="input-4" class="rating rating-loading" data-show-clear="false"
-                                    data-show-caption="true" style="font-size: 0px !important">
+                            <form action="inputConfig.php" method="POST">
+                                <input type="hidden" name="function" value="RevSubmit">
+                                <input type="hidden" name="ArtistID" value="<?= $_GET["UserID"] ?>">
+                                <input id="input-4" name="RevStars" class="rating rating-loading" data-show-clear="false"
+                                    data-show-caption="true" style="font-size: 0px !important" required>
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
-                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                    <textarea id="message" name="RevMessage" cols="30" rows="5" class="form-control" required></textarea>
                                 </div>
                                 <div class="form-group mt-2">
-                                    <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                    <input type="submit" name="RevSubmit" value="Leave Your Review" class="btn btn-primary px-3">
                                 </div>
                             </form>
                         </div>
