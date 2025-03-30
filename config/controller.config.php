@@ -295,19 +295,20 @@ class controller extends db
                     s.`id` AS `ServiceCategoryID`,
                     s.`ServiceName` AS `ServiceCategory`,
                     ser. `Price` AS `Price`
-                FROM `cpsu_be`.`tblbooking` AS b
-                INNER JOIN `cpsu_be`.`tbluser` AS u ON u.`UserID` = b.`UserID`
-                INNER JOIN `cpsu_be`.`tblservicecategory` AS s ON s.`id` = b.`Services`
-                INNER JOIN `cpsu_be`.`tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
+                FROM `tblbooking` AS b
+                INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
+                INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
                 WHERE b.`UserID` = ?
                 ORDER BY b.`RowNum` AND b.`Status` ;
                ";
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute([$_COOKIE['UserID']]);
+
+                return $stmt;
             } else {
 
-                $query = "
-            SELECT 
+                $query = " SELECT 
                     b.`RowNum` AS `RowNum`,
                     b.`ArtistUserID` AS `ArtistUserID`,
                     u.`FName` AS `FName`,
@@ -332,10 +333,10 @@ class controller extends db
                     s.`id` AS `ServiceCategoryID`,
                     s.`ServiceName` AS `ServiceCategory`,
                     ser. `Price` AS `Price`
-                FROM `cpsu_be`.`tblbooking` AS b
-                INNER JOIN `cpsu_be`.`tbluser` AS u ON u.`UserID` = b.`UserID`
-                INNER JOIN `cpsu_be`.`tblservicecategory` AS s ON s.`id` = b.`Services`
-                INNER JOIN `cpsu_be`.`tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
+                FROM `tblbooking` AS b
+                INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
+                INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
                 WHERE b.`UserID` = ? AND b.`Status` = ?
                 ORDER BY b.`RowNum` AND b.`Status`;
            
@@ -343,45 +344,46 @@ class controller extends db
 
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute([$_COOKIE['UserID'], $Status]);
+
+                return $stmt;
             }
         } else {
 
             $query = "SELECT 
-               `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
-               `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
-               `cpsu_be`.`tbluser`.`FName` AS `FName`,
-               `cpsu_be`.`tbluser`.`MName` AS `MName`,
-               `cpsu_be`.`tbluser`.`LName` AS `LName`,
-               `cpsu_be`.`tbluser`.`Age` AS `Age`,
-               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,  
-               `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
-               `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
-               `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
-               `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
-               `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
-               `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
-               `cpsu_be`.`tblbooking`.`Services` AS `Services`,
-               `cpsu_be`.`tblbooking`.`OtherNameServices` AS `OtherNameServices`,
+               `tblbooking`.`RowNum` AS `RowNum`,
+               `tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+               `tbluser`.`FName` AS `FName`,
+               `tbluser`.`MName` AS `MName`,
+               `tbluser`.`LName` AS `LName`,
+               `tbluser`.`Age` AS `Age`,
+               `tbluser`.`Birthdate` AS `Birthdate`,  
+               `tbluser`.`CivilStatus` AS `CivilStatus`,
+               `tbluser`.`CompleteAddress` AS `CompleteAddress`,
+               `tbluser`.`ContactNumber` AS `ContactNumber`,
+               `tbluser`.`ProfImg` AS `ProfImg`,
+               `tblbooking`.`UserID` AS `ClientUserID`,
+               `tblbooking`.`TDate` AS `TDate`,
+               `tblbooking`.`Services` AS `Services`,
+               `tblbooking`.`OtherNameServices` AS `OtherNameServices`,
                (SELECT ServiceName FROM tblservicecategory WHERE id = Services) AS ServicesName,
-               `cpsu_be`.`tblbooking`.`Date` AS `Date`,
-               `cpsu_be`.`tblbooking`.`Time` AS `Time`,
-               `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
-               `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
-               `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
-               `cpsu_be`.`tblbooking`.`Status` AS `Status`
+               `tblbooking`.`Date` AS `Date`,
+               `tblbooking`.`Time` AS `Time`,
+               `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+               `tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+               `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+               `tblbooking`.`Status` AS `Status`
            FROM
-               (`cpsu_be`.`tbluser`
-               JOIN `cpsu_be`.`tblbooking`)
+               (`tbluser`
+               JOIN `tblbooking`)
            WHERE
-               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`UserID` = ? AND `cpsu_be`.`tblbooking`.`RowNum` = ? AND  `cpsu_be`.`tblbooking`.`Status`  = ?
-           ORDER BY `cpsu_be`.`tbluser`.`RowNum` 
-           
+               `tbluser`.`UserID` = `tblbooking`.`UserID` AND     `tblbooking`.`UserID` = ? AND `tblbooking`.`RowNum` = ? AND  `tblbooking`.`Status`  = ?
+           ORDER BY `tbluser`.`RowNum` 
            ";
 
             $stmt = $this->PlsConnect()->prepare($query);
             $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
+            return $stmt;
         }
-        return $stmt;
     }
 
     protected function fetching_Prof_Img($value, $ServiceName,)

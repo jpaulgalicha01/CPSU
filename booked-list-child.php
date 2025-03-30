@@ -1,9 +1,8 @@
 <?php
 include 'includes/autoload.inc.php';
-
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
-    if (isset($_GET["Categories"]) && isset($_GET["Status"])) {
+    if (isset($_GET["Categories"])  && isset($_GET["Status"])) {
 
         $fetchingInfo = new fetch();
         $resfetchingInfo = $fetchingInfo->fetchingInfo($_GET["Categories"], $_GET["Status"]);
