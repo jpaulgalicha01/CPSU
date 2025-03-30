@@ -110,10 +110,7 @@ if (!isset($_COOKIE['UserID']) && !$_COOKIE['TypeUser']) {
             Status = document.getElementById("Status").value;
         })
         $("#content").text("loading.........")
-        $.get(`booked-list-child.php`, {
-            Categories: Categories,
-            Status: Status
-        }, function(data) {
+        $.get(`booked-list-child.php?Categories=${Categories}&Status=${Status}`, function(data) {
             $("#content").html(data)
         })
     })

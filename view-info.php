@@ -192,7 +192,7 @@ if ($rowCountStars->rowCount()) {
                                         <div class="card-body">
                                             <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
-                                                <h6><?= $resfetchReview["ClientName"] ?><small> - <i><?= date('d M, Y', strtotime($resfetchReview['Date'])) ?></i></small></h6>
+                                                <h6><?= $resfetchReview["ClientName"] ?> <?= ($resfetchReview["UserID"] === $_COOKIE["UserID"]) ? "(You)" : "" ?><small> - <i><?= date('d M, Y', strtotime($resfetchReview['Date'])) ?></i></small></h6>    
                                                 <div class="text-primary mb-2">
                                                     <input name="RevStars" class="rating rating-loading" data-show-clear="false"
                                                         style="font-size: 0px !important; margin-bottom:0px !important" disabled value="<?= $resfetchReview["RevStars"] ?>">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2025 at 11:26 AM
+-- Generation Time: Mar 30, 2025 at 09:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -34,6 +34,8 @@ CREATE TABLE `tblbooking` (
   `TDate` datetime NOT NULL,
   `PinLocationAddress` varchar(250) NOT NULL,
   `Services` varchar(250) NOT NULL,
+  `OtherNameServices` text DEFAULT NULL,
+  `TypeService` text NOT NULL,
   `Date` date NOT NULL,
   `Time` time NOT NULL,
   `SampleOutcome` bit(1) NOT NULL,
@@ -50,19 +52,10 @@ CREATE TABLE `tblbooking` (
 CREATE TABLE `tbldescription` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(250) NOT NULL,
-  `ServicesName` text NOT NULL,
+  `ServiceCatNo` int(11) NOT NULL,
+  `ServicesName` text DEFAULT NULL,
   `Description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbldescription`
---
-
-INSERT INTO `tbldescription` (`RowNum`, `UserID`, `ServicesName`, `Description`) VALUES
-(1, '2108113524', '', 'askdjhakjsdkjawd\r\nasdlkhaslkdjkasjdjasd.\r\nlkjhasjdkajshdljkahsddd'),
-(3, '716792885', 'Testing1233', 'asddd'),
-(4, '716792885', 'aaa', 'asd'),
-(5, '716792885', 'testing', 'Within 3 days ahead of the schedule of booking.');
 
 -- --------------------------------------------------------
 
@@ -88,20 +81,10 @@ CREATE TABLE `tblmessages` (
 CREATE TABLE `tblprofimages` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(50) NOT NULL,
+  `ServiceCatNo` int(11) NOT NULL,
   `ServicesName` text NOT NULL,
   `Images` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tblprofimages`
---
-
-INSERT INTO `tblprofimages` (`RowNum`, `UserID`, `ServicesName`, `Images`) VALUES
-(13, '716792885', 'aaa', 'man.png'),
-(14, '716792885', 'testing', 'man.png'),
-(15, '716792885', 'Testing1233', 'men-women-who-show-love-each-other-b.png'),
-(16, '716792885', 'Testing1233', 'men-women-who-show-love-each-other.png'),
-(17, '716792885', 'Testing1233', 'watercolor-valentine-s-day-flowers-illustration-b.png');
 
 -- --------------------------------------------------------
 
@@ -115,17 +98,53 @@ CREATE TABLE `tblreservedate` (
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tblreservedate`
+-- Table structure for table `tblreview`
 --
 
-INSERT INTO `tblreservedate` (`id`, `UserID`, `date`) VALUES
-(53, '1848684243', '2024-09-17'),
-(56, '1848684243', '2024-09-11'),
-(59, '1848684243', '2024-09-18'),
-(60, '716792885', '2025-02-26'),
-(61, '716792885', '2025-02-27'),
-(62, '716792885', '2025-02-28');
+CREATE TABLE `tblreview` (
+  `id` int(11) NOT NULL,
+  `UserID` varchar(250) NOT NULL,
+  `ArtistUserID` varchar(250) NOT NULL,
+  `RevStars` double NOT NULL,
+  `RevMessage` varchar(250) NOT NULL,
+  `Date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblservicecategory`
+--
+
+CREATE TABLE `tblservicecategory` (
+  `id` int(11) NOT NULL,
+  `ServiceName` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblservicecategory`
+--
+
+INSERT INTO `tblservicecategory` (`id`, `ServiceName`) VALUES
+(1, 'Facials'),
+(2, 'Waxing'),
+(3, 'Threading'),
+(4, 'Eyelash Extensions'),
+(5, 'Brow Tinting'),
+(6, 'Manicures'),
+(7, 'Pedicures'),
+(8, 'Makeup Application'),
+(9, 'Hair Coloring'),
+(10, 'Hair Styling'),
+(11, 'Haircuts'),
+(12, 'Spray Tanning'),
+(13, 'Microblading'),
+(14, 'Chemical Peels'),
+(15, 'Acne Treatments'),
+(16, 'Others');
 
 -- --------------------------------------------------------
 
@@ -136,20 +155,10 @@ INSERT INTO `tblreservedate` (`id`, `UserID`, `date`) VALUES
 CREATE TABLE `tblservices` (
   `RowNum` int(11) NOT NULL,
   `UserID` varchar(50) NOT NULL,
-  `ServicesName` varchar(50) NOT NULL,
+  `ServiceCatNo` int(11) NOT NULL,
+  `ServicesName` varchar(50) DEFAULT NULL,
   `Price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tblservices`
---
-
-INSERT INTO `tblservices` (`RowNum`, `UserID`, `ServicesName`, `Price`) VALUES
-(1, '2108113524', 'Hair Cut', 500.00),
-(2, '1848684243', 'asddd', 123.00),
-(4, '716792885', 'Testing1233', 1200.00),
-(5, '716792885', 'aaa', 500.00),
-(6, '716792885', 'testing', 200.00);
 
 -- --------------------------------------------------------
 
@@ -183,47 +192,8 @@ CREATE TABLE `tbluser` (
 
 INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Birthdate`, `CivilStatus`, `Brgy`, `City`, `CompleteAddress`, `ContactNumber`, `UserName`, `Password`, `TypeUser`, `ProfImg`, `Status`) VALUES
 (3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL),
-(20, '1848684243', 'Company testing', '', '', 0, '0000-00-00 00:00:00', '', 'brgy1', 'kab', 'brgy 1 kab city', '1234567911', 'company', '93c731f1c3a84ef05cd54d044c379eaa', 'Artist', 'default.png', 'Accept'),
-(21, '274811832', 'abc', 'abc', 'abc', 12, '2024-12-31 00:00:00', 'Single', 'abc', 'abc', 'abc', '9948487917', 'abc', '900150983cd24fb0d6963f7d28e17f72', 'Client', 'default.png', 'Accept'),
-(22, '716792885', 'testing', 'testing', 'testing', 12, '2024-08-30 00:00:00', 'Married', 'testing', 'testing', 'testing', '9948487917', 'testing', 'ae2b1fca515949e5d54fb22b8ed95575', 'Artist', 'DSC_0350.JPG', 'Accept');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `viewbooking`
--- (See below for the actual view)
---
-CREATE TABLE `viewbooking` (
-`RowNum` int(11)
-,`ArtistUserID` varchar(250)
-,`FName` varchar(50)
-,`MName` varchar(50)
-,`LName` varchar(50)
-,`Age` int(11)
-,`Birthdate` datetime
-,`CivilStatus` varchar(50)
-,`CompleteAddress` varchar(250)
-,`ContactNumber` char(10)
-,`ProfImg` varchar(50)
-,`ClientUserID` char(50)
-,`TDate` datetime
-,`Services` varchar(250)
-,`Date` date
-,`Time` time
-,`PinLocationAddress` varchar(250)
-,`SampleOutcome` bit(1)
-,`SampleOutcomeImg` varchar(250)
-,`Status` varchar(50)
-);
-
--- --------------------------------------------------------
-
---
--- Structure for view `viewbooking`
---
-DROP TABLE IF EXISTS `viewbooking`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewbooking`  AS SELECT `tblbooking`.`RowNum` AS `RowNum`, `tblbooking`.`ArtistUserID` AS `ArtistUserID`, `tbluser`.`FName` AS `FName`, `tbluser`.`MName` AS `MName`, `tbluser`.`LName` AS `LName`, `tbluser`.`Age` AS `Age`, `tbluser`.`Birthdate` AS `Birthdate`, `tbluser`.`CivilStatus` AS `CivilStatus`, `tbluser`.`CompleteAddress` AS `CompleteAddress`, `tbluser`.`ContactNumber` AS `ContactNumber`, `tbluser`.`ProfImg` AS `ProfImg`, `tblbooking`.`UserID` AS `ClientUserID`, `tblbooking`.`TDate` AS `TDate`, `tblbooking`.`Services` AS `Services`, `tblbooking`.`Date` AS `Date`, `tblbooking`.`Time` AS `Time`, `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`, `tblbooking`.`SampleOutcome` AS `SampleOutcome`, `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`, `tblbooking`.`Status` AS `Status` FROM (`tbluser` join `tblbooking`) WHERE `tbluser`.`UserID` = `tblbooking`.`UserID` ORDER BY `tbluser`.`RowNum` ASC ;
+(27, '693930370', 'artist1', 'artist1', 'artist1', 25, '2000-08-07 00:00:00', 'Single', 'artist1', 'artist1', 'artist1', '9948487917', 'artist1', '8507c08cd2743274878fb97302e42cf8', 'Artist', 'default.png', 'Accept'),
+(28, '1762237924', 'client', 'client', 'client', 25, '2000-08-07 00:00:00', 'Single', 'client', 'client', 'client', '9948487917', 'client', '62608e08adc29a8d6dbc9754e659f125', 'Client', 'default.png', 'Accept');
 
 --
 -- Indexes for dumped tables
@@ -260,6 +230,18 @@ ALTER TABLE `tblreservedate`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblreview`
+--
+ALTER TABLE `tblreview`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblservicecategory`
+--
+ALTER TABLE `tblservicecategory`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tblservices`
 --
 ALTER TABLE `tblservices`
@@ -279,43 +261,55 @@ ALTER TABLE `tbluser`
 -- AUTO_INCREMENT for table `tblbooking`
 --
 ALTER TABLE `tblbooking`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbldescription`
 --
 ALTER TABLE `tbldescription`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblmessages`
 --
 ALTER TABLE `tblmessages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblprofimages`
 --
 ALTER TABLE `tblprofimages`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblreservedate`
 --
 ALTER TABLE `tblreservedate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblreview`
+--
+ALTER TABLE `tblreview`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblservicecategory`
+--
+ALTER TABLE `tblservicecategory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tblservices`
 --
 ALTER TABLE `tblservices`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbluser`
 --
 ALTER TABLE `tbluser`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
