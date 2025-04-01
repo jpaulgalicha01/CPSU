@@ -17,34 +17,32 @@ function Autoload($classname)
 }
 
 
-$UserID = $_COOKIE['UserID'];
-$UserName = "";
-// $user_profile = "";
-// $user_fname = "";
-// $user_mname = "";
-// $user_lname = "";
-// $user_address = "";
-// $user_birth = "";
-// $user_phone = "";
-// $user_email = "";
-$user_uname = "";
+// Cient Information
+$Client_FName;
+$Client_MName;
+$Client_LName;
+$Client_Age;
+$Client_Birthdate;
+$Client_CivilStatus;
+$Client_CompleteAddress;
+$Client_ProfImg;
+$Client_UserName = "";
 
-$fetch_info_user = new fetch();
-$res_fetch_info_user = $fetch_info_user->fetchInfoUser($UserID);
-if ($res_fetch_info_user->rowCount()) {
-	$res = $res_fetch_info_user->fetch();
-
-	// $user_profile = $fetch_info_admin['acc_profile'];
-	// $user_fname = $fetch_info_admin['acc_fname'];
-	// $user_mname = $fetch_info_admin['acc_mname'];
-	// $user_lname = $fetch_info_admin['acc_lname'];
-	// $user_address = $fetch_info_admin['acc_address'];
-	// $user_birth = $fetch_info_admin['acc_birth'];
-	// $user_phone = $fetch_info_admin['acc_phone'];
-	// $user_email = $fetch_info_admin['acc_email'];
-	// $user_uname = $fetch_info_admin['acc_uname'];
-
-	$UserName = $res['LName'] . ", " . $res['FName'];
+$fetchingArtistiInfo = new fetch();
+$resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_COOKIE['UserID']), "Artist");
+if ($resfetchingArtistiInfo->rowCount() != 0) {
+	while ($rowfetchingArtistiInfo = $resfetchingArtistiInfo->fetch()) {
+		$Client_FName = $rowfetchingArtistiInfo['FName'];
+		$Client_MName = $rowfetchingArtistiInfo['MName'];
+		$Client_LName = $rowfetchingArtistiInfo['LName'];
+		$Client_Age = $rowfetchingArtistiInfo['Age'];
+		$Client_Birthdate = date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate']));
+		$Client_CivilStatus = $rowfetchingArtistiInfo['CivilStatus'];
+		$Client_CompleteAddress = $rowfetchingArtistiInfo['CompleteAddress'];
+		$Client_ContactNumber = $rowfetchingArtistiInfo["ContactNumber"];
+		$Client_ProfImg = $rowfetchingArtistiInfo['ProfImg'];
+		$Client_UserName = $rowfetchingArtistiInfo["UserName"];
+	}
 }
 
 $messege;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2025 at 09:21 AM
+-- Generation Time: Apr 01, 2025 at 06:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -191,9 +191,7 @@ CREATE TABLE `tbluser` (
 --
 
 INSERT INTO `tbluser` (`RowNum`, `UserID`, `FName`, `MName`, `LName`, `Age`, `Birthdate`, `CivilStatus`, `Brgy`, `City`, `CompleteAddress`, `ContactNumber`, `UserName`, `Password`, `TypeUser`, `ProfImg`, `Status`) VALUES
-(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL),
-(27, '693930370', 'artist1', 'artist1', 'artist1', 25, '2000-08-07 00:00:00', 'Single', 'artist1', 'artist1', 'artist1', '9948487917', 'artist1', '8507c08cd2743274878fb97302e42cf8', 'Artist', 'default.png', 'Accept'),
-(28, '1762237924', 'client', 'client', 'client', 25, '2000-08-07 00:00:00', 'Single', 'client', 'client', 'client', '9948487917', 'client', '62608e08adc29a8d6dbc9754e659f125', 'Client', 'default.png', 'Accept');
+(3, '560350889', 'admin1', 'admin1', 'admin1', 12, '2024-12-31 00:00:00', 'Single', 'admin1', 'admin1', 'admin1', '', 'admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Admin', 'default.png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -303,7 +301,7 @@ ALTER TABLE `tblservicecategory`
 -- AUTO_INCREMENT for table `tblservices`
 --
 ALTER TABLE `tblservices`
-  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `RowNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbluser`

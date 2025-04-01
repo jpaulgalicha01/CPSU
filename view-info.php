@@ -3,7 +3,6 @@ include 'includes/autoload.inc.php';
 include 'includes/header.php';
 include 'includes/navbar.php';
 
-//Checking if client is not logging in
 $UserID = secured($_GET['UserID']);
 
 // if (!isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] != "Client") {
@@ -18,8 +17,22 @@ $Age;
 $Birthdate;
 $civilStatus;
 $CompleteAddress;
-$TotalReviews;
-$TotalRevStars;
+$TotalReviews = 0;
+$TotalRevStars = 0;
+
+
+$CountStars = new fetch();
+$rowCountStars = $CountStars->CountStars($UserID);
+if ($rowCountStars->rowCount()) {
+    $TotalReviews = $rowCountStars->rowCount();
+    $Stars = 0;
+    while ($resCountStars = $rowCountStars->fetch()) {
+        $Stars += $resCountStars["RevStars"];
+    }
+    $TotalRevStars = $Stars / $TotalReviews;
+}
+
+
 
 $fetchingArtistiInfo = new fetch();
 $resfetchingArtistiInfo = $fetchingArtistiInfo->fetchingArtistiInfo(secured($_GET['UserID']), "Artist");
@@ -53,16 +66,6 @@ if (isset($_COOKIE['UserID'])) {
 }
 
 
-$CountStars = new fetch();
-$rowCountStars = $CountStars->CountStars($UserID);
-if ($rowCountStars->rowCount()) {
-    $TotalReviews = $rowCountStars->rowCount();
-    $Stars = 0;
-    while ($resCountStars = $rowCountStars->fetch()) {
-        $Stars += $resCountStars["RevStars"];
-    }
-    $TotalRevStars = $Stars / $TotalReviews;
-}
 
 ?>
 </div>
@@ -190,9 +193,9 @@ if ($rowCountStars->rowCount()) {
 
                                     <div class="card mb-2">
                                         <div class="card-body">
-                                            <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                            <img src="uploads/<?= $resfetchReview["ProfImg"] ?>" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
-                                                <h6><?= $resfetchReview["ClientName"] ?> <?= ($resfetchReview["UserID"] === $_COOKIE["UserID"]) ? "(You)" : "" ?><small> - <i><?= date('d M, Y', strtotime($resfetchReview['Date'])) ?></i></small></h6>    
+                                                <h6><?= $resfetchReview["ClientName"] ?> <?= (isset($_COOKIE["UserID"])) ? ($resfetchReview["UserID"] === $_COOKIE["UserID"]) ? "(You)" : "" : "" ?><small> - <i><?= date('d M, Y', strtotime($resfetchReview['Date'])) ?></i></small></h6>
                                                 <div class="text-primary mb-2">
                                                     <input name="RevStars" class="rating rating-loading" data-show-clear="false"
                                                         style="font-size: 0px !important; margin-bottom:0px !important" disabled value="<?= $resfetchReview["RevStars"] ?>">

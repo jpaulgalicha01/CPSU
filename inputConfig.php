@@ -68,6 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $client_booking = new insert();
         $client_booking->clientBooking($ArtistUserID, $UserID, $Address, $Services, $TypeServices, $OtherNameServices, $Date, $Time, $SampleOutcome);
     } elseif (isset($_POST["RevSubmit"]) && $_POST["function"] == "RevSubmit") {
+
+
+        if (!isset($_COOKIE["UserID"])) {
+            ob_end_flush(header("Location: login.php"));
+        }
+
+
         $ArtistID = secured($_POST["ArtistID"]);
         $RevStars = secured($_POST["RevStars"]);
         $RevMessage = secured($_POST["RevMessage"]);
@@ -75,7 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
         $ReviewSubmit = new insert();
-        $ReviewSubmit->ReviewSubmit($ArtistID,$RevStars,$RevMessage);
+        $ReviewSubmit->ReviewSubmit($ArtistID, $RevStars, $RevMessage);
+    } elseif (isset($_POST['update_info']) && secured($_POST['function'] == "update_info")) {
+        $FName = secured($_POST["FName"]);
+        $MName = secured($_POST["MName"]);
+        $LName = secured($_POST["LName"]);
+        $UserName = secured($_POST["UserName"]);
+        $OPass = secured($_POST["OPass"]);
+        $NPAss = secured($_POST["NPAss"]);
+
+        $updateInfo = new update();
+        $updateInfo->updateInfo($FName, $MName, $LName, $UserName, $OPass, $NPAss);
+    } elseif (isset($_POST['change_profile']) && secured($_POST['function'] == "change_profile")) {
+        $change_prof_img = new update();
+        $change_prof_img->changeProfImg();
     } else {
         ob_end_flush(header("Location: login.php"));
     }

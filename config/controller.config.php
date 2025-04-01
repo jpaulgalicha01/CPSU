@@ -142,6 +142,32 @@ class controller extends db
         return $stmt;
     }
 
+
+    protected function fetching_earn_over()
+    {
+        $query = "SELECT 
+            b.`ArtistUserID` AS `ArtistUserID`,
+            b.`Services` AS `Services`,
+            DATE_FORMAT(b.`Date`, '%Y-%m') AS `Month`, 
+            b.`Status` AS `Status`,
+            SUM(ser.`Price`) AS `TotalPrice`
+        FROM `tblbooking` AS b
+        INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
+        INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+        INNER JOIN `tblservices` AS ser 
+            ON ser.`UserID` = b.`ArtistUserID` 
+            AND ser.`ServiceCatNo` = b.`Services`
+        WHERE b.`ArtistUserID` = ? 
+        AND b.`Status` = 'Done'
+        GROUP BY `Month`;
+        ";
+
+        $stmt = $this->PlsConnect()->prepare($query);
+        $stmt->execute([$_COOKIE["UserID"]]);
+        return $stmt;
+    }
+
+
     protected function fetchinng_pending_booking($BookingID, $Status)
     {
 
@@ -269,8 +295,7 @@ class controller extends db
         if ($BookingID == "0") {
 
             if ($Status === "All") {
-                $query = "
-               SELECT 
+                $query = "SELECT 
                     b.`RowNum` AS `RowNum`,
                     b.`ArtistUserID` AS `ArtistUserID`,
                     u.`FName` AS `FName`,
@@ -298,7 +323,7 @@ class controller extends db
                 FROM `tblbooking` AS b
                 INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
                 INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
-                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServiceCatNo` =  b.`Services`
                 WHERE b.`UserID` = ?
                 ORDER BY b.`RowNum` AND b.`Status` ;
                ";
@@ -336,9 +361,9 @@ class controller extends db
                 FROM `tblbooking` AS b
                 INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
                 INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
-                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
-                WHERE b.`UserID` = ? AND b.`Status` = ?
-                ORDER BY b.`RowNum` AND b.`Status`;
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServiceCatNo` =  b.`Services`
+                WHERE b.`UserID` = ? AND  b.`Status` = ?
+                ORDER BY b.`RowNum`
            
            ";
 
@@ -348,41 +373,81 @@ class controller extends db
                 return $stmt;
             }
         } else {
+            if ($Status === "All") {
+                $query = "SELECT 
+                    b.`RowNum` AS `RowNum`,
+                    b.`ArtistUserID` AS `ArtistUserID`,
+                    u.`FName` AS `FName`,
+                    u.`MName` AS `MName`,
+                    u.`LName` AS `LName`,
+                    u.`Age` AS `Age`,
+                    u.`Birthdate` AS `Birthdate`,
+                    u.`CivilStatus` AS `CivilStatus`,
+                    u.`CompleteAddress` AS `CompleteAddress`,
+                    u.`ContactNumber` AS `ContactNumber`,
+                    u.`ProfImg` AS `ProfImg`,
+                    b.`UserID` AS `ClientUserID`,
+                    b.`TDate` AS `TDate`,
+                    b.`Services` AS `Services`,
+                    b.`Date` AS `Date`,
+                    b.`Time` AS `Time`,
+                    b.`PinLocationAddress` AS `PinLocationAddress`,
+                    b.`SampleOutcome` AS `SampleOutcome`,
+                    b.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+                    b.`Status` AS `Status`,
+                    b.`OtherNameServices` AS `OtherNameServices`,
+                    s.`id` AS `ServiceCategoryID`,
+                    s.`ServiceName` AS `ServiceCategory`,
+                    ser. `Price` AS `Price`
+                FROM `tblbooking` AS b
+                INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
+                INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServiceCatNo` =  b.`Services`
+                WHERE b.`UserID` = ? AND b.`Services` = ?
+                ORDER BY b.`RowNum`  ;
+            ";
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute([$_COOKIE['UserID'], $BookingID]);
 
-            $query = "SELECT 
-               `tblbooking`.`RowNum` AS `RowNum`,
-               `tblbooking`.`ArtistUserID` AS `ArtistUserID`,
-               `tbluser`.`FName` AS `FName`,
-               `tbluser`.`MName` AS `MName`,
-               `tbluser`.`LName` AS `LName`,
-               `tbluser`.`Age` AS `Age`,
-               `tbluser`.`Birthdate` AS `Birthdate`,  
-               `tbluser`.`CivilStatus` AS `CivilStatus`,
-               `tbluser`.`CompleteAddress` AS `CompleteAddress`,
-               `tbluser`.`ContactNumber` AS `ContactNumber`,
-               `tbluser`.`ProfImg` AS `ProfImg`,
-               `tblbooking`.`UserID` AS `ClientUserID`,
-               `tblbooking`.`TDate` AS `TDate`,
-               `tblbooking`.`Services` AS `Services`,
-               `tblbooking`.`OtherNameServices` AS `OtherNameServices`,
-               (SELECT ServiceName FROM tblservicecategory WHERE id = Services) AS ServicesName,
-               `tblbooking`.`Date` AS `Date`,
-               `tblbooking`.`Time` AS `Time`,
-               `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
-               `tblbooking`.`SampleOutcome` AS `SampleOutcome`,
-               `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
-               `tblbooking`.`Status` AS `Status`
-           FROM
-               (`tbluser`
-               JOIN `tblbooking`)
-           WHERE
-               `tbluser`.`UserID` = `tblbooking`.`UserID` AND     `tblbooking`.`UserID` = ? AND `tblbooking`.`RowNum` = ? AND  `tblbooking`.`Status`  = ?
-           ORDER BY `tbluser`.`RowNum` 
-           ";
+                return $stmt;
+            } else {
+                $query = " SELECT 
+                    b.`RowNum` AS `RowNum`,
+                    b.`ArtistUserID` AS `ArtistUserID`,
+                    u.`FName` AS `FName`,
+                    u.`MName` AS `MName`,
+                    u.`LName` AS `LName`,
+                    u.`Age` AS `Age`,
+                    u.`Birthdate` AS `Birthdate`,
+                    u.`CivilStatus` AS `CivilStatus`,
+                    u.`CompleteAddress` AS `CompleteAddress`,
+                    u.`ContactNumber` AS `ContactNumber`,
+                    u.`ProfImg` AS `ProfImg`,
+                    b.`UserID` AS `ClientUserID`,
+                    b.`TDate` AS `TDate`,
+                    b.`Services` AS `Services`,
+                    b.`Date` AS `Date`,
+                    b.`Time` AS `Time`,
+                    b.`PinLocationAddress` AS `PinLocationAddress`,
+                    b.`SampleOutcome` AS `SampleOutcome`,
+                    b.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+                    b.`Status` AS `Status`,
+                    b.`OtherNameServices` AS `OtherNameServices`,
+                    s.`id` AS `ServiceCategoryID`,
+                    s.`ServiceName` AS `ServiceCategory`,
+                    ser. `Price` AS `Price`
+                FROM `tblbooking` AS b
+                INNER JOIN `tbluser` AS u ON u.`UserID` = b.`UserID`
+                INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServiceCatNo` =  b.`Services`
+                WHERE b.`UserID` = ? AND b.`Services` = ? AND  b.`Status` = ?
+                ORDER BY b.`RowNum`
+            ";
 
-            $stmt = $this->PlsConnect()->prepare($query);
-            $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
-            return $stmt;
+                $stmt = $this->PlsConnect()->prepare($query);
+                $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
+                return $stmt;
+            }
         }
     }
 
@@ -448,7 +513,8 @@ class controller extends db
             r.Date, 
             (SELECT CONCAT(COALESCE(u.FName, ''), ' ', COALESCE(u.MName, ''), ' ', COALESCE(u.LName, '')) 
             FROM tbluser u 
-            WHERE u.UserID = r.UserID) AS ClientName
+            WHERE u.UserID = r.UserID) AS ClientName,
+            (SELECT ProfImg  FROM tbluser u WHERE u.UserID = r.UserID) AS ProfImg
         FROM tblreview r 
         WHERE r.ArtistUserID = ?";
         $stmt = $this->PlsConnect()->prepare($query);
@@ -810,6 +876,8 @@ class controller extends db
                 Brgy,
                 City,
                 CompleteAddress,
+                ContactNumber,
+                UserName,
                 ProfImg 
                 FROM `tbluser` 
                 WHERE `UserID`=? AND `TypeUser`=? AND `Status`='Accept' ";
@@ -836,18 +904,21 @@ class controller extends db
     {
         $query = "";
 
-        if ($modal !== "1") {
+        if ($modal == "0") {
             $query = "SELECT 
                 a.UserID,
                 a.ServicesName, 
                 a.Price,
                 a.ServiceCatNo,
-                (SELECT ServiceName FROM tblservicecategory WHERE id = a.ServiceCatNo LIMIT 1) AS ServiceOtherName,
-                (SELECT Description FROM `tbldescription` WHERE UserID = a.UserID AND ServicesName = a.ServicesName) AS Description
-            FROM 
-                `tblservices` a 
-            WHERE 
-                a.UserID = ? ";
+                b.ServiceName AS ServiceOtherName,  -- Uses JOIN instead of subquery
+                c.Description  -- Uses LEFT JOIN to handle NULL cases
+            FROM `tblservices` a
+            LEFT JOIN `tblservicecategory` b ON b.id = a.ServiceCatNo
+            LEFT JOIN `tbldescription` c 
+                ON c.UserID = a.UserID 
+                AND c.ServicesName = a.ServicesName
+            WHERE a.UserID = ? GROUP BY  a.ServiceCatNo
+            ";
         } else {
 
             $query = "SELECT 
@@ -1046,5 +1117,106 @@ class controller extends db
             return 1;
         }
         return 1;
+    }
+
+
+    protected function update_info($FName, $MName, $LName, $UserName, $OPass, $NPAss)
+    {
+        $change_info = 0;
+        $check_uname = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `UserID`=? AND `UserName`=? ");
+        $check_uname->execute([$_COOKIE['UserID'], $UserName]);
+        if ($check_uname->rowCount() == 1) {
+            $change_info = 1;
+        } else {
+            $check_uname = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `UserName`=? ");
+            $check_uname->execute([$UserName]);
+            if ($check_uname->rowCount() == 1) {
+                $status_message = "Username is already added.";
+                return $status_message;
+            }
+            $change_info = 1;
+        }
+
+        // Checking Email
+        // $check_email = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `UserID`=? AND `EmailAddress`=? ");
+        // $check_email->execute([$_COOKIE['UserID'], $acc_email]);
+        // if ($check_email->rowCount() == 1) {
+        //     $change_info = 1;
+        // } else {
+        //     $check_email = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `EmailAddress`=? ");
+        //     $check_email->execute([$acc_email]);
+
+        //     if ($check_email->rowCount() == 1) {
+        //         $status_message = "Email Address is already added.";
+        //         return $status_message;
+        //     }
+        //     $change_info = 1;
+        // }
+
+        // Insert Data
+        if ($change_info == 1) {
+            if ($OPass !== "") {
+                // Checking Current Password
+                $checking_curr_pass = $this->PlsConnect()->prepare("SELECT * FROM `tbluser` WHERE `UserID`=? AND `Password`=? ");
+                $checking_curr_pass->execute([$_COOKIE['UserID'], md5($OPass)]);
+
+                if ($checking_curr_pass->rowCount() !== 1) {
+                    $status_message = "Current Password is not matched on data. Please try again.";
+                    return $status_message;
+                }
+
+                $update_info = $this->PlsConnect()->prepare("UPDATE `tbluser` SET `FName`=?, `MName`=?, `LName`=?, `UserName`=?,`Password`=? WHERE `UserID`=? ");
+                $update_info->execute([$FName, $MName, $LName, $UserName, md5($NPAss), $_COOKIE['UserID']]);
+                if ($update_info) {
+
+                    //Insert Activity Logs 
+                    // $this->PlsConnect()->query("INSERT INTO `tbl_logs` (`logs_user_id`, `logs_activity`, `logs_date`) VALUES('".$_COOKIE['UserID']."','Changed Password','".date('Y-m-d')."')");
+
+                    $status = 1;
+                    return $status;
+                } else {
+                    $status_message = "There's something wrong to add data. Please try again";
+                    return $status_message;
+                }
+            }
+            $update_info = $this->PlsConnect()->prepare("UPDATE `tbluser` SET `FName`=?, `MName`=?, `LName`=?, `UserName`=? WHERE `UserID`=? ");
+            $update_info->execute([$FName, $MName, $LName, $UserName, $_COOKIE['UserID']]);
+            if ($update_info) {
+                //Insert Activity Logs 
+                // $this->PlsConnect()->query("INSERT INTO `tbl_logs` (`logs_user_id`, `logs_activity`, `logs_date`) VALUES('".$_COOKIE['UserID']."','Update Personal Information','".date('Y-m-d')."')");
+                $status = 1;
+                return $status;
+            } else {
+                $status_message = "There's something wrong to add data. Please try again";
+                return $status_message;
+            }
+        }
+    }
+
+
+    protected function change_prof_img()
+    {
+
+        $file1_name = $_FILES['change_img']['name'];
+        $file1_tmp_name = $_FILES['change_img']['tmp_name'];
+        $file1_dest = "./uploads/" . $file1_name;
+
+        // Validate and upload files
+        $file1_uploaded = validateAndUploadImage('change_img', $file1_tmp_name, $file1_dest);
+
+        if (!$file1_uploaded) {
+            return "Invalid file type! Only JPG, JPEG, PNG, and SVG images are allowed.";
+        }
+
+        $stmt = $this->PlsConnect()->prepare("UPDATE `tbluser` SET `ProfImg`=? WHERE `UserID`=? ");
+        $stmt->execute([$file1_name, $_COOKIE['UserID']]);
+        if ($stmt) {
+
+            return 1;
+        } else {
+
+            $status_message = "There's something wrong to add data. Please try again";
+            return $status_message;
+        }
     }
 }
