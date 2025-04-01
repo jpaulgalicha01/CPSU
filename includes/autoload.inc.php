@@ -51,7 +51,9 @@ if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
             $Client_Birthdate = date('F d, Y', strtotime($rowfetchingArtistiInfo['Birthdate']));
             $Client_CivilStatus = $rowfetchingArtistiInfo['CivilStatus'];
             $Client_CompleteAddress = $rowfetchingArtistiInfo['CompleteAddress'];
+            $Client_ContactNumber = $rowfetchingArtistiInfo["ContactNumber"];
             $Client_ProfImg = $rowfetchingArtistiInfo['ProfImg'];
+            $Client_UserName = $rowfetchingArtistiInfo["UserName"];
         }
     }
 }

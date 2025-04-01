@@ -33,7 +33,11 @@ include 'includes/navbar.php';
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Total Booking</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-
+                                <?php
+                                $fetchinngPendingBooking = new fetch();
+                                $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "All");
+                                echo $resfetchinngPendingBooking->rowCount();
+                                ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -53,7 +57,11 @@ include 'includes/navbar.php';
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Approved Booking</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-
+                                <?php
+                                $fetchinngPendingBooking = new fetch();
+                                $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Approved");
+                                echo $resfetchinngPendingBooking->rowCount();
+                                ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -73,7 +81,11 @@ include 'includes/navbar.php';
                             <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
                                 Pending Booking</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-
+                                <?php
+                                $fetchinngPendingBooking = new fetch();
+                                $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Pending");
+                                echo $resfetchinngPendingBooking->rowCount();
+                                ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -93,7 +105,11 @@ include 'includes/navbar.php';
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                 Declined Booking</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-
+                                <?php
+                                $fetchinngPendingBooking = new fetch();
+                                $resfetchinngPendingBooking = $fetchinngPendingBooking->fetchinngPendingBooking("0", "Declined");
+                                echo $resfetchinngPendingBooking->rowCount();
+                                ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -246,96 +262,84 @@ include 'includes/navbar.php';
 <!-- /.container-fluid -->
 
 <script>
-    // Example dates and values
-    var dates = [{
-            x: new Date('2023-01-01').getTime(),
-            y: 2500000
-        },
-        {
-            x: new Date('2023-02-01').getTime(),
-            y: 3000000
-        },
-        {
-            x: new Date('2023-03-01').getTime(),
-            y: 2800000
-        },
-        {
-            x: new Date('2023-04-01').getTime(),
-            y: 3200000
-        },
-        {
-            x: new Date('2023-05-01').getTime(),
-            y: 3100000
-        },
-        {
-            x: new Date('2023-06-01').getTime(),
-            y: 3100000
-        },
-        {
-            x: new Date('2023-07-20').getTime(),
-            y: 3100000
-        }
-    ];
+    var data = [];
 
-    var options = {
-        series: [{
-            name: 'XYZ MOTORS',
-            data: dates
-        }],
-        chart: {
-            type: 'area',
-            stacked: false,
-            height: 350,
-            zoom: {
-                type: 'x',
-                enabled: true,
-                autoScaleYaxis: true
-            },
-            toolbar: {
-                autoSelected: 'zoom'
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        markers: {
-            size: 0
-        },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shadeIntensity: 1,
-                inverseColors: false,
-                opacityFrom: 0.5,
-                opacityTo: 0,
-                stops: [0, 90, 100]
-            }
-        },
-        yaxis: {
-            labels: {
-                formatter: function(val) {
-                    return (val / 1000000).toFixed(0); // Convert large numbers to millions
-                }
-            },
-            title: {
-                text: 'Price'
-            }
-        },
-        xaxis: {
-            type: 'datetime',
-        },
-        tooltip: {
-            shared: false,
-            y: {
-                formatter: function(val) {
-                    return (val / 1000000).toFixed(0); // Format tooltip values
-                }
-            }
-        }
-    };
+    $.get(`inputConfig.php`, {
+        function: "Earnings Overview"
+    }, function(response) {
+        var res = jQuery.parseJSON(response);
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+        if (res.status == 200) {
+            $.each(res.data, function(index, value) {
+                data.push({
+                    x: new Date(value.Month + "-01").getTime(),
+                    y: parseFloat(value.TotalPrice)
+                });
+            });
+
+            var options = {
+                series: [{
+                    name: 'Income ₱',
+                    data: data,
+                }],
+                chart: {
+                    type: 'area',
+                    stacked: false,
+                    height: 350,
+                    zoom: {
+                        type: 'x',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        autoSelected: 'zoom'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                markers: {
+                    size: 0
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        inverseColors: false,
+                        opacityFrom: 0.5,
+                        opacityTo: 0,
+                        stops: [0, 90, 100]
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function(val) {
+                            return val.toFixed(2);
+                        }
+                    },
+                    title: {
+                        text: 'Price'
+                    }
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                tooltip: {
+                    shared: false,
+                    y: {
+                        formatter: function(val) {
+                            return "₱" + val.toFixed(2);
+                        }
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        } else {
+            console.error(res.message);
+        }
+    });
 </script>
 
 <script src="./js/index.js"></script>

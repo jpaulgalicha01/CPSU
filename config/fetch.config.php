@@ -143,6 +143,35 @@ class fetch extends controller
     }
 
 
+    public function fetchingEarnOver()
+    {
+        $stmt = $this->fetching_earn_over();
+        if ($stmt) {
+            if ($stmt->rowCount()) {
+                $fetch_info = $stmt->fetchAll();
+
+                $data = [
+                    'status' => 200,
+                    'data' => $fetch_info,
+                ];
+                echo json_encode($data);
+                return false;
+            } else {
+                $data = [
+                    'message' => "Failed To Fetch.",
+                ];
+                echo json_encode($data);
+                return false;
+            }
+        } else {
+
+            $data = [
+                'message' => "There's something wrong.",
+            ];
+            echo json_encode($data);
+            return false;
+        }
+    }
 
 
     public function fetchingBooking($BookingID, $Status)

@@ -91,7 +91,7 @@ include 'includes/navbar.php';
                                 <div class="mb-2" id="uploadImg">
                                     <label>Images <small><i>(one or more images)</i></small></label>
                                     <input type="file" class="form-control" name="ProfileImages[]" multiple
-                                        accept=".jpg,.jpeg, .png, .gif" required>
+                                        accept=".png, .jpg, .jpeg, .svg" required>
                                 </div>
                                 <div class='d-md-flex d-sm-grid justify-content-between '>
                                     <div class="py-2">
