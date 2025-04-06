@@ -1,97 +1,60 @@
-
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-
-     <!-- Sidebar - Brand -->
-     <div class="sidebar-brand d-flex align-items-center justify-content-center">
-        <img src="../img/logo1.png" alt="logo" style="height: 60px; width: 60px;">
-        <div class="sidebar-brand-text pl-2"> mukha web app</div>
+<div class='d-flex' id="wrapper">
+  <div id="sidebar-wrapper">
+    <div class="sidebar-heading text-center fs-6 fw-bold text-uppercase text-white">
+      Mukha Web App (ADMIN)
     </div>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "active" : "" ?>">
-        <a class="nav-link" href="index.php">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-    List of Accounts
+    <div class="list-group list-group-flush my-1">
+      <a href="./index.php" class="list-group-item list-group-item-action  bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "primary-text active" : "second-text fw-bold" ?>"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
     </div>
 
-    <li class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Artist") ? "active" : "" ?>" >
-        <a class="nav-link"  href="artist-list.php">
-        <i class="fa fa-user"></i>
-        <span>Artist</span></a>
-    </li>
+    <hr />
+    <span
+      class="sidebar-heading  fw-light text-uppercase fw-bold text-white"
+      style="padding-bottom: 0px; margin-bottom: 0px;">
+      List of Accounts
+    </span>
 
-    <li class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Clients") ? "active" : "" ?>" >
-        <a class="nav-link"  href="client-list.php">
-        <i class="fa fa-user"></i>
-        <span>Client</span></a>
-    </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    <div class="list-group list-group-flush my-1">
+      <a href="artist-list.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Artist") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa fa-user me-2"></i>Artist
+      </a>
     </div>
 
-</ul>
-<!-- End of Sidebar -->
+    <div class="list-group list-group-flush my-1">
+      <a href="client-list.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending Accounts - Clients") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa fa-users me-2"></i>Client
+      </a>
+    </div>
+
+    <hr />
+
+    <div class="list-group list-group-flush my-1">
+      <a href="logout.php"
+        class='list-group-item list-group-item-action bg-transparent danger-text fw-bold'>
+        <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+      </a>
+    </div>
+
+    <!-- Footer Section -->
+    <hr>
+    <div class="text-decoration-none d-flex align-items-center mt-auto px-2 py-2 mt-2">
+      <img src="../uploads/default.png" alt="User Profile" class="rounded-circle me-2 bg-white" style="width: 30px; height: 30px; object-fit: cover;">
+      <span class="fw-bold text-white" style="font-size: 0.9rem; color: #333;"><?= $UserName ?></span>
+    </div>
 
 
-<!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+  </div>
 
-    <!-- Main Content -->
-    <div id="content">
+  <div id="page-content-wrapper" style="background-color: #FFFFFF;">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
-
-            <!-- Topbar Search -->
-
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-
-                <div class="topbar-divider d-none d-sm-block"></div>
-
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small text-center">
-                            <div><?=$UserName?></div> 
-                            <small style="font-size:11">Admin</small>
-                        </span>
-                        <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
-                    </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-
-            </ul>
-
-        </nav>
-        <!-- End of Topbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <i
+          class="fas fa-align-left primary-text fs-4 me-3"
+          id="menu-toggle"
+          onclick="handleToggled()"></i>
+        <h2 class="fs-2 m-0"><?= $_SESSION["title"] ?></h2>
+      </div>
+    </nav>

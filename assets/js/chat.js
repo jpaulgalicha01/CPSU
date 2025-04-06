@@ -1,21 +1,24 @@
 const chatContent = document.getElementById("chat-content");
-const sendBtn = document.getElementById("send-btn");
 const messageInput = document.getElementById("message-input");
 
-// Function to scroll chat to the bottom
+// Scroll chat to bottom
 function scrollToBottom() {
   chatContent.scrollTop = chatContent.scrollHeight;
 }
 
-var conn = new WebSocket("ws://localhost:8080");
-conn.onopen = function (e) {
-  console.log("Connection established!");
-};
+// Initialize Pusher
+var pusher = new Pusher("34fb7ca0523a79360d6f", {
+  cluster: "ap1",
+  encrypted: true,
+});
 
-conn.onmessage = function (e) {
-  var data = JSON.parse(e.data);
+// Subscribe to the chat channel
+const channel = pusher.subscribe("chat");
+
+// Listen for new messages
+channel.bind("new_message", function (data) {
   var senderID = $("#senderId").val();
-  var reciever_name = $("#reciever_name").val();
+  var receiver_name = $("#receiver_name").val();
   var date = data.date;
 
   var content = "";
@@ -23,20 +26,19 @@ conn.onmessage = function (e) {
 
   if (data.receiverUserID == senderID) {
     content =
-      '<div class="bg-success bg-opacity-75 text-white p-3 rounded chat-convo-box"><p class="fw-bold">' +
-      reciever_name +
-      '</p><p class="p-0 mb-1">' +
+      '<div class="bg-success text-white p-3 rounded"><p class="fw-bold">' +
+      receiver_name +
+      "</p><p>" +
       data.message +
-      '</p><small class="text-light d-flex justify-content-end">' +
+      '</p><small class="d-flex justify-content-end">' +
       date +
       "</small></div>";
     html_data = '<div class="d-flex mb-3">' + content + "</div>";
-  }
-  if (data.receiverUserID !== senderID) {
+  } else {
     content =
-      '<div class="bg-primary text-white p-3 rounded chat-convo-box"><p class="p-0 mb-1">' +
+      '<div class="bg-primary text-white p-3 rounded"><p>' +
       data.message +
-      '</p><small class="text-light d-flex justify-content-end">' +
+      '</p><small class="d-flex justify-content-end">' +
       date +
       "</small></div>";
     html_data =
@@ -46,26 +48,41 @@ conn.onmessage = function (e) {
   $("#chat-content").append(html_data);
   $("#message").val("");
   scrollToBottom();
-};
+});
 
 $("#chat-form").on("submit", function (e) {
-  try {
-    e.preventDefault();
-    var senderID = $("#senderId").val();
-    var receiverID = $("#receiverID").val();
-    var message = $("#message").val();
+  e.preventDefault();
 
-    var data = {
+  $("#btnSubmit")
+    .html(
+      "<div class='text-center'><i class='spinner-border spinner-border-sm'></i></div>"
+    )
+    .prop("disabled", true); // Optional: disable button to prevent spamming
+
+  var senderID = $("#senderId").val();
+  var receiverID = $("#receiverID").val();
+  var message = $("#message").val();
+
+  $.ajax({
+    url: "./bin/chat-server.php",
+    type: "POST",
+    data: {
       senderUserID: senderID,
       receiverUserID: receiverID,
       message: message,
-    };
-    conn.send(JSON.stringify(data));
-
-    document.getElementById("btnSubmit").disabled = false;
-  } catch (error) {
-    alert("There's something error please try again");
-  }
+    },
+    success: function () {
+      $("#message").val(""); // Clear input field
+      scrollToBottom();
+    },
+    error: function () {
+      alert("Error sending message.");
+    },
+    complete: function () {
+      // Always reset button after request is done
+      $("#btnSubmit")
+        .html("<i class='fa fa-paper-plane'></i> <small>Send</small>")
+        .prop("disabled", false);
+    },
+  });
 });
-
-window.onload = scrollToBottom;

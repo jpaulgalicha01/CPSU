@@ -3,16 +3,15 @@ include 'includes/autoload.inc.php';
 
 unset($_SESSION['title']);
 unset($_SESSION['Active_Navigate']);
-$_SESSION['title'] = "List Booking";
-$_SESSION['Active_Navigate'] = "List Booking";
+$_SESSION['title'] = "Status Booking";
+$_SESSION['Active_Navigate'] = "Status Booking";
 
-include 'includes/header.php';
-include 'includes/navbar.php';
+include_once("includes/header.php");
+include_once("includes/navbar.php");
 ?>
+
 <!-- Begin Page Content -->
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">List Booking</h1>
+<div class="container-fluid px-4 pt-5">
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -20,7 +19,7 @@ include 'includes/navbar.php';
             <h6 class="m-0 font-weight-bold text-primary">List Of Booking</h6>
         </div>
         <div class="card-body">
-            <div class="mb-5">
+            <div class="mb-3">
                 <div class="d-grid align-items-center">
                     <div class="w-50 mb-2">
                         <label for="Status" class="mr-1">Status :</label>
@@ -68,9 +67,8 @@ include 'includes/navbar.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <form action="inputConfig.php" method="POST">
                 <input type="hidden" name="function" value="booking_action">
@@ -182,5 +180,5 @@ include 'includes/navbar.php';
 </script>
 
 <?php
-include 'includes/footer.php';
+include_once("includes/footer.php");
 ?>

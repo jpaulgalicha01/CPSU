@@ -10,7 +10,7 @@ include 'includes/header.php';
 include 'includes/navbar.php';
 ?>
 <!-- Begin Page Content -->
-<div class="container-fluid">
+<div class="container-fluid px-4 pt-5">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Accounts</h1>
 

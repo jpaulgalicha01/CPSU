@@ -79,9 +79,9 @@ class update extends controller
 
 	// ------------------------- Artist Side -------------------------//
 
-	public function editservices($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
+	public function editservices($servicesID, $prevServicesName, $prevServicesCatInput, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
 	{
-		$stmt = $this->edit_services($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
+		$stmt = $this->edit_services($servicesID, $prevServicesName, $prevServicesCatInput, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
 
 		if (!$stmt) {
 			$_SESSION['alert'] = "Show";

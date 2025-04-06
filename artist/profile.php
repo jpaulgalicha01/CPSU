@@ -3,13 +3,16 @@ include 'includes/autoload.inc.php';
 
 unset($_SESSION['title']);
 unset($_SESSION['Active_Navigate']);
-$_SESSION['title'] = "Services";
-$_SESSION['Active_Navigate'] = "Services";
+$_SESSION['title'] = "Profile Information";
+$_SESSION['Active_Navigate'] = "Profile Information";
 
-include 'includes/header.php';
-include 'includes/navbar.php';
+include_once("includes/header.php");
+include_once("includes/navbar.php");
 ?>
-<div class="container">
+
+<!-- Begin Page Content -->
+<div class="container-fluid px-4 pt-5">
+
     <div class="row">
         <div class="col-lg-8 col-12 pb-lg-0 pb-5">
             <div class="card p-lg-3 p-2 shadow-sm">

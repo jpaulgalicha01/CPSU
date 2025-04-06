@@ -77,16 +77,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
 
     $fetchingProfImg = new fetch();
     $resfetchingProfImg = $fetchingProfImg->fetchingProfImg($value, $ServiceName);
-  } else if (isset($_POST["edit_services"]) && secured($_POST['function'] == "edit_services")) {
+  } else if (isset($_POST["edit_services"]) && secured($_POST['function'] === "edit_services")) {
     $servicesID = secured($_POST["servicesID"]);
     $prevServicesName = secured($_POST["prevServicesName"]);
+    $prevServicesCatInput = secured($_POST["prevServicesCatInput"]);
     $editServiceCatNo = secured($_POST["prevServicesCat"]);
     $editServicePrice = secured($_POST["editServicePrice"]);
-    $editServicesName = secured($_POST["prevServicesName"]);
+    $editServicesName = secured($_POST["editServicesName"]);
     $editServicesPolicy = secured($_POST["editServicesPolicy"]);
 
     $editservices = new update();
-    $reseditservices = $editservices->editservices($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
+    $reseditservices = $editservices->editservices($servicesID, $prevServicesName, $prevServicesCatInput, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy);
   } else if (isset($_GET["deleteServicesImg"]) && isset($_GET["servicesName"]) && $_GET["function"] == "deleteServicesImg") {
     $imgRowNum = secured($_GET["deleteServicesImg"]);
     $servicesName = secured($_GET["servicesName"]);
@@ -103,8 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "GET")
   } elseif ($_GET["function"] == "Earnings Overview") {
 
     $fetchingEarnOver = new fetch();
-    $fetchingEarnOver-> fetchingEarnOver();
-
+    $fetchingEarnOver->fetchingEarnOver();
   } else {
     ob_end_flush(header("Location: index.php"));
   }
