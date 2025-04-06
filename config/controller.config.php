@@ -179,110 +179,112 @@ class controller extends db
             if ($Status === "All") {
                 $query = "
                 SELECT 
-                   `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
-                   `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
-                   `cpsu_be`.`tbluser`.`FName` AS `FName`,
-                   `cpsu_be`.`tbluser`.`MName` AS `MName`,
-                   `cpsu_be`.`tbluser`.`LName` AS `LName`,
-                   `cpsu_be`.`tbluser`.`Age` AS `Age`,
-                   `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
-                   `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
-                   `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
-                   `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
-                   `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
-                   `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
-                   `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
-                   `cpsu_be`.`tblbooking`.`Services` AS `Services`,
-                   `cpsu_be`.`tblbooking`.`Date` AS `Date`,
-                   `cpsu_be`.`tblbooking`.`Time` AS `Time`,
-                   `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
-                   `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
-                   `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
-                   `cpsu_be`.`tblbooking`.`Status` AS `Status`
+                   `tblbooking`.`RowNum` AS `RowNum`,
+                   `tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+                   `tbluser`.`FName` AS `FName`,
+                   `tbluser`.`MName` AS `MName`,
+                   `tbluser`.`LName` AS `LName`,
+                   `tbluser`.`Age` AS `Age`,
+                   `tbluser`.`Birthdate` AS `Birthdate`,
+                   `tbluser`.`CivilStatus` AS `CivilStatus`,
+                   `tbluser`.`CompleteAddress` AS `CompleteAddress`,
+                   `tbluser`.`ContactNumber` AS `ContactNumber`,
+                   `tbluser`.`ProfImg` AS `ProfImg`,
+                   `tblbooking`.`UserID` AS `ClientUserID`,
+                   `tblbooking`.`TDate` AS `TDate`,
+                   `tblbooking`.`Services` AS `Services`,
+                   `tblbooking`.`Date` AS `Date`,
+                   `tblbooking`.`Time` AS `Time`,
+                   `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+                   `tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+                   `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+                   `tblbooking`.`Status` AS `Status`
                FROM
-                   (`cpsu_be`.`tbluser`
-                   JOIN `cpsu_be`.`tblbooking`)
+                   (`tbluser`
+                   JOIN `tblbooking`)
                WHERE
-                   `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  IN ('Done', 'Cancelled')
-               ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+                   `tbluser`.`UserID` = `tblbooking`.`UserID` AND `tblbooking`.`ArtistUserID` = ? AND `tblbooking`.`Status`  IN ('Done', 'Cancelled')
+               ORDER BY `tbluser`.`RowNum`
                
                ";
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute([$_COOKIE['UserID']]);
+                return $stmt;
             } else {
 
                 $query = "
             SELECT 
-               `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
-               `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
-               `cpsu_be`.`tbluser`.`FName` AS `FName`,
-               `cpsu_be`.`tbluser`.`MName` AS `MName`,
-               `cpsu_be`.`tbluser`.`LName` AS `LName`,
-               `cpsu_be`.`tbluser`.`Age` AS `Age`,
-               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,
-               `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
-               `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
-               `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
-               `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
-               `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
-               `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
-               `cpsu_be`.`tblbooking`.`Services` AS `Services`,
-               `cpsu_be`.`tblbooking`.`Date` AS `Date`,
-               `cpsu_be`.`tblbooking`.`Time` AS `Time`,
-               `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
-               `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
-               `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
-               `cpsu_be`.`tblbooking`.`Status` AS `Status`
+               `tblbooking`.`RowNum` AS `RowNum`,
+               `tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+               `tbluser`.`FName` AS `FName`,
+               `tbluser`.`MName` AS `MName`,
+               `tbluser`.`LName` AS `LName`,
+               `tbluser`.`Age` AS `Age`,
+               `tbluser`.`Birthdate` AS `Birthdate`,
+               `tbluser`.`CivilStatus` AS `CivilStatus`,
+               `tbluser`.`CompleteAddress` AS `CompleteAddress`,
+               `tbluser`.`ContactNumber` AS `ContactNumber`,
+               `tbluser`.`ProfImg` AS `ProfImg`,
+               `tblbooking`.`UserID` AS `ClientUserID`,
+               `tblbooking`.`TDate` AS `TDate`,
+               `tblbooking`.`Services` AS `Services`,
+               `tblbooking`.`Date` AS `Date`,
+               `tblbooking`.`Time` AS `Time`,
+               `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+               `tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+               `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+               `tblbooking`.`Status` AS `Status`
            FROM
-               (`cpsu_be`.`tbluser`
-               JOIN `cpsu_be`.`tblbooking`)
+               (`tbluser`
+               JOIN `tblbooking`)
            WHERE
-               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`Status`  = ?
-           ORDER BY `cpsu_be`.`tbluser`.`RowNum`
+               `tbluser`.`UserID` = `tblbooking`.`UserID` AND `tblbooking`.`ArtistUserID` = ? AND `tblbooking`.`Status`  = ?
+           ORDER BY `tbluser`.`RowNum`
            
            ";
 
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute([$_COOKIE['UserID'], $Status]);
+                return $stmt;
             }
         } else {
 
             $query = "SELECT 
-               `cpsu_be`.`tblbooking`.`RowNum` AS `RowNum`,
-               `cpsu_be`.`tblbooking`.`ArtistUserID` AS `ArtistUserID`,
-               `cpsu_be`.`tbluser`.`FName` AS `FName`,
-               `cpsu_be`.`tbluser`.`MName` AS `MName`,
-               `cpsu_be`.`tbluser`.`LName` AS `LName`,
-               `cpsu_be`.`tbluser`.`Age` AS `Age`,
-               `cpsu_be`.`tbluser`.`Birthdate` AS `Birthdate`,  
-               `cpsu_be`.`tbluser`.`CivilStatus` AS `CivilStatus`,
-               `cpsu_be`.`tbluser`.`CompleteAddress` AS `CompleteAddress`,
-               `cpsu_be`.`tbluser`.`ContactNumber` AS `ContactNumber`,
-               `cpsu_be`.`tbluser`.`ProfImg` AS `ProfImg`,
-               `cpsu_be`.`tblbooking`.`UserID` AS `ClientUserID`,
-               `cpsu_be`.`tblbooking`.`TDate` AS `TDate`,
-               `cpsu_be`.`tblbooking`.`Services` AS `Services`,
-               `cpsu_be`.`tblbooking`.`OtherNameServices` AS `OtherNameServices`,
+               `tblbooking`.`RowNum` AS `RowNum`,
+               `tblbooking`.`ArtistUserID` AS `ArtistUserID`,
+               `tbluser`.`FName` AS `FName`,
+               `tbluser`.`MName` AS `MName`,
+               `tbluser`.`LName` AS `LName`,
+               `tbluser`.`Age` AS `Age`,
+               `tbluser`.`Birthdate` AS `Birthdate`,  
+               `tbluser`.`CivilStatus` AS `CivilStatus`,
+               `tbluser`.`CompleteAddress` AS `CompleteAddress`,
+               `tbluser`.`ContactNumber` AS `ContactNumber`,
+               `tbluser`.`ProfImg` AS `ProfImg`,
+               `tblbooking`.`UserID` AS `ClientUserID`,
+               `tblbooking`.`TDate` AS `TDate`,
+               `tblbooking`.`Services` AS `Services`,
+               `tblbooking`.`OtherNameServices` AS `OtherNameServices`,
                (SELECT ServiceName FROM tblservicecategory WHERE id = Services) AS ServicesName,
-               `cpsu_be`.`tblbooking`.`Date` AS `Date`,
-               `cpsu_be`.`tblbooking`.`Time` AS `Time`,
-               `cpsu_be`.`tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
-               `cpsu_be`.`tblbooking`.`SampleOutcome` AS `SampleOutcome`,
-               `cpsu_be`.`tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
-               `cpsu_be`.`tblbooking`.`Status` AS `Status`
+               `tblbooking`.`Date` AS `Date`,
+               `tblbooking`.`Time` AS `Time`,
+               `tblbooking`.`PinLocationAddress` AS `PinLocationAddress`,
+               `tblbooking`.`SampleOutcome` AS `SampleOutcome`,
+               `tblbooking`.`SampleOutcomeImg` AS `SampleOutcomeImg`,
+               `tblbooking`.`Status` AS `Status`
            FROM
-               (`cpsu_be`.`tbluser`
-               JOIN `cpsu_be`.`tblbooking`)
+               (`tbluser`
+               JOIN `tblbooking`)
            WHERE
-               `cpsu_be`.`tbluser`.`UserID` = `cpsu_be`.`tblbooking`.`UserID` AND     `cpsu_be`.`tblbooking`.`ArtistUserID` = ? AND `cpsu_be`.`tblbooking`.`RowNum` = ? AND  `cpsu_be`.`tblbooking`.`Status`  = ?
-           ORDER BY `cpsu_be`.`tbluser`.`RowNum` 
+               `tbluser`.`UserID` = `tblbooking`.`UserID` AND     `tblbooking`.`ArtistUserID` = ? AND `tblbooking`.`RowNum` = ? AND  `tblbooking`.`Status`  = ?
+           ORDER BY `tbluser`.`RowNum` 
            
            ";
 
             $stmt = $this->PlsConnect()->prepare($query);
             $stmt->execute([$_COOKIE['UserID'], $BookingID, $Status]);
+            return $stmt;
         }
-        return $stmt;
     }
 
 
@@ -538,35 +540,38 @@ class controller extends db
         return 1;
     }
 
-    protected function edit_services($servicesID, $prevServicesName, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
+    protected function edit_services($servicesID, $prevServicesName, $prevServicesCatInput, $editServiceCatNo, $editServicePrice, $editServicesName, $editServicesPolicy)
     {
 
         $queryServices =
             "UPDATE 
             `tblservices` SET 
             `ServicesName`=?,
+            `ServiceCatNo` = ?,
             `Price`= ? WHERE RowNum = ? AND UserID = ? AND ServiceCatNo = ?";
         $stmt = $this->PlsConnect()->prepare($queryServices);
-        $stmt->execute([$editServicesName, $editServicePrice, $servicesID, $_COOKIE["UserID"], $editServiceCatNo]);
+        $stmt->execute([$editServicesName, $editServiceCatNo, $editServicePrice, $servicesID, $_COOKIE["UserID"], $prevServicesCatInput]);
 
         if ($stmt) {
             $queryDesc =
                 "UPDATE 
             `tbldescription` SET 
-            `Description`= ?, ServicesName = ?
+            `Description`= ?, 
+            ServiceCatNo=?,
+            ServicesName = ? 
             WHERE LOWER(ServicesName) = ? AND UserID = ? AND ServiceCatNo =? ";
 
             $stmt1 = $this->PlsConnect()->prepare($queryDesc);
-            $stmt1->execute([$editServicesPolicy, $editServicesName, $prevServicesName, $_COOKIE["UserID"], $editServiceCatNo]);
+            $stmt1->execute([$editServicesPolicy, $editServiceCatNo, $editServicesName, $prevServicesName, $_COOKIE["UserID"], $prevServicesCatInput]);
 
             if ($stmt1) {
                 $queryDesc =
                     "UPDATE `tblprofimages` SET 
-                        `ServicesName`=?
+                        `ServicesName`=? , ServiceCatNo = ?
                         WHERE (ServicesName) = ? AND UserID = ? AND ServiceCatNo=?";
 
                 $stmt2 = $this->PlsConnect()->prepare($queryDesc);
-                $stmt2->execute([$editServicesName, $prevServicesName, $_COOKIE["UserID"], $editServiceCatNo]);
+                $stmt2->execute([$editServicesName, $editServiceCatNo, $prevServicesName, $_COOKIE["UserID"], $prevServicesCatInput]);
                 if ($stmt2) {
                     return 1;
                 }
@@ -859,7 +864,16 @@ class controller extends db
 
     protected function fetch_artist()
     {
-        $stmt = $this->PlsConnect()->prepare("SELECT  UserID,FName,MName,LName,CompleteAddress,ProfImg  FROM `tbluser` WHERE `TypeUser`='Artist' AND `Status`='Accept' ORDER BY FName ASC ");
+        $query = "SELECT 
+            UserID,
+            FName,
+            MName,
+            LName,
+            CompleteAddress,
+            ProfImg
+            FROM `tbluser` WHERE `TypeUser`='Artist' AND `Status`='Accept' ORDER BY FName ASC ";
+
+        $stmt = $this->PlsConnect()->prepare($query);
         $stmt->execute();
         return $stmt;
     }
@@ -1029,10 +1043,10 @@ class controller extends db
                     b.`Status` AS `Status`,
                     b.`OtherNameServices` AS `OtherNameServices`,
                     s.`ServiceName` AS `ServiceCategory`
-                FROM `cpsu_be`.`tblbooking` AS b
-                INNER JOIN `cpsu_be`.`tbluser` AS u ON u.`UserID` = b.`ArtistUserID`
-                INNER JOIN `cpsu_be`.`tblservicecategory` AS s ON s.`id` = b.`Services`
-                INNER JOIN `cpsu_be`.`tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
+                FROM `tblbooking` AS b
+                INNER JOIN `tbluser` AS u ON u.`UserID` = b.`ArtistUserID`
+                INNER JOIN `tblservicecategory` AS s ON s.`id` = b.`Services`
+                INNER JOIN `tblservices` AS ser ON ser.`UserID` = b.`ArtistUserID` AND ser.`ServicesName` =  b.`OtherNameServices`
                 WHERE b.`UserID` = ? AND  b.`RowNum` = ?
                 ORDER BY b.`RowNum` AND b.`Status` ;";
 

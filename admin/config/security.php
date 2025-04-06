@@ -15,8 +15,8 @@ if (!isset($_COOKIE['UserID'])) {
 	ob_end_flush(header("Location: ../login.php"));
 }
 
-if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Artist") {
+if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] === "Artist") {
 	ob_end_flush(header("Location: ../artist/index.php"));
-} else if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] == "Client") {
-	ob_end_flush(header("Location: ../client/index.php"));
+} else if (isset($_COOKIE['UserID']) && $_COOKIE['TypeUser'] === "Client") {
+	ob_end_flush(header("Location: ../index.php"));
 }

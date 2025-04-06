@@ -12,7 +12,7 @@ class delete extends controller
                 $_SESSION['alert'] = "Show";
                 $_SESSION['icon'] = "error";
                 $_SESSION['title_alert'] = $stmt;
-                ob_end_flush(header("Location: " . $_SERVER['HTTP_REFERER'] . ""));
+                // ob_end_flush(header("Location: " . $_SERVER['HTTP_REFERER'] . ""));
             } else {
                 $_SESSION['alert'] = "Show";
                 $_SESSION['icon'] = "success";

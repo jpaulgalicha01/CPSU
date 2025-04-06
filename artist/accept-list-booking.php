@@ -6,14 +6,12 @@ unset($_SESSION['Active_Navigate']);
 $_SESSION['title'] = "Accept List Booking";
 $_SESSION['Active_Navigate'] = "Accept List Booking";
 
-include 'includes/header.php';
-include 'includes/navbar.php';
+include_once("includes/header.php");
+include_once("includes/navbar.php");
 ?>
-<!-- Begin Page Content -->
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Accept List Booking</h1>
 
+<!-- Begin Page Content -->
+<div class="container-fluid px-4 pt-5">
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -74,8 +72,12 @@ include 'includes/navbar.php';
                                                 class="fa fa-eye"></i></button>
                                     </td>
                                 </tr>
-                        <?php
+                            <?php
                             }
+                        } else {
+                            ?>
+                            <td colspan="8" class="text-center">No Data Found.</td>
+                        <?php
                         }
                         ?>
 
@@ -96,9 +98,7 @@ include 'includes/navbar.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="inputConfig.php" method="POST">
                 <input type="hidden" name="function" value="booking_action">
@@ -112,7 +112,7 @@ include 'includes/navbar.php';
                                     <div id="user_profile" class="col-md-auto">
 
                                     </div>
-                                    <div class="col py-lg-0 py-3">
+                                    <div class="col-md-5 col-12 py-lg-0 py-3">
                                         <h5>Client Information</h5>
                                         <label for="Services">Services: </label>
                                         <p class="mb-1 view-user-modal font-weight-bold" id="Services"></p>
@@ -145,7 +145,7 @@ include 'includes/navbar.php';
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success" name="booking_action">Submit</button>
                 </div>
             </form>
@@ -190,5 +190,5 @@ include 'includes/navbar.php';
 </script>
 
 <?php
-include 'includes/footer.php';
+include_once("includes/footer.php");
 ?>

@@ -6,13 +6,12 @@ unset($_SESSION['Active_Navigate']);
 $_SESSION['title'] = "Declined List Booking";
 $_SESSION['Active_Navigate'] = "Declined List Booking";
 
-include 'includes/header.php';
-include 'includes/navbar.php';
+include_once("includes/header.php");
+include_once("includes/navbar.php");
 ?>
+
 <!-- Begin Page Content -->
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Declined List Booking</h1>
+<div class="container-fluid px-4 pt-5">
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -74,8 +73,12 @@ include 'includes/navbar.php';
                                                 class="fa fa-eye"></i></button>
                                     </td>
                                 </tr>
-                        <?php
+                            <?php
                             }
+                        } else {
+                            ?>
+                            <td colspan="8" class="text-center">No Data Found.</td>
+                        <?php
                         }
                         ?>
 
@@ -96,9 +99,7 @@ include 'includes/navbar.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container">
@@ -177,6 +178,7 @@ include 'includes/navbar.php';
     })
 </script>
 
+
 <?php
-include 'includes/footer.php';
+include_once("includes/footer.php");
 ?>

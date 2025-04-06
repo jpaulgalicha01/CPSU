@@ -1,137 +1,92 @@
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-
-    <!-- Sidebar - Brand -->
-    <div class="sidebar-brand d-flex align-items-center justify-content-center">
-        <img src="../img/logo1.png" alt="logo" style="height: 60px; width: 60px;">
-        <div class="sidebar-brand-text pl-2"> mukha web app</div>
+<div class='d-flex' id="wrapper">
+  <div id="sidebar-wrapper">
+    <div class="sidebar-heading text-center fs-4 fw-bold text-uppercase text-white">
+      <img src="../img/logo1.png" alt="logo" style="height: 65px; width: 65px;">Mukha Web App
     </div>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li
-        class="nav-item  <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "active" : "" ?>">
-        <a class="nav-link" href="index.php">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Setup Services
+    <div class="list-group list-group-flush my-1">
+      <a href="./index.php" class="list-group-item list-group-item-action  bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Dashboard") ? "primary-text active" : "second-text fw-bold" ?>"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
     </div>
 
-    <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Services") ? "active" : "" ?>">
-        <a class="nav-link" href="services.php">
-            <i class="fa fa-cogs"></i>
-            <span>Services</span></a>
-    </li>
+    <hr />
+    <span
+      class="sidebar-heading  fw-light text-uppercase fw-bold text-white"
+      style="padding-bottom: 0px; margin-bottom: 0px;">
+      Setup Services
+    </span>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    <div class="sidebar-heading">
-        Booking
+    <div class="list-group list-group-flush my-1">
+      <a href="./services.php" class="list-group-item list-group-item-action  bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Services") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa-solid fa-gear me-2"></i>Services
+      </a>
     </div>
 
-    <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending List Booking") ? "active" : "" ?>">
-        <a class="nav-link " href="pending-list-booking.php">
-            <i class="fa fa-bookmark"></i>
-            <span>Pending Booking</span></a>
-    </li>
-    <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Accept List Booking") ? "active" : "" ?>">
-        <a class="nav-link" href="accept-list-booking.php">
-            <i class="fa fa-check-circle"></i>
-            <span>Accept Booking</span></a>
-    </li>
-    <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Declined List Booking") ? "active" : "" ?>">
-        <a class="nav-link" href="declined-list-booking.php">
-            <i class="fa fa-minus-circle"></i>
-            <span>Declined Booking</span></a>
-    </li>
+    <hr />
+    <span
+      class="sidebar-heading  fw-light text-uppercase fw-bold text-white"
+      style="padding-bottom: 0px; margin-bottom: 0px;">
+      Booking
+    </span>
 
-    <li
-        class="nav-item <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "List Booking") ? "active" : "" ?>">
-        <a class="nav-link" href="list-booking.php">
-            <i class="fas fa-calendar-check"></i>
-            <span>List Booking</span></a>
-    </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    <div class="list-group list-group-flush my-1">
+      <a href="pending-list-booking.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Pending List Booking") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa fa-bookmark me-2"></i>Pending Booking
+      </a>
     </div>
 
-</ul>
-<!-- End of Sidebar -->
+    <div class="list-group list-group-flush my-1">
+      <a href="accept-list-booking.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Accept List Booking") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa fa-check-circle me-2"></i>Accept Booking
+      </a>
+    </div>
 
 
-<!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+    <div class="list-group list-group-flush my-1">
+      <a href="declined-list-booking.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Declined List Booking") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fa fa-minus-circle me-2"></i>Declined Booking
+      </a>
+    </div>
 
-    <!-- Main Content -->
-    <div id="content">
+    <div class="list-group list-group-flush my-1">
+      <a href="list-booking.php" class="list-group-item list-group-item-action bg-transparent <?= (isset($_SESSION['Active_Navigate']) && $_SESSION['Active_Navigate'] == "Status Booking") ? "primary-text active" : "second-text fw-bold" ?>">
+        <i class="fas fa-calendar-check me-2"></i>Status Booking
+      </a>
+    </div>
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <hr />
 
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
+    <div class="list-group list-group-flush my-1">
+      <a href="logout.php"
+        class='list-group-item list-group-item-action bg-transparent danger-text fw-bold'>
+        <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+      </a>
+    </div>
 
-            <!-- Topbar Search -->
+    <!-- Footer Section -->
+    <hr>
+    <a href="profile.php" class="text-decoration-none d-flex align-items-center mt-auto px-2 py-2 mt-2">
+      <img src="../uploads/<?= $Client_ProfImg ?>" alt="User Profile" class="rounded-circle me-2 bg-white" style="width: 30px; height: 30px; object-fit: cover;">
+      <span class="fw-bold text-white" style="font-size: 0.9rem; color: #333;"><?= $Client_UserName ?></span>
+    </a>
 
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item dropdown no-arrow mx-1">
-                    <a class="nav-link dropdown-toggle" href="messages.php">
-                        <i class="fas fa-envelope fa-fw"></i>
-                        <!-- Counter - Messages -->
-                        <span class="badge badge-danger badge-counter"><?= $messege ?></span>
-                    </a>
-                </li>
+  </div>
 
-                <div class="topbar-divider d-none d-sm-block"></div>
+  <div id="page-content-wrapper" style="background-color: #FFFFFF;">
 
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow d-flex">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small text-center">
-                            <div><?= $Client_UserName ?></div>
-                            <small style="font-size:11">Artist</small>
-                        </span>
-                        <img class="img-profile rounded-circle" src="../uploads/<?= $Client_ProfImg ?>">
-                    </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <i
+          class="fas fa-align-left primary-text fs-4 me-3"
+          id="menu-toggle"
+          onclick="handleToggled()"></i>
+        <h2 class="fs-2 m-0"><?= $_SESSION["title"] ?></h2>
+      </div>
+      <a class="nav-link -toggle" href="messages.php">
+        <i class="fas fa-envelope fa-fw"></i>
+        <span class="badge badge-danger badge-counter text-danger"><?= $messege ?></span>
+      </a>
 
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="profile.php">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Profile
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
-                    </div>
-                </li>
 
-            </ul>
-
-        </nav>
-        <!-- End of Topbar -->
+    </nav>

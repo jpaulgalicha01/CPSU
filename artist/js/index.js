@@ -26,7 +26,7 @@ const months = [
 
 // Function to fetch selected days from the server
 function fetchSelectedDates(month, year) {
-  return fetch(`inputConfig.php?month=${month + 1}&year=${year}`)
+  return fetch(`./inputConfig.php?month=${month + 1}&year=${year}`)
     .then((response) => response.json())
     .then((data) => {
       selectedDays = new Set(

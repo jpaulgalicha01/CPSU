@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <title>Mukha</title>
-
+  <link rel="icon" type="image/png" href="./img/logo1.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
   <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./assets/fontawesome-free-6.6.0-web/css/all.min.css" />
   <link rel="stylesheet" href="./assets/css/chat.css" />
-
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
 
   <!-- default styles -->
   <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
