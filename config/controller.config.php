@@ -75,7 +75,7 @@ class controller extends db
                 a.UserID,
                 (SELECT ProfImg FROM `tbluser` WHERE UserID = a.UserID) AS ProfImg,
                 (SELECT Description FROM tbldescription WHERE (a.ServicesName IS NULL OR LOWER(ServicesName) = LOWER(a.ServicesName)) AND UserID = a.UserID LIMIT 1) AS ServicesPolicy
-                FROM tblservices a 
+                FROM tblservices a Where a.Active=1
                 ";
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute();
@@ -90,7 +90,7 @@ class controller extends db
                 a.UserID,
                 (SELECT ProfImg FROM `tbluser` WHERE UserID = a.UserID) AS ProfImg,
                 (SELECT Description FROM tbldescription WHERE (a.ServicesName IS NULL OR LOWER(ServicesName) = LOWER(a.ServicesName)) AND ServiceCatNo = a.ServiceCatNo AND UserID = a.UserID LIMIT 1) AS ServicesPolicy
-                FROM tblservices a WHERE a.ServiceCatNo=?
+                FROM tblservices a WHERE a.ServiceCatNo=? AND a.Active=1
                 ";
                 $stmt = $this->PlsConnect()->prepare($query);
                 $stmt->execute([$service_cat_no]);

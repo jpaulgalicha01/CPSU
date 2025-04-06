@@ -58,7 +58,14 @@ class controller extends db
 
         $stmt = $this->PlsConnect()->prepare("DELETE FROM `tbluser` WHERE `UserID`=?  ");
         $stmt->execute([$user_id]);
-        return $stmt;
+
+
+        if ($stmt) {
+            $stmt2 = $this->PlsConnect()->prepare("UPDATE tblservices SET Active=0 WHERE UserID=?");
+            $stmt2->execute([$user_id]);
+            return $stmt2;
+        }
+        return "There's something error";
     }
 
     // ------------------------- Delete ------------------------- //
